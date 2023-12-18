@@ -13,7 +13,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "requireFullScreen": true
     },
     "android": {
       "adaptiveIcon": {
@@ -21,10 +22,22 @@
         "backgroundColor": "#ffffff"
       }
     },
+   
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-router"],
-    "scheme": "stock-bazar"
+    "plugins": [
+      "expo-router",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "LANDSCAPE"
+        }
+      ]
+    ],
+    "scheme": "stock-bazar",
+    "androidNavigationBar": {
+      "visible": "sticky-immersive"
+    }
   }
 }

@@ -1,8 +1,18 @@
 import { useFonts } from "expo-font";
 import { Slot } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaView } from "react-native";
+import { LogBox, SafeAreaView, View } from "react-native";
+import * as ScreenOrientation from 'expo-screen-orientation';
+import * as NavigationBar from 'expo-navigation-bar';
 
+LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+async function changeScreenOrientation() {
+  await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+}
+
+changeScreenOrientation()
+NavigationBar.setVisibilityAsync("hidden");
 export default function HomeLayout() {
   const [fontsLoaded] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins/Poppins-Regular.ttf"),
@@ -15,9 +25,9 @@ export default function HomeLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <SafeAreaView>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1 }}>
+      <StatusBar style="auto" hidden={true} />
       <Slot />
-    </SafeAreaView>
+    </View>
   );
 }
