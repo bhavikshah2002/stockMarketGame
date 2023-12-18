@@ -9,6 +9,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { Link } from "expo-router";
 
 export default function LobbyPage() {
   const [noOfPlayers, setNoOfPlayers] = useState(10);
@@ -63,6 +64,14 @@ export default function LobbyPage() {
               Start game
             </BoldText>
           </TouchableOpacity>
+
+          <Link href={"/"} asChild>
+            <TouchableOpacity style={styles.LeaveBtn}>
+              <BoldText size={20} transform="uppercase">
+                Leave Lobby
+              </BoldText>
+            </TouchableOpacity>
+          </Link>
         </LinearGradient>
       </View>
 
@@ -113,6 +122,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 5,
     backgroundColor: "#23d997",
+  },
+  LeaveBtn: {
+    marginTop: 10,
+    padding: 5,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    backgroundColor: "#ba110c",
   },
 
   right: {

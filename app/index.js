@@ -1,4 +1,5 @@
 import { Image } from "expo-image";
+import { Link } from "expo-router";
 import {
   View,
   Text,
@@ -13,21 +14,17 @@ export default function HomePage() {
       <View style={styles.header}>
         <Image
           style={{ width: 150, height: 100 }}
-          source={require('../assets/images/withoutBgLogo2.png')}
+          source={require("../assets/images/withoutBgLogo2.png")}
           contentFit="cover"
-          
         />
         <Text style={styles.gameName}>Stock Bazar</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            /* Join button action */
-          }}
-        >
-          <Text style={styles.buttonText}>Join</Text>
-        </TouchableOpacity>
+        <Link href={"/lobby"} asChild>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Join</Text>
+          </TouchableOpacity>
+        </Link>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
