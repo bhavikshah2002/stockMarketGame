@@ -8,6 +8,8 @@ export const vw = (val) => (val * width) / 100;
 
 export const Colors = {
   black: "#000",
+  dim: "#888",
   white: "#fff",
   green: "#23d997",
+  red: "#ba110c",
 };
