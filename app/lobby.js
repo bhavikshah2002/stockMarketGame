@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   right: {
     flex: 1,
     alignItems: "center",
-    paddingTop: 25,
+    gap:50
   },
   playerBox: {
     flexDirection: "row",
