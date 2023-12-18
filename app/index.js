@@ -1,6 +1,6 @@
 import { Link } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
-import { SafeAreaView,View } from "react-native";
+import { View } from "react-native";
 import {
   BoldText,
   ItalicText,
