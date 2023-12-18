@@ -10,9 +10,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
+import { Colors } from "../src/common/styles";
 
 export default function LobbyPage() {
-  const [noOfPlayers, setNoOfPlayers] = useState(10);
+  const [noOfRounds, setNoOfRounds] = useState(10);
   const [playersWaiting, setPlayersWaiting] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,
@@ -40,20 +41,20 @@ export default function LobbyPage() {
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
         >
-          <View style={{ height: 180 }} />
+          <View style={{ height: 160 }} />
           <ItalicText>No of rounds</ItalicText>
 
           <View style={styles.inputBox}>
             <TouchableOpacity
-              onPress={() => setNoOfPlayers((p) => p - 1)}
-              disabled={noOfPlayers == 2}
+              onPress={() => setNoOfRounds((p) => p - 1)}
+              disabled={noOfRounds == 2}
             >
               <AntDesign name="minus" size={16} color="white" />
             </TouchableOpacity>
-            <BoldText size={20}>{noOfPlayers}</BoldText>
+            <BoldText size={20}>{noOfRounds}</BoldText>
             <TouchableOpacity
-              onPress={() => setNoOfPlayers((p) => p + 1)}
-              disabled={noOfPlayers == 10}
+              onPress={() => setNoOfRounds((p) => p + 1)}
+              disabled={noOfRounds == 10}
             >
               <AntDesign name="plus" size={16} color="white" />
             </TouchableOpacity>
@@ -76,7 +77,7 @@ export default function LobbyPage() {
       </View>
 
       <View style={styles.right}>
-        <RegularText color={"#888"} size={12}>
+        <RegularText color={Colors.dim} size={12}>
           {playersWaiting.length} players waiting in lobby...
         </RegularText>
 
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    backgroundColor: "#000",
+    backgroundColor: Colors.black,
   },
 
   left: {
@@ -121,14 +122,14 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingHorizontal: 15,
     borderRadius: 5,
-    backgroundColor: "#23d997",
+    backgroundColor: Colors.green,
   },
   LeaveBtn: {
     marginTop: 10,
     padding: 5,
     paddingHorizontal: 15,
     borderRadius: 5,
-    backgroundColor: "#ba110c",
+    backgroundColor: Colors.red,
   },
 
   right: {
