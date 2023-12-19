@@ -59,12 +59,13 @@ export default function LobbyPage() {
               <AntDesign name="plus" size={16} color="white" />
             </TouchableOpacity>
           </View>
-
-          <TouchableOpacity onPress={handleStartGame} style={styles.startBtn}>
-            <BoldText size={20} transform="uppercase">
-              Start game
-            </BoldText>
-          </TouchableOpacity>
+          <Link href={"/gameroom"}>
+            <TouchableOpacity onPress={handleStartGame} style={styles.startBtn}>
+              <BoldText size={20} transform="uppercase">
+                Start game
+              </BoldText>
+            </TouchableOpacity>
+          </Link>
 
           <Link href={"/"} asChild>
             <TouchableOpacity style={styles.LeaveBtn}>
