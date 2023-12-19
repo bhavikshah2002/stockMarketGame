@@ -1,6 +1,6 @@
 /*
 const gameState = {
-  comapnyValues: {
+  companyValues: {
     companyId: companyShareValue,
   },
   userState: {
@@ -9,8 +9,12 @@ const gameState = {
       holdings: {
         companyId: holdingsInthisCompany,
       },
+      cardsHeld:[card1, card2]
     },
   },
+  currentMegaRound: 0,
+  currentSubRound: 0,
+  totalMegaRounds,
 };
 */
 
@@ -24,20 +28,25 @@ export const Companies = [
   { id: 7, name: "Nifty", startingPrice: 120, maxCardVal: 30 },
 ];
 
-export function initializeGameState(noOfPlayers) {
+export function initializeGameState(noOfPlayers, totalMegaRounds = 10) {
   const gameState = {
-    comapnyValues: {},
+    companyValues: {},
     userState: {},
+    currentMegaRound: 0,
+    currentSubRound: 0,
+    totalMegaRounds,
+    noOfPlayers,
   };
 
   Companies.forEach((company) => {
-    gameState.comapnyValues[company.id] = company.startingPrice;
+    gameState.companyValues[company.id] = company.startingPrice;
   });
 
   for (let i = 0; i < noOfPlayers; i++) {
     gameState.userState[i] = {
       cashInHand: 800000,
       holdings: {},
+      cardsHeld: [],
     };
     Companies.forEach((company) => {
       gameState.userState[i].holdings[company.id] = 0;
@@ -45,6 +54,28 @@ export function initializeGameState(noOfPlayers) {
   }
 
   return gameState;
+}
+
+export function findWinner(gameState) {
+  const highestValue = 0;
+  const winnerId = null;
+
+  for (let playerId = 0; playerId < gameState.noOfPlayers; playerId++) {
+    let totalWorth = gameState.userState[playerId].cashInHand;
+
+    Companies.forEach((company) => {
+      totalWorth +=
+        gameState.companyValues[company.id] *
+        gameState.userState[playerId].holdings[company.id];
+    });
+
+    if (totalWorth > highestValue) {
+      highestValue = totalWorth;
+      winnerId = playerId;
+    }
+  }
+
+  return winnerId;
 }
 
 export function getCardStack() {
@@ -121,22 +152,22 @@ export function applyCard(
 
   switch (card.type) {
     case "NORMAL": {
-      copy.comapnyValues[card.companyId] += card.netChange;
+      copy.companyValues[card.companyId] += card.netChange;
       return copy;
     }
     case "CIRCUIT": {
       switch (card.circuitType) {
         case "UP": {
-          copy.comapnyValues[comapnyId] = Math.min(
-            final.comapnyValues[comapnyId],
-            initial.comapnyValues[comapnyId] + card.denomination
+          copy.companyValues[companyId] = Math.min(
+            final.companyValues[companyId],
+            initial.companyValues[companyId] + card.denomination
           );
           return copy;
         }
         case "LOW": {
-          copy.comapnyValues[comapnyId] = Math.max(
-            final.comapnyValues[comapnyId],
-            initial.comapnyValues[comapnyId] - card.denomination
+          copy.companyValues[companyId] = Math.max(
+            final.companyValues[companyId],
+            initial.companyValues[companyId] - card.denomination
           );
           return copy;
         }
@@ -151,7 +182,7 @@ export function applyCard(
           if (amountSpent < final.userState[userId].cashInHand) {
             copy.userState[userId].cashInHand -= amountSpent;
             copy.userState[userId].holdings[companyId] +=
-              (amountSpent * 2) / final.comapnyValues[comapnyId];
+              (amountSpent * 2) / final.companyValues[companyId];
           }
           return copy;
         }
@@ -181,6 +212,9 @@ export function applyCard(
           copy.userState[userId].cashInHand += 100000;
           return copy;
         }
+        default: {
+          throw new Error("Crystal type not identified");
+        }
       }
     }
     default: {
@@ -208,17 +242,15 @@ export function getShuffledCards(rounds = 3) {
 export function distributeCardsTo(noOfPlayers = 6) {
   const shuffledCards = getShuffledCards();
 
+  const initialObj = {};
+  for (let i = 0; i < noOfPlayers; i++) initialObj[i] = [];
+
   const distributedCards = shuffledCards
     .slice(0, noOfPlayers * 10)
     .reduce((acc, cur, i) => {
-      const player = i % noOfPlayers;
-
-      if (!acc[player]) acc[player] = [];
-
-      acc[player].push(cur);
-
+      acc[i % noOfPlayers].push(cur);
       return acc;
-    }, {});
+    }, initialObj);
 
   return distributedCards;
 }
