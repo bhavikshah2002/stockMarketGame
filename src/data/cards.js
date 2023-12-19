@@ -70,14 +70,19 @@ const gameState = {
   comapnyValues: {
     companyId: companyShareValue,
   },
+  userState: {
+    userId: {
+      cashInHand: cashValue,
+      holdings: {
+        companyId: holdingsInthisCompany,
+      },
+    },
+  },
 };
 
-initial - 70;
-final - 30;
 
-circuit - 20;
 
-function applyCard(initial, final, card, userId, comapnyId = null) {
+function applyCard(initial, final, card, userId, comapnyId = null, amountSpent = null) {
   switch (card.type) {
     case "NORMAL": {
       final.comapnyValues[card.companyId] += card.netChange;
@@ -103,6 +108,30 @@ function applyCard(initial, final, card, userId, comapnyId = null) {
     }
     case "CRYSTAL": {
       switch (card.crystalType) {
+        case "FRAUD": {
+          if (amountSpent<final.userState[userId].cashInHand){
+          final.userState[userId].cashInHand-=amountSpent
+          final.userState[userId].holdings[companyId]+=amountSpent*2/final.comapnyValues[comapnyId]
+          }
+          return final;
+        }
+        case "DIVIDEND": {
+          final.userState[userId].cashInHand+=final.userState[userId].holdings[companyId]*5
+          return final;
+        }
+        case "BONUS_SHARE": {
+          final.userState[userId].holdings[companyId]+=Math.round(final.userState[userId].holdings[companyId]/5000)*1000
+          return final;
+        }
+        case "RIGHT_ISSUE": {
+          final.userState[userId].cashInHand-=10*Math.round(final.userState[userId].holdings[companyId]/2000)*1000
+          final.userState[userId].holdings[companyId]+=Math.round(final.userState[userId].holdings[companyId]/2000)*1000
+          return final;
+        }
+        case "LOAN_ON_STOCK": {
+          final.userState[userId].cashInHand+=100000
+          return final;
+        }
       }
     }
   }
