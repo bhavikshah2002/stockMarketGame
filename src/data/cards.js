@@ -204,3 +204,21 @@ export function getShuffledCards(rounds = 3) {
   }
   return cards;
 }
+
+export function distributeCardsTo(noOfPlayers = 6) {
+  const shuffledCards = getShuffledCards();
+
+  const distributedCards = shuffledCards
+    .slice(0, noOfPlayers * 10)
+    .reduce((acc, cur, i) => {
+      const player = i % noOfPlayers;
+
+      if (!acc[player]) acc[player] = [];
+
+      acc[player].push(cur);
+
+      return acc;
+    }, {});
+
+  return distributedCards;
+}
