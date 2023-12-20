@@ -200,6 +200,10 @@ export function applyCard(
   switch (card.type) {
     case "NORMAL": {
       copy.companyValues[card.companyId] += card.netChange;
+      copy.companyValues[card.companyId] = Math.max(
+        copy.companyValues[card.companyId],
+        0
+      );
       return copy;
     }
     case "CIRCUIT": {

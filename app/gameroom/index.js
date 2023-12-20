@@ -1,25 +1,12 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import { useGameState } from "../../src/contexts/GameStateContext";
-import { Companies, getCardStack } from "../../src/data/cards";
+import { Companies } from "../../src/data/cards";
 import CompanyCard from "../../src/components/CompanyCard";
 import BigCard from "../../src/components/BigCard";
-import { useEffect, useState } from "react";
 
 export default function CommonRound() {
   const { gameState } = useGameState();
-  const [selectedCardIndex, setSelectedCardIndex] = useState(0); //Temporary for testing
   const thisUserId = 0;
-
-  useEffect(() => {
-    // Testing setup to be removed
-    const itv = setInterval(() => {
-      setSelectedCardIndex((p) => (p + 2) % 30);
-    }, 1000);
-
-    return () => {
-      clearInterval(itv);
-    };
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -28,7 +15,10 @@ export default function CommonRound() {
           data={Companies.slice(0, 4)}
           renderItem={({ item }) => (
             <CompanyCard
-              currentWorth={gameState.companyValues[item.id]}
+              currentWorth={
+                gameState.companyValues[item.id] +
+                Math.floor(Math.random() * 6 - 3)
+              }
               company={item}
               yourHoldings={gameState.userState[thisUserId].holdings[item.id]}
             />
@@ -37,14 +27,17 @@ export default function CommonRound() {
         />
       </View>
       <View style={styles.middle}>
-        <BigCard card={getCardStack().at(-selectedCardIndex)} />
+        <BigCard />
       </View>
       <View style={styles.sides}>
         <FlatList
           data={Companies.slice(4)}
           renderItem={({ item }) => (
             <CompanyCard
-              currentWorth={gameState.companyValues[item.id]}
+              currentWorth={
+                gameState.companyValues[item.id] +
+                Math.floor(Math.random() * 6 - 3)
+              }
               company={item}
               yourHoldings={gameState.userState[thisUserId].holdings[item.id]}
             />

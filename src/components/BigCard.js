@@ -4,15 +4,10 @@ import { Fontisto } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image, StyleSheet, View } from "react-native";
-import {
-  BoldText,
-  CustomText,
-  ItalicText,
-  RegularText,
-  SemiBoldText,
-} from "../common/Text";
+import { BoldText, CustomText, ItalicText, SemiBoldText } from "../common/Text";
 import { Colors } from "../common/styles";
 import { CompanyInObj } from "../data/cards";
+import { useGameState } from "../contexts/GameStateContext";
 
 function CrystalContent({ type }) {
   switch (type) {
@@ -87,7 +82,19 @@ function CrystalContent({ type }) {
   }
 }
 
-export default function BigCard({ card }) {
+export default function BigCard() {
+  const { selectedCard: card } = useGameState();
+
+  if (!card)
+    return (
+      <View style={styles.container}>
+        <AntDesign name="exclamationcircle" size={24} color={Colors.red} />
+        <SemiBoldText size={15} align="center">
+          No card is selected
+        </SemiBoldText>
+      </View>
+    );
+
   switch (card.type) {
     case "NORMAL": {
       const isProfit = card.netChange > 0;
