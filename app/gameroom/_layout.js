@@ -8,15 +8,15 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons'; 
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
+import { getCardStack, getShuffledCards } from "../../src/data/cards";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
-    new Array(10).fill(0).map((_, id) => ({
-      id,
-      cardNumber: id,
-    }))
+    // getShuffledCards().slice(0,10).sort((a,b)=>{if(a.type == "NORMAL" && b.type=="NORMAL"){b.companyId -a.companyId} else false})
+    getCardStack().slice(-6)
+    
   );
-
+  console.log(cards)
   const [player, setPlayers] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,
@@ -30,7 +30,7 @@ export default function GameRoomLayout() {
   function getActive(isActive) {
     if (!isActive) {
       return {
-        borderColor: "green",
+        borderColor: "#6EC531",
         borderWidth: 2,
       };
     } else return {};
@@ -53,9 +53,9 @@ export default function GameRoomLayout() {
               data={cards}
               horizontal={true}
               renderItem={({ item }) => (
-                <SmallCard CardInfo={item.cardNumber}/>
+                <SmallCard card={item} />
               )}
-              keyExtractor={(item) => item.id}
+              
             />
           </View>
         </View>
