@@ -1,13 +1,8 @@
 import { Slot } from "expo-router";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { BoldText, RegularText, SemiBoldText } from "../../src/common/Text";
 import { useState } from "react";
+import GameStateContextProvider from "../../src/contexts/GameStateContext";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
@@ -33,53 +28,55 @@ export default function GameRoomLayout() {
         borderColor: "green",
         borderWidth: 2,
       };
-    }
-    else return {};
+    } else return {};
   }
+
   return (
-    <View style={styles.Container}>
-      <View style={styles.Left}>
-        <View style={styles.TopLeft}>
-          <View style={styles.SelfInfoBar}>
-            <RegularText> Self Info Bar</RegularText>
+    <GameStateContextProvider>
+      <View style={styles.Container}>
+        <View style={styles.Left}>
+          <View style={styles.TopLeft}>
+            <View style={styles.SelfInfoBar}>
+              <RegularText> Self Info Bar</RegularText>
+            </View>
+          </View>
+          <View style={styles.MiddleLeft}>
+            <Slot />
+          </View>
+          <View style={styles.BottomLeft}>
+            <FlatList
+              data={cards}
+              horizontal={true}
+              renderItem={({ item }) => (
+                <View style={styles.Card}>
+                  <BoldText>Card {item.cardNumber}</BoldText>
+                </View>
+              )}
+              keyExtractor={(item) => item.id}
+            />
           </View>
         </View>
-        <View style={styles.MiddleLeft}>
-          <Slot />
-        </View>
-        <View style={styles.BottomLeft}>
+        <View style={styles.Right}>
           <FlatList
-            data={cards}
-            horizontal={true}
+            data={player}
             renderItem={({ item }) => (
-              <View style={styles.Card}>
-                <BoldText>Card {item.cardNumber}</BoldText>
+              <View
+                style={{
+                  ...styles.OtherPlayerInfoComponent,
+                  ...getActive(item.id),
+                }}
+              >
+                <SemiBoldText style={{ fontSize: 11 }}>
+                  {item.playerName}
+                </SemiBoldText>
+                <RegularText>{item.playerInHandCash}L</RegularText>
               </View>
             )}
             keyExtractor={(item) => item.id}
           />
         </View>
       </View>
-      <View style={styles.Right}>
-        <FlatList
-          data={player}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                ...styles.OtherPlayerInfoComponent,
-                ...getActive(item.id),
-              }}
-            >
-              <SemiBoldText style={{ fontSize: 11 }}>
-                {item.playerName}
-              </SemiBoldText>
-              <RegularText>{item.playerInHandCash}L</RegularText>
-            </View>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </View>
+    </GameStateContextProvider>
   );
 }
 
