@@ -1,8 +1,9 @@
 import { Slot } from "expo-router";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { BoldText, RegularText, SemiBoldText } from "../../src/common/Text";
 import { useState } from "react";
 import GameStateContextProvider from "../../src/contexts/GameStateContext";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
@@ -37,7 +38,29 @@ export default function GameRoomLayout() {
         <View style={styles.Left}>
           <View style={styles.TopLeft}>
             <View style={styles.SelfInfoBar}>
-              <RegularText> Self Info Bar</RegularText>
+              <TouchableOpacity style={styles.SettingButton}>
+                <Ionicons name="settings" size={28} color="#e1e3e2" />
+              </TouchableOpacity>
+              <View style={styles.SelfInfoContent}>
+                  <View style={styles.WorthInfo}>
+                    <RegularText>
+                      Cash: 6.5L
+                    </RegularText>
+                    <RegularText>
+                      StockCash: 12.2L
+                    </RegularText>
+                    <RegularText>
+                      Total Worth: 18.7L
+                    </RegularText>
+                  </View>
+                  <View style={styles.UserName}>
+                    <BoldText>
+                      BuddyShah23
+                    </BoldText>
+                  </View>
+                  <View style={styles.RoundInfo}>
+                  </View>
+              </View>
             </View>
           </View>
           <View style={styles.MiddleLeft}>
@@ -66,7 +89,7 @@ export default function GameRoomLayout() {
                   ...getActive(item.id),
                 }}
               >
-                <SemiBoldText style={{ fontSize: 11 }}>
+                <SemiBoldText style={{ fontSize: 9 }}>
                   {item.playerName}
                 </SemiBoldText>
                 <RegularText>{item.playerInHandCash}L</RegularText>
@@ -87,39 +110,42 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   Left: {
+    flex: 1,
     height: "100%",
-    width: 700,
     alignItems: "center",
   },
   Right: {
     height: "100%",
-    width: 200,
-    justifyContent: "space-evenly",
+    width: "12%",
     alignItems: "center",
     marginVertical: 15,
   },
   TopLeft: {
+    flex: 1,
     height: "20%",
+    alignSelf: "stretch",
   },
   MiddleLeft: {
     height: "60%",
   },
   BottomLeft: {
+    flex: 1,
     height: "20%",
+    alignSelf: "center",
   },
   SelfInfoBar: {
-    width: 700,
-    height: 55,
+    flex: 1,
     marginTop: 15,
+    flexDirection:"row",
+    marginHorizontal: 10,
     backgroundColor: "#454547",
     borderRadius: 100,
-    justifyContent: "center",
-    alignItems: "center",
+    alignItems:"center"
   },
   Card: {
-    paddingBottom: 3,
-    height: 65,
-    width: 50,
+    flex: 1,
+    marginTop: 1,
+    marginBottom: 3,
     marginHorizontal: 8,
     backgroundColor: "#454547",
     justifyContent: "center",
@@ -128,15 +154,27 @@ const styles = StyleSheet.create({
   OtherPlayerInfoComponent: {
     marginVertical: 5,
     height: 50,
-    width: 100,
+    width: 80,
     marginHorizontal: 2,
     backgroundColor: "#454547",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
+    borderRadius: 60,
   },
-  OnActive: {
-    borderColor: "green",
-    borderWidth: 2,
+  SettingButton: {
+    marginLeft: 20,
   },
+  SelfInfoContent:{
+    flex:1,
+    flexDirection: "row",
+    justifyContent:"space-evenly",
+  },
+  WorthInfo:{
+  },
+  UserName:{
+    justifyContent:"center"
+  },
+  RoundInfo:{
+
+  }
 });

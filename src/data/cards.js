@@ -24,7 +24,7 @@ export const Companies = [
   { id: 3, name: "Reliance", startingPrice: 50, maxCardVal: 20 },
   { id: 4, name: "Infosys", startingPrice: 55, maxCardVal: 20 },
   { id: 5, name: "SBI", startingPrice: 60, maxCardVal: 20 },
-  { id: 6, name: "Reliance Industries", startingPrice: 80, maxCardVal: 25 },
+  { id: 6, name: "Adani", startingPrice: 80, maxCardVal: 25 },
   { id: 7, name: "Nifty", startingPrice: 120, maxCardVal: 30 },
 ];
 

@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from "react";
 import { initializeGameState } from "../data/cards";
 
 const GameStateContext = createContext({
-  gameState: initializeGameState(6),
+  gameState: null,
   setGameState: (s) => {},
 });
 
