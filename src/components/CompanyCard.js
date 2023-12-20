@@ -19,7 +19,7 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
       <View style={{ flex: 1 }}>
         <SemiBoldText size={13}>{company.name}</SemiBoldText>
         <RegularText size={9} color={Colors.dim}>
-          current value {currentWorth}
+          current value  ₹{currentWorth}
         </RegularText>
       </View>
       <View style={{ marginRight: 6 }}>
