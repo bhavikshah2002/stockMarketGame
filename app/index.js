@@ -1,17 +1,28 @@
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Feather } from "@expo/vector-icons";
-import { BoldText } from "../src/common/Text";
-import { View, TouchableOpacity, StyleSheet, TextInput } from "react-native";
-import { useRef, useState } from "react";
-
+import {
+  BoldText,
+  ItalicText,
+  RegularText,
+  SemiBoldText,
+} from "../src/common/Text";
+import {
+  View,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+  TextInput,
+} from "react-native";
+import { useState } from "react";
+const { width, height } = Dimensions.get("window");
 export default function HomePage() {
   const [userName, setUserName] = useState("UserName");
-  const ref = useRef();
+  const handleInputChange = (text) => setUserName(text);
   const openTextInput = () => {
-    ref.current.focus();
+    // Show the TextInput only when clicked
+    setUserName(userName); // Reset the input text when opened
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -22,10 +33,9 @@ export default function HomePage() {
         />
         <View style={{ ...styles.inputTextBox, ...styles.between }}>
           <TextInput
-            ref={ref}
             style={styles.inputTextText}
             value={userName}
-            onChangeText={setUserName}
+            onChangeText={handleInputChange}
           />
 
           <TouchableOpacity onPress={openTextInput}>
