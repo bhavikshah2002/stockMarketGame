@@ -88,12 +88,12 @@ const styles = StyleSheet.create({
   },
   Left: {
     height: "100%",
-    width: "85%",
+    width: 700,
     alignItems: "center",
   },
   Right: {
     height: "100%",
-    width: "15%",
+    width: 200,
     justifyContent: "space-evenly",
     alignItems: "center",
     marginVertical: 15,
@@ -102,10 +102,10 @@ const styles = StyleSheet.create({
     height: "20%",
   },
   MiddleLeft: {
-    height: "55%",
+    height: "60%",
   },
   BottomLeft: {
-    height: "25%",
+    height: "20%",
   },
   SelfInfoBar: {
     width: 700,
@@ -117,9 +117,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Card: {
-    marginVertical: 10,
-    height: 75,
-    width: 55,
+    paddingBottom: 3,
+    height: 65,
+    width: 50,
     marginHorizontal: 8,
     backgroundColor: "#454547",
     justifyContent: "center",
