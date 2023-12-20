@@ -6,20 +6,17 @@ import { Colors } from "../common/styles";
 export default function CompanyCard({ company, currentWorth, yourHoldings }) {
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: "https://picsum.photos/200/200?random=" + company.id }}
-        style={styles.logo}
-      />
+      <Image source={company.photoUrl} style={styles.logo} />
       <LinearGradient
-        style={{ width: 60, height: 40 }}
+        style={{ width: 65, height: 40 }}
         colors={["transparent", "#141414"]}
         start={{ x: 0, y: 0 }}
-        end={{ x: 0.9, y: 0.7 }}
+        end={{ x: .95, y: 0.5 }}
       />
       <View style={{ flex: 1 }}>
         <SemiBoldText size={13}>{company.name}</SemiBoldText>
         <RegularText size={9} color={Colors.dim}>
-          current value  ₹{currentWorth}
+          current value ₹{currentWorth}
         </RegularText>
       </View>
       <View style={{ marginRight: 6 }}>
@@ -42,9 +39,10 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: 60,
+    width: 65,
     height: 40,
     position: "absolute",
+    objectFit:'cover',
     left: 0,
     top: 0,
   },
