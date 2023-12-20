@@ -70,6 +70,11 @@ export const Companies = [
   },
 ];
 
+export const CompanyInObj = Companies.reduce((acc, crr) => {
+  acc[crr.id] = crr;
+  return acc;
+}, {});
+
 export function initializeGameState(noOfPlayers, totalMegaRounds = 10) {
   const gameState = {
     companyValues: {},
