@@ -1,22 +1,18 @@
 import { Slot } from "expo-router";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
-import { BoldText, RegularText, SemiBoldText } from "../../src/common/Text";
+import { FlatList, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import GameStateContextProvider from "../../src/contexts/GameStateContext";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { Octicons } from '@expo/vector-icons'; 
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
-import { getCardStack, getShuffledCards } from "../../src/data/cards";
+import { getCardStack } from "../../src/data/cards";
+import UserBadge from "../../src/components/UserBadge";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
     // getShuffledCards().slice(0,10).sort((a,b)=>{if(a.type == "NORMAL" && b.type=="NORMAL"){b.companyId -a.companyId} else false})
     getCardStack().slice(-6)
-    
   );
-  console.log(cards)
+  console.log(cards);
   const [player, setPlayers] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,
@@ -27,22 +23,13 @@ export default function GameRoomLayout() {
     }))
   );
 
-  function getActive(isActive) {
-    if (!isActive) {
-      return {
-        borderColor: "#6EC531",
-        borderWidth: 2,
-      };
-    } else return {};
-  }
-
   return (
     <GameStateContextProvider>
       <View style={styles.Container}>
         <View style={styles.Left}>
           <View style={styles.TopLeft}>
             <View style={styles.SelfInfoBar}>
-              <SelfInfoBarComponent/>
+              <SelfInfoBarComponent />
             </View>
           </View>
           <View style={styles.MiddleLeft}>
@@ -52,31 +39,14 @@ export default function GameRoomLayout() {
             <FlatList
               data={cards}
               horizontal={true}
-              renderItem={({ item }) => (
-                <SmallCard card={item} />
-              )}
-              
+              renderItem={({ item }) => <SmallCard card={item} />}
             />
           </View>
         </View>
         <View style={styles.Right}>
           <FlatList
             data={player}
-            renderItem={({ item }) => (
-              <TouchableOpacity>
-                <View
-                  style={{
-                    ...styles.OtherPlayerInfoComponent,
-                    ...getActive(item.id),
-                  }}
-                >
-                  <SemiBoldText style={{ fontSize: 9 }}>
-                    {item.playerName}
-                  </SemiBoldText>
-                  <RegularText>{item.playerInHandCash}L</RegularText>
-                </View>
-              </TouchableOpacity>
-            )}
+            renderItem={({ item }) => <UserBadge player={item} />}
             keyExtractor={(item) => item.id}
           />
         </View>
@@ -98,7 +68,7 @@ const styles = StyleSheet.create({
   },
   Right: {
     height: "100%",
-    width: "12%",
+    width: "16%",
     alignItems: "center",
     marginVertical: 15,
   },
@@ -124,16 +94,4 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: "center",
   },
-  
-  OtherPlayerInfoComponent: {
-    marginVertical: 5,
-    height: 50,
-    width: 80,
-    marginHorizontal: 2,
-    backgroundColor: "#454547",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 60,
-  },
-
 });
