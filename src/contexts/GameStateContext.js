@@ -1,16 +1,26 @@
-import { createContext, useContext, useState } from "react";
-import { initializeGameState } from "../data/cards";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getCardStack, initializeGameState } from "../data/cards";
 
 const GameStateContext = createContext({
   gameState: null,
   setGameState: (s) => {},
+  selectedCard: null,
+  setSelectedCard: (s) => {},
 });
 
 export default function GameStateContextProvider({ children }) {
   const [gameState, setGameState] = useState(initializeGameState(6));
+  const [selectedCard, setSelectedCard] = useState(getCardStack().at(-12));
 
   return (
-    <GameStateContext.Provider value={{ gameState, setGameState }}>
+    <GameStateContext.Provider
+      value={{
+        gameState,
+        setGameState,
+        setSelectedCard,
+        selectedCard,
+      }}
+    >
       {children}
     </GameStateContext.Provider>
   );

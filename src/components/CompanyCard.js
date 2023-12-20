@@ -1,9 +1,23 @@
 import { Image, StyleSheet, View } from "react-native";
-import { BoldText, RegularText, SemiBoldText } from "../common/Text";
+import {
+  BoldText,
+  CustomText,
+  RegularText,
+  SemiBoldText,
+} from "../common/Text";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../common/styles";
+import { CompanyInObj } from "../data/cards";
 
 export default function CompanyCard({ company, currentWorth, yourHoldings }) {
+  let color =
+    currentWorth > CompanyInObj[company.id].startingPrice
+      ? Colors.green
+      : Colors.red;
+
+  if (currentWorth == CompanyInObj[company.id].startingPrice)
+    color = Colors.info;
+
   return (
     <View style={styles.container}>
       <Image source={company.photoUrl} style={styles.logo} />
@@ -11,12 +25,15 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
         style={{ width: 65, height: 40 }}
         colors={["transparent", "#141414"]}
         start={{ x: 0, y: 0 }}
-        end={{ x: .95, y: 0.5 }}
+        end={{ x: 0.95, y: 0.5 }}
       />
       <View style={{ flex: 1 }}>
         <SemiBoldText size={13}>{company.name}</SemiBoldText>
         <RegularText size={9} color={Colors.dim}>
-          current value ₹{currentWorth}
+          Current Value
+          <CustomText family="SemiBoldItalic" color={color}>
+            {"  "}₹{currentWorth}
+          </CustomText>
         </RegularText>
       </View>
       <View style={{ marginRight: 6 }}>
@@ -42,7 +59,7 @@ const styles = StyleSheet.create({
     width: 65,
     height: 40,
     position: "absolute",
-    objectFit:'cover',
+    objectFit: "cover",
     left: 0,
     top: 0,
   },
