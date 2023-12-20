@@ -6,6 +6,8 @@ import GameStateContextProvider from "../../src/contexts/GameStateContext";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Octicons } from '@expo/vector-icons'; 
+import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
+import SmallCard from "../../src/components/SmallCard";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
@@ -40,46 +42,7 @@ export default function GameRoomLayout() {
         <View style={styles.Left}>
           <View style={styles.TopLeft}>
             <View style={styles.SelfInfoBar}>
-              <TouchableOpacity style={styles.SettingButton}>
-                <Ionicons name="settings" size={28} color="#e1e3e2" />
-              </TouchableOpacity>
-              <View style={styles.SelfInfoContent}>
-                <View style={styles.WorthInfo}>
-                  <View style={{flexDirection:"row", alignItems:"center",gap:25}}>
-                  <MaterialCommunityIcons name="account-cash-outline" size={20} color="#e1e3e2" />
-                  {/* <MaterialCommunityIcons name="cash" size={24} color="#e1e3e2" /> */}
-                    <SemiBoldText size={14}>₹6.5L</SemiBoldText>
-                  </View>
-                  <View style={{flexDirection:"row", alignItems:"center",gap:25}}>
-                  <Octicons name="graph" size={20} color="#e1e3e2" />
-                    <SemiBoldText size={14}>₹12.2L</SemiBoldText>
-                  </View>
-                </View>
-                <View style={styles.UserName}>
-                  <TouchableOpacity>
-                    <BoldText
-                      size={20}
-                      style={{
-                        textDecorationLine: "underline",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      BuddyShah23
-                    </BoldText>
-                  </TouchableOpacity>
-                  <RegularText size={12}>Total Worth : <SemiBoldText>18.7L</SemiBoldText></RegularText>
-                </View>
-                <View style={styles.RoundInfo}>
-                  <View>
-                    <SemiBoldText size={13}>Sub-Round</SemiBoldText>
-                    <SemiBoldText size={13}>Mega-Round</SemiBoldText>
-                  </View>
-                  <View style={{ marginLeft: 10 }}>
-                    <RegularText size={13}>2</RegularText>
-                    <RegularText size={13}>5</RegularText>
-                  </View>
-                </View>
-              </View>
+              <SelfInfoBarComponent/>
             </View>
           </View>
           <View style={styles.MiddleLeft}>
@@ -90,9 +53,7 @@ export default function GameRoomLayout() {
               data={cards}
               horizontal={true}
               renderItem={({ item }) => (
-                <View style={styles.Card}>
-                  <BoldText>Card {item.cardNumber}</BoldText>
-                </View>
+                <SmallCard CardInfo={item.cardNumber}/>
               )}
               keyExtractor={(item) => item.id}
             />
@@ -163,15 +124,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     alignItems: "center",
   },
-  Card: {
-    flex: 1,
-    marginTop: 1,
-    marginBottom: 3,
-    marginHorizontal: 8,
-    backgroundColor: "#454547",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  
   OtherPlayerInfoComponent: {
     marginVertical: 5,
     height: 50,
@@ -182,24 +135,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 60,
   },
-  SettingButton: {
-    marginLeft: 20,
-  },
-  SelfInfoContent: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
-  WorthInfo: {
-    alignItems: "center",
-    gap:5
-  },
-  UserName: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  RoundInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
+
 });
