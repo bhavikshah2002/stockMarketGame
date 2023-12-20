@@ -66,7 +66,7 @@ export default function GameRoomLayout() {
                   ...getActive(item.id),
                 }}
               >
-                <SemiBoldText style={{ fontSize: 11 }}>
+                <SemiBoldText style={{ fontSize: 9 }}>
                   {item.playerName}
                 </SemiBoldText>
                 <RegularText>{item.playerInHandCash}L</RegularText>
@@ -87,39 +87,43 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
   },
   Left: {
+    flex:1,
     height: "100%",
-    width: "85%",
     alignItems: "center",
   },
   Right: {
     height: "100%",
-    width: "15%",
+    width: "12%",
     justifyContent: "space-evenly",
     alignItems: "center",
     marginVertical: 15,
   },
   TopLeft: {
-    height: "20%",
+    flex:1,
+    height:"20%",
+    alignSelf:"stretch",
   },
   MiddleLeft: {
-    height: "55%",
+    height: "60%",
   },
   BottomLeft: {
-    height: "25%",
+    flex:1,
+    height: "20%",
+    alignSelf:"center",
   },
   SelfInfoBar: {
-    width: 700,
-    height: 55,
+    flex:1,
     marginTop: 15,
+    marginHorizontal:10,
     backgroundColor: "#454547",
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
   },
   Card: {
-    marginVertical: 10,
-    height: 75,
-    width: 55,
+    flex:1,
+    marginTop:1,
+    marginBottom:3,
     marginHorizontal: 8,
     backgroundColor: "#454547",
     justifyContent: "center",
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
   OtherPlayerInfoComponent: {
     marginVertical: 5,
     height: 50,
-    width: 100,
+    width: 80,
     marginHorizontal: 2,
     backgroundColor: "#454547",
     justifyContent: "center",
