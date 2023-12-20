@@ -1,8 +1,8 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import { RegularText } from "../../src/common/Text";
 import { useGameState } from "../../src/contexts/GameStateContext";
-import { Companies } from "../../src/data/cards";
+import { Companies, getCardStack } from "../../src/data/cards";
 import CompanyCard from "../../src/components/CompanyCard";
+import BigCard from "../../src/components/BigCard";
 
 export default function CommonRound() {
   const { gameState } = useGameState();
@@ -24,7 +24,7 @@ export default function CommonRound() {
         />
       </View>
       <View style={styles.middle}>
-        <RegularText>Mid</RegularText>
+        <BigCard card={getCardStack()[30]} />
       </View>
       <View style={styles.sides}>
         <FlatList
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: 10,
-    paddingHorizontal:20,
+    gap: 15,
+    paddingHorizontal: 20,
   },
 
   sides: {
@@ -58,6 +58,6 @@ const styles = StyleSheet.create({
   },
 
   middle: {
-    flex: 1,
+    width:180,
   },
 });

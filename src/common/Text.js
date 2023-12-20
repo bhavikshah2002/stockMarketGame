@@ -3,7 +3,8 @@ import { Text } from "react-native";
 export function RegularText({
   transform,
   size,
-  color='white',
+  color = "white",
+  align,
   style,
   children,
   ...props
@@ -16,6 +17,7 @@ export function RegularText({
           fontSize: size,
           color,
           textTransform: transform,
+          textAlign: align,
         },
         style,
       ]}
@@ -29,7 +31,8 @@ export function RegularText({
 export function BoldText({
   transform,
   size,
-  color='white',
+  color = "white",
+  align,
   style,
   children,
   ...props
@@ -42,6 +45,7 @@ export function BoldText({
           fontSize: size,
           color,
           textTransform: transform,
+          textAlign: align,
         },
         style,
       ]}
@@ -55,7 +59,8 @@ export function BoldText({
 export function SemiBoldText({
   transform,
   size,
-  color='white',
+  color = "white",
+  align,
   style,
   children,
   ...props
@@ -68,6 +73,7 @@ export function SemiBoldText({
           fontSize: size,
           color,
           textTransform: transform,
+          textAlign: align,
         },
         style,
       ]}
@@ -81,7 +87,8 @@ export function SemiBoldText({
 export function LightText({
   transform,
   size,
-  color='white',
+  color = "white",
+  align,
   style,
   children,
   ...props
@@ -94,6 +101,7 @@ export function LightText({
           fontSize: size,
           color,
           textTransform: transform,
+          textAlign: align,
         },
         style,
       ]}
@@ -107,7 +115,8 @@ export function LightText({
 export function ItalicText({
   transform,
   size,
-  color='white',
+  color = "white",
+  align,
   style,
   children,
   ...props
@@ -120,6 +129,36 @@ export function ItalicText({
           fontSize: size,
           color,
           textTransform: transform,
+          textAlign: align,
+        },
+        style,
+      ]}
+      {...props}
+    >
+      {children}
+    </Text>
+  );
+}
+
+export function CustomText({
+  transform,
+  size,
+  color = "white",
+  family = "Regular",
+  align,
+  style,
+  children,
+  ...props
+}) {
+  return (
+    <Text
+      style={[
+        {
+          fontFamily: "Poppins-" + family,
+          fontSize: size,
+          color,
+          textTransform: transform,
+          textAlign: align,
         },
         style,
       ]}
