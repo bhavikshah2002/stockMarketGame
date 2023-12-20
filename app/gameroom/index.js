@@ -3,10 +3,23 @@ import { useGameState } from "../../src/contexts/GameStateContext";
 import { Companies, getCardStack } from "../../src/data/cards";
 import CompanyCard from "../../src/components/CompanyCard";
 import BigCard from "../../src/components/BigCard";
+import { useEffect, useState } from "react";
 
 export default function CommonRound() {
   const { gameState } = useGameState();
+  const [selectedCardIndex, setSelectedCardIndex] = useState(0); //Temporary for testing
   const thisUserId = 0;
+
+  useEffect(() => {
+    // Testing setup to be removed
+    const itv = setInterval(() => {
+      setSelectedCardIndex((p) => (p + 2) % 30);
+    }, 1000);
+
+    return () => {
+      clearInterval(itv);
+    };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -24,7 +37,7 @@ export default function CommonRound() {
         />
       </View>
       <View style={styles.middle}>
-        <BigCard card={getCardStack()[30]} />
+        <BigCard card={getCardStack().at(-selectedCardIndex)} />
       </View>
       <View style={styles.sides}>
         <FlatList
@@ -58,6 +71,6 @@ const styles = StyleSheet.create({
   },
 
   middle: {
-    width:180,
+    width: 180,
   },
 });
