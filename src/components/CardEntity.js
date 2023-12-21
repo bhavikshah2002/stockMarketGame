@@ -5,8 +5,43 @@ import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import CrystalContent from "./CrystalContent";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import FraudCard from "./FraudCard";
+import DividendCard from "./DividendCard";
+import BonusShareCard from "./BonusShareCard";
+import RightIssueCard from "./RightIssueCard";
+import LoanCard from "./LoanCard";
 
 // To be designed more
+function GetCrystalCard({ card_type, cardDetail }) {
+  switch (card_type) {
+    case "FRAUD": {
+      return <FraudCard card={cardDetail} />;
+    }
+    case "DIVIDEND": {
+      return <DividendCard card={cardDetail} />;
+    }
+    case "BONUS": {
+      return <BonusShareCard card={cardDetail} />;
+    }
+    case "RIGHT": {
+      return <RightIssueCard card={cardDetail} />;
+    }
+    case "LOAN": {
+      return <LoanCard card={cardDetail} />;
+    }
+    default: {
+      return (
+        <View style={styles.container}>
+          <AntDesign name="exclamationcircle" size={24} color={Colors.red} />
+          <SemiBoldText size={15} align="center">
+            No card is selected
+          </SemiBoldText>
+        </View>
+      );
+    }
+  }
+}
+
 export default function CardEntity() {
   const { selectedEntity: card } = useGameState();
 
@@ -22,21 +57,10 @@ export default function CardEntity() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.left}>
-        <View>
-          <View style={styles.heading}>
-            <BoldText>{card.crystalType.split("_").join("  ")}</BoldText>
-          </View>
-        </View>
-        <CrystalContent type={card.crystalType} />
-      </View>
-      <View style={styles.left}>
-        <TouchableOpacity>
-          <BoldText>USE</BoldText>
-        </TouchableOpacity>
-      </View>
-    </View>
+    <GetCrystalCard
+      card_type={card.crystalType.split("_")[0]}
+      cardDetail={card}
+    />
   );
 }
 

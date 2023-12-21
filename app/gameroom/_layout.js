@@ -4,12 +4,15 @@ import { useState } from "react";
 import GameStateContextProvider from "../../src/contexts/GameStateContext";
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
-import { getShuffledCards } from "../../src/data/cards";
+import { getCardStack, getShuffledCards } from "../../src/data/cards";
 import UserBadge from "../../src/components/UserBadge";
 import DraggableFlatList from "react-native-draggable-flatlist";
 
 export default function GameRoomLayout() {
-  const [cards, setCards] = useState(getShuffledCards().slice(0, 10));
+  const [cards, setCards] = useState(
+    // getShuffledCards().slice(0, 10)
+    getCardStack().slice(-18,-6)
+    );
   const [player, setPlayers] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,

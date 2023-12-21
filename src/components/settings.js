@@ -21,7 +21,7 @@ export default function Settings() {
           }}
         >
           <View style={styles.Container}>
-            <View style={{ marginTop: 10 }}>
+            <View style={{ marginTop: 20 }}>
               <BoldText size={40} style={{}}>
                 Settings
               </BoldText>
