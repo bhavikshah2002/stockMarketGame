@@ -1,15 +1,16 @@
 import { Image, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
-import { BoldText, RegularText, SemiBoldText } from "../common/Text";
+import { BoldText, SemiBoldText } from "../common/Text";
 import { CompanyInObj } from "../data/cards";
 import { Colors } from "../common/styles";
 import { Entypo } from "@expo/vector-icons";
-import { Feather, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ScaleDecorator } from "react-native-draggable-flatlist";
+import { useGameState } from "../contexts/GameStateContext";
 
 function GetCrstalIcon({ type }) {
   switch (type) {
@@ -67,13 +68,21 @@ function GetCrstalIcon({ type }) {
 }
 
 export default function SmallCard({ card, drag, isActive }) {
+  const { setSelectedCard } = useGameState();
+
+  const onPress = () => setSelectedCard(card);
+
   switch (card.type) {
     case "NORMAL": {
       const isProfit = card.netChange > 0;
       return (
         <>
           <ScaleDecorator>
-            <TouchableOpacity onLongPress={drag} disabled={isActive}>
+            <TouchableOpacity
+              onPress={onPress}
+              onLongPress={drag}
+              disabled={isActive}
+            >
               <View style={styles.Card}>
                 <Image
                   source={CompanyInObj[card.companyId].photoUrl}
@@ -106,7 +115,11 @@ export default function SmallCard({ card, drag, isActive }) {
       return (
         <>
           <ScaleDecorator>
-            <TouchableOpacity onLongPress={drag} disabled={isActive}>
+            <TouchableOpacity
+              onPress={onPress}
+              onLongPress={drag}
+              disabled={isActive}
+            >
               <View style={styles.Card}>
                 <View
                   style={{
@@ -142,7 +155,11 @@ export default function SmallCard({ card, drag, isActive }) {
       return (
         <>
           <ScaleDecorator>
-            <TouchableOpacity onLongPress={drag} disabled={isActive}>
+            <TouchableOpacity
+              onPress={onPress}
+              onLongPress={drag}
+              disabled={isActive}
+            >
               <View style={{ ...styles.Card, ...{ gap: 2 } }}>
                 <View
                   style={{

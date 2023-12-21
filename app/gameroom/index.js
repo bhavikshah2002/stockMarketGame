@@ -3,6 +3,8 @@ import { useGameState } from "../../src/contexts/GameStateContext";
 import { Companies } from "../../src/data/cards";
 import CompanyCard from "../../src/components/CompanyCard";
 import BigCard from "../../src/components/BigCard";
+import { Link } from "expo-router";
+import { RegularText } from "../../src/common/Text";
 
 export default function CommonRound() {
   const { gameState } = useGameState();
@@ -44,6 +46,9 @@ export default function CommonRound() {
           )}
           keyExtractor={(item) => item.id}
         />
+        <Link href="/gameroom/myturn">
+          <RegularText>myturn</RegularText>
+        </Link>
       </View>
     </View>
   );
@@ -61,6 +66,7 @@ const styles = StyleSheet.create({
 
   sides: {
     flex: 1,
+    marginVertical: 10,
   },
 
   middle: {

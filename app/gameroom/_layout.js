@@ -21,6 +21,7 @@ export default function GameRoomLayout() {
       active: false,
     }))
   );
+
   return (
     <GameStateContextProvider>
       <View style={styles.Container}>
