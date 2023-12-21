@@ -9,6 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { ScaleDecorator } from "react-native-draggable-flatlist";
 
 function GetCrstalIcon({ type }) {
   switch (type) {
@@ -65,33 +66,37 @@ function GetCrstalIcon({ type }) {
   }
 }
 
-export default function SmallCard({ card }) {
+export default function SmallCard({ card, drag, isActive }) {
   switch (card.type) {
     case "NORMAL": {
       const isProfit = card.netChange > 0;
       return (
         <>
-          <TouchableOpacity>
-            <View style={styles.Card}>
-              <Image
-                source={CompanyInObj[card.companyId].photoUrl}
-                style={{
-                  width: 50,
-                  height: 20,
-                }}
-              />
-              <View style={{ alignItems: "center", justifyContent: "center" }}>
-                <AntDesign
-                  name={isProfit ? "caretup" : "caretdown"}
-                  size={24}
-                  color={isProfit ? Colors.green : Colors.red}
+          <ScaleDecorator>
+            <TouchableOpacity onLongPress={drag} disabled={isActive}>
+              <View style={styles.Card}>
+                <Image
+                  source={CompanyInObj[card.companyId].photoUrl}
+                  style={{
+                    width: 50,
+                    height: 20,
+                  }}
                 />
+                <View
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
+                  <AntDesign
+                    name={isProfit ? "caretup" : "caretdown"}
+                    size={24}
+                    color={isProfit ? Colors.green : Colors.red}
+                  />
+                </View>
+                <View>
+                  <BoldText>₹{Math.abs(card.netChange)}</BoldText>
+                </View>
               </View>
-              <View>
-                <BoldText>₹{Math.abs(card.netChange)}</BoldText>
-              </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </ScaleDecorator>
         </>
       );
     }
@@ -100,33 +105,35 @@ export default function SmallCard({ card }) {
       if (card.circuitType == "UP") isUp = true;
       return (
         <>
-          <TouchableOpacity>
-            <View style={styles.Card}>
-              <View
-                style={{
-                  height: 20,
-                  width: 50,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: -5,
-                }}
-              >
-                <BoldText size={9} style={{ marginTop: 5 }}>
-                  Circuit{" "}
-                </BoldText>
-                <BoldText size={9}>{card.circuitType}</BoldText>
+          <ScaleDecorator>
+            <TouchableOpacity onLongPress={drag} disabled={isActive}>
+              <View style={styles.Card}>
+                <View
+                  style={{
+                    height: 20,
+                    width: 50,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: -5,
+                  }}
+                >
+                  <BoldText size={9} style={{ marginTop: 5 }}>
+                    Circuit{" "}
+                  </BoldText>
+                  <BoldText size={9}>{card.circuitType}</BoldText>
+                </View>
+                <Entypo
+                  name="bar-graph"
+                  style={isUp ? {} : { transform: [{ rotateY: "180deg" }] }}
+                  size={24}
+                  color={isUp ? Colors.green : Colors.red}
+                />
+                <View>
+                  <BoldText>₹{card.denomination}</BoldText>
+                </View>
               </View>
-              <Entypo
-                name="bar-graph"
-                style={isUp ? {} : { transform: [{ rotateY: "180deg" }] }}
-                size={24}
-                color={isUp ? Colors.green : Colors.red}
-              />
-              <View>
-                <BoldText>₹{card.denomination}</BoldText>
-              </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </ScaleDecorator>
         </>
       );
     }
@@ -134,27 +141,29 @@ export default function SmallCard({ card }) {
       let current_card = card.crystalType.split("_")[0];
       return (
         <>
-          <TouchableOpacity>
-            <View style={{ ...styles.Card, ...{ gap: 2 } }}>
-              <View
-                style={{
-                  height: 20,
-                  width: 50,
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: -5,
-                }}
-              >
-                <BoldText size={9} style={{ marginTop: 2 }}>
-                  STOCK
-                </BoldText>
-                <BoldText size={9}>BAZAR</BoldText>
-              </View>
+          <ScaleDecorator>
+            <TouchableOpacity onLongPress={drag} disabled={isActive}>
+              <View style={{ ...styles.Card, ...{ gap: 2 } }}>
+                <View
+                  style={{
+                    height: 20,
+                    width: 50,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: -5,
+                  }}
+                >
+                  <BoldText size={9} style={{ marginTop: 2 }}>
+                    STOCK
+                  </BoldText>
+                  <BoldText size={9}>BAZAR</BoldText>
+                </View>
 
-              <GetCrstalIcon type={current_card} />
-              <SemiBoldText size={10}>{current_card}</SemiBoldText>
-            </View>
-          </TouchableOpacity>
+                <GetCrstalIcon type={current_card} />
+                <SemiBoldText size={10}>{current_card}</SemiBoldText>
+              </View>
+            </TouchableOpacity>
+          </ScaleDecorator>
         </>
       );
     }

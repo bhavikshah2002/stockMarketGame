@@ -4,15 +4,14 @@ import { useState } from "react";
 import GameStateContextProvider from "../../src/contexts/GameStateContext";
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
-import { getCardStack } from "../../src/data/cards";
+import { getShuffledCards } from "../../src/data/cards";
 import UserBadge from "../../src/components/UserBadge";
+import DraggableFlatList, {
+  ScaleDecorator,
+} from "react-native-draggable-flatlist";
 
 export default function GameRoomLayout() {
-  const [cards, setCards] = useState(
-    // getShuffledCards().slice(0,10).sort((a,b)=>{if(a.type == "NORMAL" && b.type=="NORMAL"){b.companyId -a.companyId} else false})
-    getCardStack().slice(-6)
-  );
-  console.log(cards);
+  const [cards, setCards] = useState(getShuffledCards().slice(0, 10));
   const [player, setPlayers] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,
@@ -22,7 +21,7 @@ export default function GameRoomLayout() {
       active: false,
     }))
   );
-
+  let i =1;
   return (
     <GameStateContextProvider>
       <View style={styles.Container}>
@@ -36,10 +35,12 @@ export default function GameRoomLayout() {
             <Slot />
           </View>
           <View style={styles.BottomLeft}>
-            <FlatList
+            <DraggableFlatList
               data={cards}
+              onDragEnd={({ data }) => setCards(data)}
               horizontal={true}
-              renderItem={({ item }) => <SmallCard card={item} />}
+              renderItem={({ item,drag,isActive }) => <SmallCard card={item} drag={drag} isActive={isActive} />}
+              keyExtractor={(item,index)=>index}
             />
           </View>
         </View>
