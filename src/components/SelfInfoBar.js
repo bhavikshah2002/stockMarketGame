@@ -1,26 +1,32 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { BoldText, RegularText, SemiBoldText } from "../../src/common/Text";
 import { useState } from "react";
 import GameStateContextProvider from "../../src/contexts/GameStateContext";
-import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { Link } from "expo-router";
+import Settings from "./settings";
+
 export default function SelfInfoBarComponent() {
-    const [selfInfo, setSelfInfo] = useState({
-        userName:"BuddyShah23",
-        cashInHand: 6.5,
-        cashInStock: 12.2,
-        totalWorth: 18.7
-      })
-      const [roundInfo, setRoundInfo] = useState({
-        subRoundNumber: 2,
-        megaRoundNumber: 5
-      })
+  const [selfInfo, setSelfInfo] = useState({
+    userName: "BuddyShah23",
+    cashInHand: 6.5,
+    cashInStock: 12.2,
+    totalWorth: 18.7,
+  });
+  const [roundInfo, setRoundInfo] = useState({
+    subRoundNumber: 2,
+    megaRoundNumber: 5,
+  });
   return (
     <>
-      <TouchableOpacity style={styles.SettingButton}>
-        <Ionicons name="settings" size={28} color="#e1e3e2" />
-      </TouchableOpacity>
+      <Settings />
       <View style={styles.SelfInfoContent}>
         <View style={styles.WorthInfo}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 25 }}>
@@ -69,24 +75,21 @@ export default function SelfInfoBarComponent() {
 }
 
 const styles = StyleSheet.create({
-    SettingButton: {
-        marginLeft: 20,
-      },
-      SelfInfoContent: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-around",
-      },
-      WorthInfo: {
-        alignItems: "center",
-        gap:5
-      },
-      UserName: {
-        justifyContent: "center",
-        alignItems: "center",
-      },
-      RoundInfo: {
-        flexDirection: "row",
-        alignItems: "center",
-      },
-})
+  SelfInfoContent: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  WorthInfo: {
+    alignItems: "center",
+    gap: 5,
+  },
+  UserName: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  RoundInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+});
