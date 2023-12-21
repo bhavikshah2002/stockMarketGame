@@ -17,7 +17,7 @@ function CrystalContent({ type }) {
           <MaterialCommunityIcons
             name="guy-fawkes-mask"
             size={44}
-            color="#0c5419"
+            color={Colors.darkGreen}
           />
           <ItalicText color={Colors.dim} align="center" size={13}>
             Stock Value @ 50% {"\n"}Discount from Market {"\n"} Price
@@ -28,7 +28,7 @@ function CrystalContent({ type }) {
     case "DIVIDEND": {
       return (
         <>
-          <FontAwesome5 name="divide" size={44} color="#aa42f5" />
+          <FontAwesome5 name="divide" size={44} color={Colors.purple} />
           <ItalicText color={Colors.dim} align="center" size={13}>
             Received Dividend on {"\n"}Shares ₹ 5/- per Share
           </ItalicText>
@@ -39,7 +39,7 @@ function CrystalContent({ type }) {
       return (
         <>
           <View style={{ flexDirection: "row" }}>
-            <FontAwesome name="plus" size={44} color="#1bcfab" />
+            <FontAwesome name="plus" size={44} color={Colors.teal} />
             <FontAwesome name="plus" size={24} color="#14967c" />
             <FontAwesome name="plus" size={14} color="#074034" />
           </View>
@@ -67,7 +67,7 @@ function CrystalContent({ type }) {
     case "LOAN_ON_STOCK": {
       return (
         <>
-          <Fontisto name="money-symbol" size={44} color="#cf1bc0" />
+          <Fontisto name="money-symbol" size={44} color={Colors.darkPink} />
           <ItalicText color={Colors.dim} align="center" size={13}>
             Collect ₹ 100000 from{"\n"}the Stockbroker
           </ItalicText>

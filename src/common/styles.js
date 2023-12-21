@@ -13,4 +13,8 @@ export const Colors = {
   green: "#23d997",
   red: "#ba110c",
   info: "#4287f5",
+  teal: "#1bcfab",
+  purple: "#aa42f5",
+  darkGreen: "#0c5419",
+  darkPink: "#cf1bc0",
 };

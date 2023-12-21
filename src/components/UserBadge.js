@@ -1,10 +1,5 @@
-import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
-import {
-  CustomText,
-  ItalicText,
-  RegularText,
-  SemiBoldText,
-} from "../../src/common/Text";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { CustomText, RegularText } from "../../src/common/Text";
 import { Colors } from "../common/styles";
 
 const colorsArray = [
@@ -20,33 +15,30 @@ export default function UserBadge({ player }) {
   return (
     <TouchableOpacity>
       <View style={[styles.container]}>
-        {/* <View
-          style={{
-            position: "absolute",
-            left: 0,
-            width: 40,
-            height: 40,
-            backgroundColor: color,
-            transform: [{ rotateZ: "45deg" }],
-          }}
-        /> */}
         <View
           style={{
             backgroundColor: color,
-            marginLeft: 25,
+            paddingLeft: 35,
             paddingHorizontal: 10,
             justifyContent: "center",
             alignItems: "flex-end",
-            transform: [
-
-            ],
           }}
         >
-          <CustomText family="SemiBoldItalic" size={11}>
+          <CustomText family="SemiBoldItalic" size={10}>
             {player.playerName}
           </CustomText>
-          <RegularText>{player.playerInHandCash}L</RegularText>
+          <RegularText>₹{player.playerInHandCash}L</RegularText>
         </View>
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            width: 100,
+            height: 100,
+            backgroundColor: Colors.black,
+            transform: [{ rotateZ: "15deg" }, { translateX: -80 }],
+          }}
+        />
       </View>
     </TouchableOpacity>
   );
