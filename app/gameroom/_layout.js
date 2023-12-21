@@ -21,7 +21,7 @@ export default function GameRoomLayout() {
       active: false,
     }))
   );
-  let i =1;
+  console.log(cards)
   return (
     <GameStateContextProvider>
       <View style={styles.Container}>
@@ -40,7 +40,7 @@ export default function GameRoomLayout() {
               onDragEnd={({ data }) => setCards(data)}
               horizontal={true}
               renderItem={({ item,drag,isActive }) => <SmallCard card={item} drag={drag} isActive={isActive} />}
-              keyExtractor={(item,index)=>index}
+              keyExtractor={(item)=>item.id}
             />
           </View>
         </View>
