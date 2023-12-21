@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import {
   BoldText,
   CustomText,
@@ -8,8 +8,10 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../common/styles";
 import { CompanyInObj } from "../data/cards";
+import { useGameState } from "../contexts/GameStateContext";
 
 export default function CompanyCard({ company, currentWorth, yourHoldings }) {
+  const { selectCompany } = useGameState();
   let color =
     currentWorth > CompanyInObj[company.id].startingPrice
       ? Colors.green
@@ -19,7 +21,10 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
     color = Colors.info;
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => selectCompany(company)}
+      style={styles.container}
+    >
       <Image source={company.photoUrl} style={styles.logo} />
       <LinearGradient
         style={{ width: 65, height: 40 }}
@@ -39,13 +44,13 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
       <View style={{ marginRight: 6 }}>
         <BoldText size={18}>{(yourHoldings / 1000).toFixed(0)}K</BoldText>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 9,
+    marginBottom: 9,
     flexDirection: "row",
     gap: 5,
     alignItems: "center",

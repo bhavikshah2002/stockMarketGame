@@ -12,8 +12,28 @@ const GameStateContext = createContext({
 
 export default function GameStateContextProvider({ children }) {
   const [gameState, setGameState] = useState(initializeGameState(6));
-  const [selectedCard, setSelectedCard] = useState(getCardStack().at(-12));
+  const [selectedCard, _setSelectedCard] = useState(getCardStack().at(-12));
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
+  const [selectedEntity, setSelectedEntity] = useState(selectedCard);
+  const [selectedEntityType, setSelectedEntityType] = useState("card");
+
+  const selectEntity = (entity, type) => {
+    setSelectedEntityType(type);
+    setSelectedEntity(entity);
+  };
+
+  const setSelectedCard = (card) => {
+    _setSelectedCard(card);
+    console.log('yes');
+    if (card.type == "CRYSTAL") {
+      console.log('no');
+      selectEntity(card, "card");
+    }
+  };
+
+  const selectCompany = (company) => {
+    selectEntity(company, "company");
+  };
 
   return (
     <GameStateContext.Provider
@@ -24,6 +44,9 @@ export default function GameStateContextProvider({ children }) {
         selectedCard,
         selectedPlayerId,
         setSelectedPlayerId,
+        selectCompany,
+        selectedEntity,
+        selectedEntityType,
       }}
     >
       {children}

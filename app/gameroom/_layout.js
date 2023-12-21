@@ -21,7 +21,7 @@ export default function GameRoomLayout() {
       active: false,
     }))
   );
-  console.log(cards)
+
   return (
     <GameStateContextProvider>
       <View style={styles.Container}>
