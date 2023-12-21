@@ -1,52 +1,78 @@
-import { Dimensions, StyleSheet, TouchableOpacity, View } from "react-native";
-import {
-  CustomText,
-  ItalicText,
-  RegularText,
-  SemiBoldText,
-} from "../../src/common/Text";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { BoldText, CustomText, RegularText } from "../../src/common/Text";
 import { Colors } from "../common/styles";
+import { useGameState } from "../contexts/GameStateContext";
 
 const colorsArray = [
-  Colors.green,
-  Colors.red,
   Colors.info,
-  "#1bcfab",
-  "orange",
+  Colors.purple,
+  Colors.darkGreen,
+  Colors.teal,
+  Colors.dim,
 ];
 
 export default function UserBadge({ player }) {
+  const { selectedPlayerId, setSelectedPlayerId, gameState } = useGameState();
   const color = colorsArray[player.id % 5];
+  const isSelected = selectedPlayerId == player.id;
+  const isCurrentTurn = gameState.currentTurn == player.id;
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => setSelectedPlayerId(player.id)}>
       <View style={[styles.container]}>
-        {/* <View
+        <View
+        
+          style={{
+            backgroundColor: color,
+            paddingHorizontal: 5,
+            paddingLeft: 35,
+            justifyContent: "center",
+            alignItems: "flex-end",
+            borderRadius: 2,
+            // borderWidth: 3,
+            shadowColor: isCurrentTurn ? Colors.green : color,
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowRadius: 0,
+            shadowOpacity:0.1
+
+          }}
+        >
+          <CustomText family="SemiBoldItalic" size={9}>
+            {player.playerName} {JSON.stringify(gameState.currentTurn)}
+          </CustomText>
+          <BoldText>₹{player.playerInHandCash}L</BoldText>
+        </View>
+        <View
           style={{
             position: "absolute",
             left: 0,
-            width: 40,
-            height: 40,
-            backgroundColor: color,
-            transform: [{ rotateZ: "45deg" }],
-          }}
-        /> */}
-        <View
-          style={{
-            backgroundColor: color,
-            marginLeft: 25,
-            paddingHorizontal: 10,
-            justifyContent: "center",
-            alignItems: "flex-end",
+            top: 0,
+            width: 100,
+            height: 100,
+            backgroundColor: Colors.black,
             transform: [
-
+              { rotateZ: "35deg" },
+              { translateX: isSelected ? -105 : -95 },
             ],
           }}
-        >
-          <CustomText family="SemiBoldItalic" size={11}>
-            {player.playerName}
-          </CustomText>
-          <RegularText>{player.playerInHandCash}L</RegularText>
-        </View>
+        />
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+            width: 100,
+            height: 100,
+            backgroundColor: Colors.black,
+            transform: [
+              { rotateZ: "-35deg" },
+              { translateX: isSelected ? -105 : -95 },
+            ],
+          }}
+        />
       </View>
     </TouchableOpacity>
   );
