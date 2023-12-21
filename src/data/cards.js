@@ -128,6 +128,7 @@ export function findWinner(gameState) {
 
 export function getCardStack() {
   const Cards = [];
+  let id = 0;
 
   Companies.forEach(function (company) {
     for (let i = 5; i <= company.maxCardVal; i += 5) {
@@ -135,11 +136,13 @@ export function getCardStack() {
         type: "NORMAL",
         companyId: company.id,
         netChange: i,
+        id: id++,
       });
       Cards.push({
         type: "NORMAL",
         companyId: company.id,
         netChange: i,
+        id: id++,
       });
     }
 
@@ -148,25 +151,31 @@ export function getCardStack() {
         type: "NORMAL",
         companyId: company.id,
         netChange: i,
+        id: id++,
       });
       Cards.push({
         type: "NORMAL",
         companyId: company.id,
         netChange: i,
+        id: id++,
       });
     }
   });
 
   const CrystalCards = [
-    { type: "CRYSTAL", crystalType: "FRAUD" },
-    { type: "CRYSTAL", crystalType: "DIVIDEND" },
-    { type: "CRYSTAL", crystalType: "BONUS_SHARE" },
-    { type: "CRYSTAL", crystalType: "RIGHT_ISSUE" },
-    { type: "CRYSTAL", crystalType: "LOAN_ON_STOCK" },
+    { type: "CRYSTAL", crystalType: "FRAUD", id: id++ },
+    { type: "CRYSTAL", crystalType: "DIVIDEND", id: id++ },
+    { type: "CRYSTAL", crystalType: "BONUS_SHARE", id: id++ },
+    { type: "CRYSTAL", crystalType: "RIGHT_ISSUE", id: id++ },
+    { type: "CRYSTAL", crystalType: "LOAN_ON_STOCK", id: id++ },
+    { type: "CRYSTAL", crystalType: "FRAUD", id: id++ },
+    { type: "CRYSTAL", crystalType: "DIVIDEND", id: id++ },
+    { type: "CRYSTAL", crystalType: "BONUS_SHARE", id: id++ },
+    { type: "CRYSTAL", crystalType: "RIGHT_ISSUE", id: id++ },
+    { type: "CRYSTAL", crystalType: "LOAN_ON_STOCK", id: id++ },
   ];
 
   CrystalCards.forEach((card) => {
-    Cards.push(card);
     Cards.push(card);
   });
 
@@ -177,11 +186,13 @@ export function getCardStack() {
       type: "CIRCUIT",
       circuitType: "UP",
       denomination: denom,
+      id: id++,
     });
     Cards.push({
       type: "CIRCUIT",
       circuitType: "LOW",
       denomination: denom,
+      id: id++,
     });
   });
 
