@@ -8,6 +8,9 @@ const GameStateContext = createContext({
   setSelectedCard: (s) => {},
   selectedPlayerId: 1,
   setSelectedPlayerId: (s) => {},
+  selectCompany: (c) => {},
+  selectedEntity: null,
+  selectedEntityType: "card",
 });
 
 export default function GameStateContextProvider({ children }) {
@@ -24,9 +27,7 @@ export default function GameStateContextProvider({ children }) {
 
   const setSelectedCard = (card) => {
     _setSelectedCard(card);
-    console.log('yes');
     if (card.type == "CRYSTAL") {
-      console.log('no');
       selectEntity(card, "card");
     }
   };
@@ -54,7 +55,7 @@ export default function GameStateContextProvider({ children }) {
   );
 }
 
-export const useGameState = (func = (s) => s) => {
+export const useGameState = () => {
   const gameContext = useContext(GameStateContext);
 
   if (!gameContext) {
@@ -63,5 +64,5 @@ export const useGameState = (func = (s) => s) => {
     );
   }
 
-  return func(gameContext);
+  return gameContext;
 };

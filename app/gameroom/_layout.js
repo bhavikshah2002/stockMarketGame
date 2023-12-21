@@ -6,9 +6,7 @@ import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
 import { getShuffledCards } from "../../src/data/cards";
 import UserBadge from "../../src/components/UserBadge";
-import DraggableFlatList, {
-  ScaleDecorator,
-} from "react-native-draggable-flatlist";
+import DraggableFlatList from "react-native-draggable-flatlist";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(getShuffledCards().slice(0, 10));
@@ -39,8 +37,10 @@ export default function GameRoomLayout() {
               data={cards}
               onDragEnd={({ data }) => setCards(data)}
               horizontal={true}
-              renderItem={({ item,drag,isActive }) => <SmallCard card={item} drag={drag} isActive={isActive} />}
-              keyExtractor={(item)=>item.id}
+              renderItem={({ item, drag, isActive }) => (
+                <SmallCard card={item} drag={drag} isActive={isActive} />
+              )}
+              keyExtractor={(item) => item.id}
             />
           </View>
         </View>

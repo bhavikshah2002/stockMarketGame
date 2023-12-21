@@ -78,6 +78,7 @@ export const CompanyInObj = Companies.reduce((acc, crr) => {
 export function initializeGameState(noOfPlayers, totalMegaRounds = 10) {
   const gameState = {
     companyValues: {},
+    history: {},
     userState: {},
     currentMegaRound: 0,
     currentSubRound: 0,
@@ -88,6 +89,7 @@ export function initializeGameState(noOfPlayers, totalMegaRounds = 10) {
 
   Companies.forEach((company) => {
     gameState.companyValues[company.id] = company.startingPrice;
+    gameState.history[company.id] = [43, 57, 38, 42, 54, 67, 43, 57, 38, 42];
   });
 
   for (let i = 0; i < noOfPlayers; i++) {
