@@ -45,6 +45,7 @@ export default function GameRoomLayout() {
         </View>
         <View style={styles.Right}>
           <FlatList
+            style={{ alignSelf: "flex-end" }}
             data={player}
             renderItem={({ item }) => <UserBadge player={item} />}
             keyExtractor={(item) => item.id}

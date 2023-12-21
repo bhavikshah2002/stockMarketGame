@@ -83,6 +83,7 @@ export function initializeGameState(noOfPlayers, totalMegaRounds = 10) {
     currentSubRound: 0,
     totalMegaRounds,
     noOfPlayers,
+    currentTurn: 1,
   };
 
   Companies.forEach((company) => {

@@ -1,42 +1,76 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { CustomText, RegularText } from "../../src/common/Text";
+import { BoldText, CustomText, RegularText } from "../../src/common/Text";
 import { Colors } from "../common/styles";
+import { useGameState } from "../contexts/GameStateContext";
 
 const colorsArray = [
-  Colors.green,
-  Colors.red,
   Colors.info,
-  "#1bcfab",
-  "orange",
+  Colors.purple,
+  Colors.darkGreen,
+  Colors.teal,
+  Colors.dim,
 ];
 
 export default function UserBadge({ player }) {
+  const { selectedPlayerId, setSelectedPlayerId, gameState } = useGameState();
   const color = colorsArray[player.id % 5];
+  const isSelected = selectedPlayerId == player.id;
+  const isCurrentTurn = gameState.currentTurn == player.id;
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => setSelectedPlayerId(player.id)}>
       <View style={[styles.container]}>
         <View
+        
           style={{
             backgroundColor: color,
+            paddingHorizontal: 5,
             paddingLeft: 35,
-            paddingHorizontal: 10,
             justifyContent: "center",
             alignItems: "flex-end",
+            borderRadius: 2,
+            // borderWidth: 3,
+            shadowColor: isCurrentTurn ? Colors.green : color,
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowRadius: 0,
+            shadowOpacity:0.1
+
           }}
         >
-          <CustomText family="SemiBoldItalic" size={10}>
-            {player.playerName}
+          <CustomText family="SemiBoldItalic" size={9}>
+            {player.playerName} {JSON.stringify(gameState.currentTurn)}
           </CustomText>
-          <RegularText>₹{player.playerInHandCash}L</RegularText>
+          <BoldText>₹{player.playerInHandCash}L</BoldText>
         </View>
         <View
           style={{
             position: "absolute",
             left: 0,
+            top: 0,
             width: 100,
             height: 100,
             backgroundColor: Colors.black,
-            transform: [{ rotateZ: "15deg" }, { translateX: -80 }],
+            transform: [
+              { rotateZ: "35deg" },
+              { translateX: isSelected ? -105 : -95 },
+            ],
+          }}
+        />
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            bottom: 0,
+            width: 100,
+            height: 100,
+            backgroundColor: Colors.black,
+            transform: [
+              { rotateZ: "-35deg" },
+              { translateX: isSelected ? -105 : -95 },
+            ],
           }}
         />
       </View>
