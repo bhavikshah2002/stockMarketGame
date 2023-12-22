@@ -1,8 +1,8 @@
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Feather } from "@expo/vector-icons";
-import { Ionicons } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import {
   BoldText,
   ItalicText,
@@ -16,16 +16,13 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Colors } from "../src/common/styles";
 const { width, height } = Dimensions.get("window");
 export default function HomePage() {
+  const inputRef = useRef();
   const [userName, setUserName] = useState("UserName");
   const handleInputChange = (text) => setUserName(text);
-  const openTextInput = () => {
-    // Show the TextInput only when clicked
-    setUserName(userName); // Reset the input text when opened
-  };
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -38,10 +35,15 @@ export default function HomePage() {
           <TextInput
             style={styles.inputTextText}
             value={userName}
+            ref={inputRef}
             onChangeText={handleInputChange}
           />
 
-          <TouchableOpacity onPress={openTextInput}>
+          <TouchableOpacity
+            onPress={() => {
+              inputRef.current.focus();
+            }}
+          >
             <Feather
               name="edit"
               size={17}
@@ -128,8 +130,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   Btn: {
-    flexDirection:"row",
-    gap:5,
+    flexDirection: "row",
+    gap: 5,
     padding: 5,
     borderRadius: 5,
     backgroundColor: Colors.darkGreen,
