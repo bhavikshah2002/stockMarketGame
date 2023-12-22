@@ -10,8 +10,8 @@ import DraggableFlatList from "react-native-draggable-flatlist";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
-    // getShuffledCards().slice(0, 10)
-    getCardStack().slice(-18,-6)
+    getShuffledCards().slice(0, 10)
+    // getCardStack().slice(-18,-6)
     );
   const [player, setPlayers] = useState(
     new Array(6).fill(0).map((_, id) => ({
