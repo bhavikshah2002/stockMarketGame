@@ -1,6 +1,6 @@
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { BoldText, RegularText } from "../common/Text";
-import { Colors } from "../common/styles";
+import { BoldText, RegularText } from "../../common/Text";
+import { Colors } from "../../common/styles";
 
 export default function ModalForCard({
   modalVisible,

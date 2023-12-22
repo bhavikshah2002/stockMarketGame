@@ -1,12 +1,12 @@
 import { View } from "@bacons/react-views";
-import { BoldText, RegularText, SemiBoldText } from "../common/Text";
-import CrystalContent from "./CrystalContent";
+import { BoldText, RegularText, SemiBoldText } from "../../common/Text";
+import CrystalContent from "../CrystalContent";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FlatList, StyleSheet } from "react-native";
-import { Colors } from "../common/styles";
-import { Companies } from "../data/cards";
+import { Colors } from "../../common/styles";
+import { Companies } from "../../data/cards";
 import { Entypo } from "@expo/vector-icons";
-import { useGameState } from "../contexts/GameStateContext";
+import { useGameState } from "../../contexts/GameStateContext";
 import { useState } from "react";
 import ModalForCard from "./ModalForCard";
 
