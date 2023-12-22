@@ -6,9 +6,41 @@ import { Colors } from "../common/styles";
 import { Companies } from "../data/cards";
 import { useGameState } from "../contexts/GameStateContext";
 import { Entypo } from "@expo/vector-icons";
+import { useState } from "react";
+import ModalForCard from "./ModalForCard";
+import MySlider from "./Slider";
+import { useSharedValue } from "react-native-reanimated";
 
 export default function FraudCard({ card }) {
   const { gameState } = useGameState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const noOfStocks = useSharedValue(10);
+
+  if (modalVisible && selectedCompany) {
+    return (
+      <View style={styles.container}>
+        <ModalForCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          transactionInfo={
+            <View>
+              <RegularText color={Colors.dim} align="center">
+                Select how much stock you want to buy of {selectedCompany.name}
+              </RegularText>
+              <View style={styles.slider}>
+                <MySlider
+                  value={noOfStocks}
+                  max={gameState.userState.cashInHand}
+                />
+              </View>
+            </View>
+          }
+          operatingFunction={() => {}}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -20,13 +52,21 @@ export default function FraudCard({ card }) {
         </View>
         <CrystalContent type={card.crystalType} />
       </View>
-      <View>
-        <SemiBoldText style={{ marginVertical: 4 }}>Companies</SemiBoldText>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <SemiBoldText color={Colors.dim} style={{ marginVertical: 4 }}>
+          Companies
+        </SemiBoldText>
         <FlatList
           data={Companies}
           style={{ marginBottom: 5 }}
           renderItem={({ item }) => (
-            <View style={styles.companyBox}>
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedCompany(item);
+                setModalVisible(true);
+              }}
+              style={styles.companyBox}
+            >
               <SemiBoldText size={13} style={{ width: 70 }}>
                 {item.name}
               </SemiBoldText>
@@ -37,10 +77,8 @@ export default function FraudCard({ card }) {
               <RegularText size={13} color={Colors.green}>
                 ₹{Math.floor(gameState.companyValues[item.id] / 2)}
               </RegularText>
-              <TouchableOpacity>
-                <Entypo name="chevron-right" size={24} color={Colors.dim} />
-              </TouchableOpacity>
-            </View>
+              <Entypo name="chevron-right" size={24} color={Colors.dim} />
+            </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
         />
@@ -56,12 +94,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 20,
     backgroundColor: "#141414",
-    gap: 16,
     marginVertical: 10,
     borderRadius: 6,
     overflow: "hidden",
     borderColor: Colors.green + "22",
     borderWidth: 2,
+    position: "relative",
   },
 
   left: {
@@ -92,5 +130,13 @@ const styles = StyleSheet.create({
   strike: {
     textDecorationLine: "line-through",
     textDecorationStyle: "solid",
+  },
+
+  slider: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginVertical: 5,
+    width: 220,
   },
 });
