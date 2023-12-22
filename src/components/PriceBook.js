@@ -10,6 +10,7 @@ import {
   Table,
   TableWrapper,
 } from "react-native-table-component";
+import { AntDesign } from "@expo/vector-icons";
 
 export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
   const header = [
@@ -46,16 +47,26 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
     >
       <View style={styles.Container}>
         <View style={styles.InnerConatiner}>
-          <View>
+          <View style={styles.TopContainer}>
+            <View></View>
             <RegularText
               size={25}
-              style={{ textDecorationLine: "underline",textDecorationStyle:"dashed"}}
+              style={{
+                textDecorationLine: "underline",
+                textDecorationStyle: "dashed",
+              }}
             >
               Price Book
             </RegularText>
+            <TouchableOpacity
+              onPress={() => setPriceBookVisible(false)}
+              style={styles.Btn}
+            >
+              <AntDesign name="closecircle" size={28} color={Colors.white} />
+            </TouchableOpacity>
           </View>
           <View style={styles.TableConatiner}>
-            <Table borderStyle={{ borderWidth: 0.2 ,borderColor:"white"}}>
+            <Table borderStyle={{ borderWidth: 0.2, borderColor: "white" }}>
               <Row
                 data={header}
                 style={styles.head}
@@ -68,16 +79,6 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
               />
             </Table>
           </View>
-          <View>
-            <TouchableOpacity
-              style={styles.Btn}
-              onPress={() => setPriceBookVisible(!priceBookVisible)}
-            >
-              <BoldText size={15} transform="uppercase" color={Colors.white}>
-                Close
-              </BoldText>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     </Modal>
@@ -89,20 +90,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    
   },
+
   InnerConatiner: {
     height: "95%",
     width: "70%",
     backgroundColor: "black",
     position: "absolute",
-    justifyContent: "center",
     alignItems: "center",
-    gap:8,
-    borderWidth:1,
-    borderColor:Colors.dim,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: Colors.dim,
+  },
+  TopContainer: {
+    top: 15,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 15,
   },
   TableConatiner: {
+    marginTop: 20,
     width: 450,
   },
   head: {
@@ -115,19 +124,10 @@ const styles = StyleSheet.create({
   textHeading: {
     textAlign: "center",
     fontWeight: "800",
-    color:Colors.white
+    color: Colors.white,
   },
   textContent: {
     textAlign: "center",
     color: Colors.white,
-  },
-  Btn: {
-    height: 40,
-    width: 100,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth:3,
-    borderColor:Colors.white,
-    borderRadius:7
   },
 });
