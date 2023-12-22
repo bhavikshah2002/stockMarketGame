@@ -50,7 +50,7 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 9,
+    marginBottom: 8,
     flexDirection: "row",
     gap: 5,
     alignItems: "center",
