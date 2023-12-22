@@ -1,15 +1,13 @@
 import { AntDesign } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
-import { BoldText, SemiBoldText } from "../common/Text";
+import { SemiBoldText } from "../common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
-import CrystalContent from "./CrystalContent";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import FraudCard from "./FraudCard";
-import DividendCard from "./DividendCard";
-import BonusShareCard from "./BonusShareCard";
-import RightIssueCard from "./RightIssueCard";
-import LoanCard from "./LoanCard";
+import FraudCard from "./CrystalCards/FraudCard";
+import DividendCard from "./CrystalCards/DividendCard";
+import BonusShareCard from "./CrystalCards/BonusShareCard";
+import RightIssueCard from "./CrystalCards/RightIssueCard";
+import LoanCard from "./CrystalCards/LoanCard";
 
 // To be designed more
 function GetCrystalCard({ card_type, cardDetail }) {

@@ -1,9 +1,11 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useGameState } from "../../src/contexts/GameStateContext";
 import { Companies } from "../../src/data/cards";
 import CompanyCard from "../../src/components/CompanyCard";
 import CardEntity from "../../src/components/CardEntity";
 import CompanyEntity from "../../src/components/CompanyEntity";
+import { LightText } from "../../src/common/Text";
+import { Colors } from "../../src/common/styles";
 
 export default function MyTurnScreen() {
   const { gameState, selectedEntityType } = useGameState();
@@ -12,6 +14,11 @@ export default function MyTurnScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.sides}>
+        <TouchableOpacity style={styles.btn}>
+          <LightText align={"center"} size={18}>
+            PASS
+          </LightText>
+        </TouchableOpacity>
         <FlatList
           data={Companies}
           renderItem={({ item }) => (
@@ -53,5 +60,14 @@ const styles = StyleSheet.create({
 
   center: {
     width: 400,
+  },
+
+  btn: {
+    paddingHorizontal: 15,
+    paddingTop: 2,
+    paddingBottom: 1,
+    borderRadius: 2,
+    marginBottom: 8,
+    backgroundColor: Colors.info,
   },
 });

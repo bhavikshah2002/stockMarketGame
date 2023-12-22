@@ -1,10 +1,10 @@
-import { BoldText, LightText, RegularText, SemiBoldText } from "../common/Text";
-import CrystalContent from "./CrystalContent";
+import { BoldText, LightText, RegularText, SemiBoldText } from "../../common/Text";
+import CrystalContent from "../CrystalContent";
 import { FlatList, StyleSheet,TouchableOpacity,View } from "react-native";
-import { Colors } from "../common/styles";
+import { Colors } from "../../common/styles";
 import { useState } from "react";
-import { Companies } from "../data/cards";
-import { useGameState } from "../contexts/GameStateContext";
+import { Companies } from "../../data/cards";
+import { useGameState } from "../../contexts/GameStateContext";
 import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
 

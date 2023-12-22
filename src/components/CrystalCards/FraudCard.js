@@ -1,14 +1,14 @@
-import { BoldText, LightText, RegularText, SemiBoldText } from "../common/Text";
-import CrystalContent from "./CrystalContent";
+import { BoldText, LightText, RegularText, SemiBoldText } from "../../common/Text";
+import CrystalContent from "../CrystalContent";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FlatList, StyleSheet, View } from "react-native";
-import { Colors } from "../common/styles";
-import { Companies } from "../data/cards";
-import { useGameState } from "../contexts/GameStateContext";
+import { Colors } from "../../common/styles";
+import { Companies } from "../../data/cards";
+import { useGameState } from "../../contexts/GameStateContext";
 import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import ModalForCard from "./ModalForCard";
-import MySlider from "./Slider";
+import MySlider from "../Slider";
 import { useSharedValue } from "react-native-reanimated";
 
 export default function FraudCard({ card }) {

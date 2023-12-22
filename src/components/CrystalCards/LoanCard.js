@@ -1,9 +1,9 @@
 import { View } from "@bacons/react-views";
-import { BoldText } from "../common/Text";
-import CrystalContent from "./CrystalContent";
+import { BoldText } from "../../common/Text";
+import CrystalContent from "../CrystalContent";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
-import { Colors } from "../common/styles";
+import { Colors } from "../../common/styles";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 import ModalForCard from "./ModalForCard";
