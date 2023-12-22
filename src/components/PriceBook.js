@@ -23,7 +23,7 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
   ];
 
   const data = [
-    ["-", "-", "-", "-", "-", "-", "-"],
+    [40, 55, 30, 45, 55, 80, 120],
     ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
@@ -49,7 +49,7 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
           <View>
             <RegularText
               size={25}
-              style={{ textDecorationLine: "underline"}}
+              style={{ textDecorationLine: "underline",textDecorationStyle:"dashed"}}
             >
               Price Book
             </RegularText>
@@ -73,7 +73,7 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
               style={styles.Btn}
               onPress={() => setPriceBookVisible(!priceBookVisible)}
             >
-              <BoldText size={15} transform="uppercase" color={Colors.dim}>
+              <BoldText size={15} transform="uppercase" color={Colors.white}>
                 Close
               </BoldText>
             </TouchableOpacity>
@@ -89,23 +89,25 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    
   },
   InnerConatiner: {
-    height: "100%",
+    height: "95%",
     width: "70%",
-    backgroundColor: "#262525",
+    backgroundColor: "black",
     position: "absolute",
-    right: 0,
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 20,
+    gap:8,
+    borderWidth:1,
+    borderColor:Colors.dim,
   },
   TableConatiner: {
     width: 450,
   },
   head: {
     height: 30,
-    backgroundColor: Colors.dim,
+    backgroundColor: "#262525",
   },
   row: {
     height: 20,
@@ -113,6 +115,7 @@ const styles = StyleSheet.create({
   textHeading: {
     textAlign: "center",
     fontWeight: "800",
+    color:Colors.white
   },
   textContent: {
     textAlign: "center",
@@ -124,7 +127,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth:3,
-    borderColor:Colors.dim,
+    borderColor:Colors.white,
     borderRadius:7
   },
 });
