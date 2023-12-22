@@ -1,6 +1,8 @@
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Feather } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import {
   BoldText,
   ItalicText,
@@ -15,6 +17,7 @@ import {
   TextInput,
 } from "react-native";
 import { useState } from "react";
+import { Colors } from "../src/common/styles";
 const { width, height } = Dimensions.get("window");
 export default function HomePage() {
   const [userName, setUserName] = useState("UserName");
@@ -56,6 +59,7 @@ export default function HomePage() {
               /* Create button action */
             }}
           >
+            <FontAwesome name="user-plus" size={28} color="white" />
             <BoldText size={25} transform="uppercase">
               Create
             </BoldText>
@@ -71,6 +75,7 @@ export default function HomePage() {
             <BoldText size={25} transform="uppercase">
               Join
             </BoldText>
+            <Ionicons name="enter" size={30} color="white" />
           </TouchableOpacity>
         </Link>
       </View>
@@ -123,9 +128,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   Btn: {
+    flexDirection:"row",
+    gap:5,
     padding: 5,
     borderRadius: 5,
-    backgroundColor: "#1E5128",
+    backgroundColor: Colors.darkGreen,
     height: 90,
     width: 190,
     borderRadius: 100,
