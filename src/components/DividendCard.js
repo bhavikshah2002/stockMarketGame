@@ -1,5 +1,5 @@
 import { View } from "@bacons/react-views";
-import { BoldText, LightText, RegularText, SemiBoldText } from "../common/Text";
+import { BoldText, RegularText, SemiBoldText } from "../common/Text";
 import CrystalContent from "./CrystalContent";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FlatList, StyleSheet } from "react-native";
@@ -7,9 +7,31 @@ import { Colors } from "../common/styles";
 import { Companies } from "../data/cards";
 import { Entypo } from "@expo/vector-icons";
 import { useGameState } from "../contexts/GameStateContext";
+import { useState } from "react";
+import ModalForCard from "./ModalForCard";
 
 export default function DividendCard({ card }) {
   const { gameState } = useGameState();
+  const [selectedCompany, setSelectedCompany] = useState(null);
+  const thisUserId = 0;
+  const [modalVisible, setModalVisible] = useState(false);
+
+  if (modalVisible && selectedCompany) {
+    return (
+      <View style={styles.container}>
+        <ModalForCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          transactionInfo={
+            <RegularText color={Colors.dim} align={"center"}>
+              You want to continue with {selectedCompany.name}
+            </RegularText>
+          }
+          operatingFunction={() => {}}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -21,24 +43,35 @@ export default function DividendCard({ card }) {
         </View>
         <CrystalContent type={card.crystalType} />
       </View>
-      <View>
-        <SemiBoldText style={{ marginVertical: 4 }}>Companies</SemiBoldText>
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <SemiBoldText color={Colors.dim} style={{ marginVertical: 4 }}>
+          Companies
+        </SemiBoldText>
         <FlatList
           data={Companies}
           style={{ marginBottom: 5 }}
           renderItem={({ item }) => (
-            <View style={styles.companyBox}>
-              <SemiBoldText size={13} style={{ width: 70 }}>
+            <TouchableOpacity
+              // disabled={gameState.userState[thisUserId].holdings[item.id] == 0}
+              onPress={() => {
+                setSelectedCompany(item);
+                setModalVisible(true);
+              }}
+              style={styles.companyBox}
+            >
+              <SemiBoldText size={13} style={{ width: 80 }}>
                 {item.name}
               </SemiBoldText>
 
               <RegularText size={13} color={Colors.green}>
-                ₹{gameState.companyValues[item.id] / 2}
+                ₹
+                {(gameState.companyValues[item.id] *
+                  gameState.userState[thisUserId].holdings[item.id]) /
+                  1000}
+                K
               </RegularText>
-              <TouchableOpacity>
-                <Entypo name="chevron-right" size={24} color={Colors.dim} />
-              </TouchableOpacity>
-            </View>
+              <Entypo name="chevron-right" size={24} color={Colors.dim} />
+            </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
         />
@@ -54,7 +87,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 20,
     backgroundColor: "#141414",
-    gap: 6,
     marginVertical: 10,
     borderRadius: 6,
     overflow: "hidden",

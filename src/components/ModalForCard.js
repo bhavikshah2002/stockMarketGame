@@ -5,29 +5,42 @@ import { Colors } from "../common/styles";
 export default function ModalForCard({
   modalVisible,
   setModalVisible,
-  transactionInfo = "You want to continue with this tracsaction",
+  transactionInfo = (
+    <RegularText
+      color={Colors.dim}
+      style={{ alignItems: "center", justifyContent: "center" }}
+    >
+      You want to continue with this tracsaction
+    </RegularText>
+  ),
   operatingFunction,
 }) {
   if (!modalVisible) return null;
+
   return (
     <View style={styles.Container}>
       <View style={styles.modalView}>
-        <BoldText size={30} style={{marginTop:15}}>ARE YOU SURE ?</BoldText>
-        <View style={styles.TransactionInfo}>
-          <RegularText color={Colors.dim} style={{alignItems:"center",justifyContent:"center"}}>{transactionInfo}</RegularText>
-        </View>
+        <BoldText size={30} style={{ marginTop: 10 }}>
+          ARE YOU SURE ?
+        </BoldText>
+        <View style={styles.TransactionInfo}>{transactionInfo}</View>
         <View style={styles.ButtonConatiner}>
           <TouchableOpacity
-            onPress={() => setModalVisible(!modalVisible)}
-            style={{...styles.Btn,backgroundColor:Colors.logoGreen}}
-            
+            onPress={() => {
+              operatingFunction();
+              setModalVisible(!modalVisible);
+            }}
+            style={{ ...styles.Btn, backgroundColor: Colors.logoGreen }}
           >
             <BoldText size={15} transform="uppercase">
               Yes
             </BoldText>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}  style={{...styles.Btn,backgroundColor:Colors.red}}>
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            style={{ ...styles.Btn, backgroundColor: Colors.red }}
+          >
             <BoldText size={15} transform="uppercase">
               No
             </BoldText>
@@ -49,20 +62,20 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   modalView: {
-    flex:1,
+    flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
   },
-  TransactionInfo:{
-    width:200,
-    flex:1,
-    alignItems:"center",
-    justifyContent:"center"
+  TransactionInfo: {
+    width: 200,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   ButtonConatiner: {
-    marginBottom:15,
+    marginBottom: 15,
     flexDirection: "row",
-    gap:20
+    gap: 20,
   },
   Btn: {
     flexDirection: "row",
