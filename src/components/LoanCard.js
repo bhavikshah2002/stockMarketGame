@@ -5,9 +5,23 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
 import { Colors } from "../common/styles";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { useState } from "react";
+import ModalForCard from "./ModalForCard";
 
 export default function LoanCard({ card }) {
+  const [modalVisible, setModalVisible] = useState(false);
   function getMoneyInAccount() {}
+  if (modalVisible) {
+    return (
+      <View style={styles.container}>
+        <ModalForCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          operatingFunction={getMoneyInAccount}
+        />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -21,7 +35,7 @@ export default function LoanCard({ card }) {
       <View style={styles.right}>
         <TouchableOpacity
           style={{ ...styles.Btn, backgroundColor: Colors.white }}
-          onPress={getMoneyInAccount}
+          onPress={() => setModalVisible(true)}
         >
           <BoldText size={15} transform="uppercase" color="black">
             Collect
@@ -46,6 +60,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderColor: Colors.green + "22",
     borderWidth: 2,
+    position: "relative",
   },
 
   left: {
