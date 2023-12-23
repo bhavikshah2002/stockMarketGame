@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   innerBox: {
     backgroundColor: Colors.black,
     padding: 15,
-    width: "65%",
+    width: "60%",
     height: "80%",
     borderRadius: 4,
     shadowColor: Colors.dim,

@@ -24,7 +24,7 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
   ];
 
   const data = [
-    [40, 55, 30, 45, 55, 80, 120],
+    [35,40, 50, 55, 60, 80, 120],
     ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
@@ -49,15 +49,14 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
         <View style={styles.InnerConatiner}>
           <View style={styles.TopContainer}>
             <View></View>
-            <RegularText
+            <SemiBoldText
               size={25}
               style={{
                 textDecorationLine: "underline",
-                textDecorationStyle: "dashed",
               }}
             >
               Price Book
-            </RegularText>
+            </SemiBoldText>
             <TouchableOpacity
               onPress={() => setPriceBookVisible(false)}
               style={styles.Btn}
@@ -101,6 +100,16 @@ const styles = StyleSheet.create({
     gap: 8,
     borderWidth: 1,
     borderColor: Colors.dim,
+    borderRadius: 4,
+    shadowColor: Colors.dim,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.53,
+    shadowRadius: 13.97,
+
+    elevation: 21,
   },
   TopContainer: {
     top: 15,
