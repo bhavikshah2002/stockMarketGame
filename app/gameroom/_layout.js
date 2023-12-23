@@ -1,10 +1,9 @@
 import { Slot } from "expo-router";
 import { FlatList, StyleSheet, View } from "react-native";
 import { useState } from "react";
-import GameStateContextProvider from "../../src/contexts/GameStateContext";
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
-import { getCardStack, getShuffledCards } from "../../src/data/cards";
+import { getShuffledCards } from "../../src/data/cards";
 import UserBadge from "../../src/components/UserBadge";
 import DraggableFlatList from "react-native-draggable-flatlist";
 
@@ -12,7 +11,7 @@ export default function GameRoomLayout() {
   const [cards, setCards] = useState(
     getShuffledCards().slice(0, 10)
     // getCardStack().slice(-18,-6)
-    );
+  );
   const [player, setPlayers] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,
@@ -24,39 +23,37 @@ export default function GameRoomLayout() {
   );
 
   return (
-    <GameStateContextProvider>
-      <View style={styles.Container}>
-        <View style={styles.Left}>
-          <View style={styles.TopLeft}>
-            <View style={styles.SelfInfoBar}>
-              <SelfInfoBarComponent />
-            </View>
-          </View>
-          <View style={styles.MiddleLeft}>
-            <Slot />
-          </View>
-          <View style={styles.BottomLeft}>
-            <DraggableFlatList
-              data={cards}
-              onDragEnd={({ data }) => setCards(data)}
-              horizontal={true}
-              renderItem={({ item, drag, isActive }) => (
-                <SmallCard card={item} drag={drag} isActive={isActive} />
-              )}
-              keyExtractor={(item) => item.id}
-            />
+    <View style={styles.Container}>
+      <View style={styles.Left}>
+        <View style={styles.TopLeft}>
+          <View style={styles.SelfInfoBar}>
+            <SelfInfoBarComponent />
           </View>
         </View>
-        <View style={styles.Right}>
-          <FlatList
-            style={{ alignSelf: "flex-end" }}
-            data={player}
-            renderItem={({ item }) => <UserBadge player={item} />}
+        <View style={styles.MiddleLeft}>
+          <Slot />
+        </View>
+        <View style={styles.BottomLeft}>
+          <DraggableFlatList
+            data={cards}
+            onDragEnd={({ data }) => setCards(data)}
+            horizontal={true}
+            renderItem={({ item, drag, isActive }) => (
+              <SmallCard card={item} drag={drag} isActive={isActive} />
+            )}
             keyExtractor={(item) => item.id}
           />
         </View>
       </View>
-    </GameStateContextProvider>
+      <View style={styles.Right}>
+        <FlatList
+          style={{ alignSelf: "flex-end" }}
+          data={player}
+          renderItem={({ item }) => <UserBadge player={item} />}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </View>
   );
 }
 

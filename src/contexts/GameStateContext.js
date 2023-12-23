@@ -11,6 +11,10 @@ const GameStateContext = createContext({
   selectCompany: (c) => {},
   selectedEntity: null,
   selectedEntityType: "card",
+  isRoundStart: true,
+  setIsRoundStart: (s) => {},
+  isCircuit: false,
+  setIsCircuit: (s) => {},
 });
 
 export default function GameStateContextProvider({ children }) {
@@ -19,6 +23,8 @@ export default function GameStateContextProvider({ children }) {
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
+  const [isRoundStart, setIsRoundStart] = useState(true);
+  const [isCircuit, setIsCircuit] = useState(false);
 
   const selectEntity = (entity, type) => {
     setSelectedEntityType(type);
@@ -48,6 +54,10 @@ export default function GameStateContextProvider({ children }) {
         selectCompany,
         selectedEntity,
         selectedEntityType,
+        isRoundStart,
+        setIsRoundStart,
+        isCircuit,
+        setIsCircuit,
       }}
     >
       {children}

@@ -142,7 +142,7 @@ export default function HistoryModal({
                         <ItalicText transform="lowercase" size={13}>
                           used{" "}
                         </ItalicText>
-                        {item.cardType.split("_").join(" ")}
+                        {item.cardType.split("_").join(" ")} card
                       </SemiBoldText>
                       <RegularText size={12} color={Colors.dim}>
                         This text should be replaced
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.black,
     padding: 15,
     width: "65%",
-    height: "70%",
+    height: "80%",
     borderRadius: 4,
     shadowColor: Colors.dim,
     shadowOffset: {

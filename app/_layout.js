@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { LogBox, View } from "react-native";
 import * as ScreenOrientation from "expo-screen-orientation";
 import * as NavigationBar from "expo-navigation-bar";
+import GameStateContextProvider from "../src/contexts/GameStateContext";
 
 LogBox.ignoreLogs(["new NativeEventEmitter"]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -35,9 +36,11 @@ export default function HomeLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <View style={{ flex: 1 }}>
-      <StatusBar style="auto" hidden={true} />
-      <Slot />
-    </View>
+    <GameStateContextProvider>
+      <View style={{ flex: 1 }}>
+        <StatusBar style="auto" hidden={true} />
+        <Slot />
+      </View>
+    </GameStateContextProvider>
   );
 }
