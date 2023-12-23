@@ -3,15 +3,15 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { useState } from "react";
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
-import { getShuffledCards } from "../../src/data/cards";
+import { getCardStack, getShuffledCards } from "../../src/data/cards";
 import UserBadge from "../../src/components/UserBadge";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { useGameState } from "../../src/contexts/GameStateContext";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
-    getShuffledCards().slice(0, 10)
-    // getCardStack().slice(-18,-6)
+    // getShuffledCards().slice(0, 10)
+    getCardStack().slice(-10)
   );
   const {players,setPlayers} = useGameState()
 

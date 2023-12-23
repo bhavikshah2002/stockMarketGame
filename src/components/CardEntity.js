@@ -1,6 +1,6 @@
-import { AntDesign } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
-import { SemiBoldText } from "../common/Text";
+import { AntDesign, Entypo, Feather } from "@expo/vector-icons";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { BoldText, RegularText, SemiBoldText } from "../common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import FraudCard from "./CrystalCards/FraudCard";
@@ -8,8 +8,10 @@ import DividendCard from "./CrystalCards/DividendCard";
 import BonusShareCard from "./CrystalCards/BonusShareCard";
 import RightIssueCard from "./CrystalCards/RightIssueCard";
 import LoanCard from "./CrystalCards/LoanCard";
+import { Companies } from "../data/cards";
+import { useState } from "react";
+import ModalForCard from "./CrystalCards/ModalForCard";
 
-// To be designed more
 function GetCrystalCard({ card_type, cardDetail }) {
   switch (card_type) {
     case "FRAUD": {
@@ -40,10 +42,96 @@ function GetCrystalCard({ card_type, cardDetail }) {
   }
 }
 
+function GetCircuitCard({ card }) {
+  const isUpperCircuit = card.circuitType == "UP";
+  const { gameState } = useGameState();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+
+  if (modalVisible && selectedCompany) {
+    return (
+      <View style={styles.container}>
+        <ModalForCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          transactionInfo={
+            <RegularText color={Colors.dim} align={"center"}>
+              You want to continue with {selectedCompany.name}
+            </RegularText>
+          }
+          operatingFunction={() => {}}
+        />
+      </View>
+    );
+  }
+
+  return (
+    <View style={[styles.container, { gap: 10, paddingLeft: 20 }]}>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 6,
+        }}
+      >
+        <Feather
+          name={isUpperCircuit ? "trending-up" : "trending-down"}
+          size={44}
+          color={isUpperCircuit ? Colors.green : Colors.red}
+        />
+        <BoldText size={20}>
+          {isUpperCircuit ? "+" : "-"} ₹{card.denomination}
+        </BoldText>
+        <View
+          style={{
+            backgroundColor: isUpperCircuit ? Colors.green : Colors.red,
+            paddingTop: 2,
+            paddingHorizontal: 6,
+            borderRadius: 4,
+          }}
+        >
+          <SemiBoldText size={18}>
+            {isUpperCircuit ? "UPPER" : "LOWER"} CIRCUIT
+          </SemiBoldText>
+        </View>
+      </View>
+
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <SemiBoldText color={Colors.dim} style={{ marginVertical: 4 }}>
+          Companies
+        </SemiBoldText>
+        <FlatList
+          data={Companies}
+          style={{ marginBottom: 5 }}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => {
+                setSelectedCompany(item);
+                setModalVisible(true);
+              }}
+              style={styles.companyBox}
+            >
+              <SemiBoldText size={13} style={{ width: 90 }}>
+                {item.name}
+              </SemiBoldText>
+
+              <RegularText size={13} color={Colors.green}>
+                ₹{Math.floor(gameState.companyValues[item.id] / 2)}
+              </RegularText>
+              <Entypo name="chevron-right" size={24} color={Colors.dim} />
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
+    </View>
+  );
+}
+
 export default function CardEntity() {
   const { selectedEntity: card } = useGameState();
 
-  if (card?.type != "CRYSTAL") {
+  if (card?.type == "NORMAL") {
     return (
       <View style={styles.container}>
         <AntDesign name="exclamationcircle" size={24} color={Colors.red} />
@@ -53,6 +141,8 @@ export default function CardEntity() {
       </View>
     );
   }
+
+  if (card.type == "CIRCUIT") return <GetCircuitCard card={card} />;
 
   return (
     <GetCrystalCard
@@ -88,5 +178,16 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     paddingHorizontal: 6,
     borderRadius: 4,
+  },
+
+  companyBox: {
+    paddingHorizontal: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    borderRadius: 5,
+    overflow: "hidden",
+    marginBottom: 5,
+    backgroundColor: Colors.black,
   },
 });

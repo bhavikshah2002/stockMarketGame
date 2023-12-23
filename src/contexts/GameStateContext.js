@@ -44,7 +44,10 @@ export default function GameStateContextProvider({ children }) {
 
   const setSelectedCard = (card) => {
     _setSelectedCard(card);
-    if (card.type == "CRYSTAL") {
+    if (
+      (card.type == "CRYSTAL" && gameState.currentSubRound != 4) ||
+      (card.type == "CIRCUIT" && gameState.currentSubRound == 4) //Change this to 4
+    ) {
       selectEntity(card, "card");
     }
   };
