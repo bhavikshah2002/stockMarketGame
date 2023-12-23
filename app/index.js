@@ -18,11 +18,11 @@ import {
 } from "react-native";
 import { useRef, useState } from "react";
 import { Colors } from "../src/common/styles";
-const { width, height } = Dimensions.get("window");
+import { useGameState } from "../src/contexts/GameStateContext";
 export default function HomePage() {
   const inputRef = useRef();
-  const [userName, setUserName] = useState("UserName");
-  const handleInputChange = (text) => setUserName(text);
+  const {myUserName, setMyUserName} = useGameState();
+  const handleInputChange = (text) => setMyUserName(text);
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -34,7 +34,7 @@ export default function HomePage() {
         <View style={{ ...styles.inputTextBox, ...styles.between }}>
           <TextInput
             style={styles.inputTextText}
-            value={userName}
+            value={myUserName}
             ref={inputRef}
             onChangeText={handleInputChange}
           />
