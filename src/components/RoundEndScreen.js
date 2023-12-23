@@ -4,8 +4,8 @@ import { BoldText } from "../common/Text";
 import { FlatList } from "react-native-gesture-handler";
 import { Companies } from "../data/cards";
 import { useGameState } from "../contexts/GameStateContext";
-import CompanyCard from "./CompanyCard";
 import RoundEndReveal from "./RoundEndReveal";
+import CompanyCardForRoundEnd from "./CompanyCardForRoundEnd";
 
 export default function RoundEnd() {
   const { gameState, selectedEntityType } = useGameState();
@@ -21,20 +21,23 @@ export default function RoundEnd() {
             paddingLeft: 10,
           }}
           renderItem={({ item }) => (
-            <CompanyCard
+            <CompanyCardForRoundEnd
               currentWorth={
                 gameState.companyValues[item.id] +
-                Math.floor(Math.random() * 6 - 3)
+                Math.floor(Math.random() * 6 - 3) * 5
               }
               company={item}
-              yourHoldings={10}
+              newValue={
+                gameState.companyValues[item.id] +
+                Math.floor(Math.random() * 6 - 3) * 5
+              }
             />
           )}
           keyExtractor={(item) => item.id}
         />
       </View>
       <View style={styles.Right}>
-        <RoundEndReveal/>
+        <RoundEndReveal />
       </View>
     </View>
   );
