@@ -7,9 +7,9 @@ export const vh = (val) => (val * height) / 100;
 export const vw = (val) => (val * width) / 100;
 
 export const Colors = {
-  black: "#000",
-  dim: "#888",
-  white: "#fff",
+  black: "#000000",
+  dim: "#888888",
+  white: "#ffffff",
   green: "#23d997",
   red: "#ba110c",
   info: "#4287f5",
