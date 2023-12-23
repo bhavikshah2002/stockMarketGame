@@ -15,6 +15,8 @@ const GameStateContext = createContext({
   setIsRoundStart: (s) => {},
   isCircuit: false,
   setIsCircuit: (s) => {},
+  players: null,
+  setPlayers: (s) => {},
 });
 
 export default function GameStateContextProvider({ children }) {
