@@ -23,8 +23,17 @@ export default function GameStateContextProvider({ children }) {
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
-  const [isRoundStart, setIsRoundStart] = useState(true);
+  const [isRoundStart, setIsRoundStart] = useState(false);
   const [isCircuit, setIsCircuit] = useState(false);
+  const [players, setPlayers] = useState(
+    new Array(6).fill(0).map((_, id) => ({
+      id,
+      playerNumber: id,
+      playerName: "UserName" + (id + 1),
+      playerInHandCash: 10 * (id + 1),
+      active: false,
+    }))
+  );
 
   const selectEntity = (entity, type) => {
     setSelectedEntityType(type);
@@ -58,6 +67,8 @@ export default function GameStateContextProvider({ children }) {
         setIsRoundStart,
         isCircuit,
         setIsCircuit,
+        players,
+        setPlayers,
       }}
     >
       {children}
