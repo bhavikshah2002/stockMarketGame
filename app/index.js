@@ -21,9 +21,10 @@ import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 export default function HomePage() {
   const inputRef = useRef();
-  const {myUserName, setMyUserName} = useGameState();
+  const { myUserName, setMyUserName } = useGameState();
   const handleInputChange = (text) => setMyUserName(text);
   return (
+    <View style={{...styles.container,flexDirection:"column",paddingBottom:10}}>
     <View style={styles.container}>
       <View style={styles.left}>
         <Image
@@ -81,6 +82,20 @@ export default function HomePage() {
           </TouchableOpacity>
         </Link>
       </View>
+      
+    </View>
+    <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          gap: -5,
+        }}
+      >
+        <SemiBoldText color={Colors.dim} size={13}>
+          Created with ❤️
+        </SemiBoldText>
+        <SemiBoldText>Bhavik Shah, Arun Mulakkal, Arpit Shah</SemiBoldText>
+      </View>
     </View>
   );
 }
@@ -93,8 +108,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 250,
-    height: 250,
+    height: 230,
     marginTop: 30,
+
   },
   inputTextBox: {
     flexDirection: "row",
@@ -115,6 +131,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
     overflow: "hidden",
+    gap:-5,
   },
   inputBox: {
     flexDirection: "row",
@@ -135,7 +152,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     backgroundColor: Colors.darkGreen,
-    height: 90,
+    height: 80,
     width: 190,
     borderRadius: 100,
   },
@@ -144,6 +161,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 50,
+    gap: 30,
   },
 });
