@@ -74,10 +74,10 @@ export default function LobbyPage() {
               </BoldText>
             </TouchableOpacity>
           </Link>
-          <Link href={"/gameroom/myturn"} asChild>
+          <Link href={"/table"} asChild>
             <TouchableOpacity style={styles.LeaveBtn}>
               <BoldText size={20} transform="uppercase">
-                My turn
+                table
               </BoldText>
             </TouchableOpacity>
           </Link>
