@@ -7,15 +7,16 @@ import {
 } from "react-native";
 import { BoldText, RegularText, SemiBoldText } from "../../src/common/Text";
 import { useState } from "react";
-import GameStateContextProvider from "../../src/contexts/GameStateContext";
+import GameStateContextProvider, { useGameState } from "../../src/contexts/GameStateContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import Settings from "./settings";
 
 export default function SelfInfoBarComponent() {
+  const {myUserName} = useGameState()
   const [selfInfo, setSelfInfo] = useState({
-    userName: "BuddyShah23",
+    userName: myUserName,
     cashInHand: 6.5,
     cashInStock: 12.2,
     totalWorth: 18.7,

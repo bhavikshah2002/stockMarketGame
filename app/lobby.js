@@ -14,10 +14,11 @@ import { Colors } from "../src/common/styles";
 
 export default function LobbyPage() {
   const [noOfRounds, setNoOfRounds] = useState(10);
+  const emojiArray = ["😎","😍","😉","🤩","🧐","😁","🥳"].sort(() => Math.random() - 0.5)
   const [playersWaiting, setPlayersWaiting] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,
-      name: "Player " + id,
+      name: "MyUserName " + (id+1),
       photoURI: "https://picsum.photos/200/200?random=" + id,
     }))
   );
@@ -30,9 +31,7 @@ export default function LobbyPage() {
     <View style={styles.container}>
       <View style={styles.left}>
         <Image
-          source={{
-            uri: "https://t3.ftcdn.net/jpg/03/12/92/74/360_F_312927435_NVvwOxvswQgNu97Y1m8VvtEPTVL9AnEN.jpg",
-          }}
+          source={require("../assets/images/lobbyBackground.png")}
           style={{ width: 600, height: 400, position: "absolute" }}
         />
         <LinearGradient
@@ -77,7 +76,7 @@ export default function LobbyPage() {
           <Link href={"/table"} asChild>
             <TouchableOpacity style={styles.LeaveBtn}>
               <BoldText size={20} transform="uppercase">
-                table
+                Round End
               </BoldText>
             </TouchableOpacity>
           </Link>
@@ -93,11 +92,8 @@ export default function LobbyPage() {
           data={playersWaiting}
           renderItem={({ item }) => (
             <View style={styles.playerBox}>
-              <Image
-                source={{ uri: item.photoURI }}
-                style={{ width: 30, height: 30, borderRadius: 100 }}
-              />
-              <SemiBoldText size={18}>{item.name}</SemiBoldText>
+              <SemiBoldText style={{marginLeft:10}} size={18}>{emojiArray[item.id]}</SemiBoldText>
+              <SemiBoldText size={15}>{item.name}</SemiBoldText>
             </View>
           )}
           keyExtractor={(item) => item.id}
@@ -149,10 +145,10 @@ const styles = StyleSheet.create({
   playerBox: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 10,
     marginVertical: 3,
     backgroundColor: "#222",
-    width: 180,
+    width: 200,
     padding: 6,
     borderRadius: 5,
   },

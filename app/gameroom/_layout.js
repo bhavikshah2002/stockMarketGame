@@ -10,8 +10,8 @@ import { useGameState } from "../../src/contexts/GameStateContext";
 
 export default function GameRoomLayout() {
   const [cards, setCards] = useState(
-    // getShuffledCards().slice(0, 10)
-    getCardStack().slice(-10)
+    getShuffledCards().slice(0, 10)
+    // getCardStack().slice(-10)
   );
   const {players,setPlayers} = useGameState()
 
