@@ -15,6 +15,7 @@ import {
   Dimensions,
   StyleSheet,
   TextInput,
+  Alert,
 } from "react-native";
 import { useRef, useState } from "react";
 import { Colors } from "../src/common/styles";

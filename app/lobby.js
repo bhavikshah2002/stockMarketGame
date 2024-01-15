@@ -40,7 +40,12 @@ export default function LobbyPage() {
           start={{ x: 0, y: 0.5 }}
           end={{ x: 1, y: 0.5 }}
         >
-          <View style={{ height: 160 }} />
+          <View style={styles.RoomID}>
+          <BoldText size={20}>ROOM ID : </BoldText>
+          <BoldText size={20} color="white">528957 </BoldText>
+
+          </View>
+          <View style={{ height: 150 }} />
           <ItalicText>No of rounds</ItalicText>
 
           <View style={styles.inputBox}>
@@ -73,13 +78,13 @@ export default function LobbyPage() {
               </BoldText>
             </TouchableOpacity>
           </Link>
-          <Link href={"/table"} asChild>
+          {/* <Link href={"/table"} asChild>
             <TouchableOpacity style={styles.LeaveBtn}>
               <BoldText size={20} transform="uppercase">
                 Round End
               </BoldText>
             </TouchableOpacity>
-          </Link>
+          </Link> */}
         </LinearGradient>
       </View>
 
@@ -152,4 +157,12 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 5,
   },
+  RoomID:{
+    top:60,
+    flexDirection:"row",
+    backgroundColor:Colors.info,
+    borderRadius:5,
+    paddingHorizontal:10,
+    paddingTop:2
+  }
 });
