@@ -4,7 +4,7 @@ export default class SocketConn {
     this.conn = new WebSocket(this.url);
     this.listeners = [];
 
-    this.conn.onmessage((ev) => {
+    this.conn.onmessage = (ev) => {
       const data = JSON.parse(ev.data);
 
       this.listeners
@@ -12,7 +12,7 @@ export default class SocketConn {
         .forEach((listener) => {
           listener.callback(data, ev);
         });
-    });
+    };
   }
 
   on(event, callback) {

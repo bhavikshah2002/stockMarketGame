@@ -11,6 +11,14 @@ import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { Colors } from "../src/common/styles";
+import SocketConn from "../src/utils/socket";
+
+// const testHere=(data)=>{
+//   console.log(data)
+// }
+
+// const test = new SocketConn()
+// test.on("testing",testHere)
 
 export default function LobbyPage() {
   const [noOfRounds, setNoOfRounds] = useState(10);
@@ -19,7 +27,6 @@ export default function LobbyPage() {
     new Array(6).fill(0).map((_, id) => ({
       id,
       name: "MyUserName " + (id+1),
-      photoURI: "https://picsum.photos/200/200?random=" + id,
     }))
   );
 
