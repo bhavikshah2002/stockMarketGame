@@ -3,25 +3,30 @@ export default class SocketConn {
     this.url = url;
     this.conn = new WebSocket(this.url);
     this.listeners = [];
-
+    this.conn.onerror = (ev) => {
+      console.log("Error", ev);
+    };
+    this.conn.onopen = (ev) => {
+      console.log("OnOpen", ev);
+    };
     this.conn.onmessage = (ev) => {
       const data = JSON.parse(ev.data);
-
       this.listeners
-        .filter((listener) => listener.type == ev.type)
+        .filter((listener) => listener.type == data.type)
         .forEach((listener) => {
-          listener.callback(data, ev);
+          listener.callback(data.data, ev);
         });
+      console.log(this.listeners);
     };
   }
 
-  on(event, callback) {
-    this.listeners.push({ event, callback });
+  on(type, callback) {
+    this.listeners.push({ type, callback });
   }
 
-  off(event, callback) {
+  off(type, callback) {
     this.listeners = this.listeners.filter(
-      (listener) => listener.event != event && listener.callback != callback
+      (listener) => listener.type != type && listener.callback != callback
     );
   }
 

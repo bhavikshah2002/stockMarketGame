@@ -13,12 +13,6 @@ import { Link } from "expo-router";
 import { Colors } from "../src/common/styles";
 import SocketConn from "../src/utils/socket";
 
-// const testHere=(data)=>{
-//   console.log(data)
-// }
-
-// const test = new SocketConn()
-// test.on("testing",testHere)
 
 export default function LobbyPage() {
   const [noOfRounds, setNoOfRounds] = useState(10);
