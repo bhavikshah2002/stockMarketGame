@@ -16,7 +16,6 @@ export default class SocketConn {
         .forEach((listener) => {
           listener.callback(data.data, ev);
         });
-      console.log(this.listeners);
     };
   }
 
