@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -24,68 +24,94 @@ export default function HomePage() {
   const inputRef = useRef();
   const { myUserName, setMyUserName } = useGameState();
   const handleInputChange = (text) => setMyUserName(text);
-  return (
-    <View style={{...styles.container,flexDirection:"column",paddingBottom:10}}>
-    <View style={styles.container}>
-      <View style={styles.left}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/images/withoutBgLogo1.png")}
-          contentFit="contain"
-        />
-        <View style={{ ...styles.inputTextBox, ...styles.between }}>
-          <TextInput
-            style={styles.inputTextText}
-            value={myUserName}
-            ref={inputRef}
-            onChangeText={handleInputChange}
-          />
 
-          <TouchableOpacity
-            onPress={() => {
-              inputRef.current.focus();
-            }}
-          >
-            <Feather
-              name="edit"
-              size={17}
-              color="black"
-              style={{ backgroundColor: "white" }}
+  const onJoin = () => {
+    if (myUserName == "username" || myUserName == "") {
+      Alert.alert("Invalid username", "Please enter a valid username", [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+      ]);
+    } else {
+      router.push("/lobby");
+    }
+  };
+
+  const onCreate = () => {
+    if (myUserName == "username" || myUserName == "") {
+      Alert.alert("Invalid username", "Please enter a valid username", [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+      ]);
+    } else {
+      router.push("/lobby");
+    }
+  };
+
+  return (
+    <View
+      style={{
+        ...styles.container,
+        flexDirection: "column",
+        paddingBottom: 10,
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.left}>
+          <Image
+            style={styles.logo}
+            source={require("../assets/images/withoutBgLogo1.png")}
+            contentFit="contain"
+          />
+          <View style={{ ...styles.inputTextBox, ...styles.between }}>
+            <TextInput
+              style={styles.inputTextText}
+              value={myUserName}
+              ref={inputRef}
+              onChangeText={handleInputChange}
             />
-          </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                inputRef.current.focus();
+              }}
+            >
+              <Feather
+                name="edit"
+                size={17}
+                color="black"
+                style={{ backgroundColor: "white" }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-      <View style={styles.right}>
-        <Link href={"/lobby"} asChild>
+        <View style={styles.right}>
           <TouchableOpacity
             style={{ ...styles.center, ...styles.Btn }}
-            onPress={() => {
-              /* Create button action */
-            }}
+            onPress={onCreate}
           >
             <FontAwesome name="user-plus" size={28} color="white" />
             <BoldText size={25} transform="uppercase">
               Create
             </BoldText>
           </TouchableOpacity>
-        </Link>
-        <Link href={"/lobby"} asChild>
           <TouchableOpacity
             style={{ ...styles.center, ...styles.Btn }}
-            onPress={() => {
-              /* Create button action */
-            }}
+            onPress={onJoin}
           >
             <BoldText size={25} transform="uppercase">
               Join
             </BoldText>
             <Ionicons name="enter" size={30} color="white" />
           </TouchableOpacity>
-        </Link>
+        </View>
       </View>
-      
-    </View>
-    <View
+      <View
         style={{
           justifyContent: "center",
           alignItems: "center",
@@ -111,7 +137,6 @@ const styles = StyleSheet.create({
     width: 250,
     height: 230,
     marginTop: 30,
-
   },
   inputTextBox: {
     flexDirection: "row",
@@ -121,6 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     paddingHorizontal: 10,
     alignItems: "center",
+    paddingBottom: 2,
   },
   inputText: {},
   inputTextText: {
@@ -132,7 +158,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     position: "relative",
     overflow: "hidden",
-    gap:-5,
+    gap: -5,
   },
   inputBox: {
     flexDirection: "row",
