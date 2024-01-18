@@ -72,10 +72,10 @@ export default function FraudCard({ card }) {
               </SemiBoldText>
 
               <LightText size={11} color={Colors.dim} style={styles.strike}>
-                ₹{gameState.companyValues[item.id]}
+                ₹{gameState.companyValues[item.id].companyShareValue}
               </LightText>
               <RegularText size={13} color={Colors.green}>
-                ₹{Math.floor(gameState.companyValues[item.id] / 2)}
+                ₹{Math.floor(gameState.companyValues[item.id].companyShareValue / 2)}
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

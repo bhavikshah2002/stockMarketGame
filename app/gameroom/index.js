@@ -24,8 +24,7 @@ export default function CommonRound() {
           renderItem={({ item }) => (
             <CompanyCard
               currentWorth={
-                gameState.companyValues[item.id] +
-                Math.floor(Math.random() * 6 - 3)
+                gameState.companyValues[item.id].companyShareValue
               }
               company={item}
               yourHoldings={gameState.userState[thisUserId].holdings[item.id]}
@@ -43,8 +42,7 @@ export default function CommonRound() {
           renderItem={({ item }) => (
             <CompanyCard
               currentWorth={
-                gameState.companyValues[item.id] +
-                Math.floor(Math.random() * 6 - 3)
+                gameState.companyValues[item.id].companyShareValue
               }
               company={item}
               yourHoldings={gameState.userState[thisUserId].holdings[item.id]}

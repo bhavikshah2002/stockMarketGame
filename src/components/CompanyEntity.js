@@ -21,7 +21,7 @@ export default function CompanyEntity() {
   );
   const maxStocksPossibleToBuy = Math.floor(
     gameState.userState[thisUserId].cashInHand /
-      gameState.companyValues[company.id] /
+      gameState.companyValues[company.id].companyShareValue /
       1000
   );
   const buyNoOfStocks = useSharedValue(Math.floor(maxStocksPossibleToBuy / 2));
@@ -47,7 +47,7 @@ export default function CompanyEntity() {
           <ItalicText color={Colors.dim}>
             Current Value{" "}
             <CustomText color={Colors.dim} family="BoldItalic">
-              ₹{gameState.companyValues[company.id]}
+              ₹{gameState.companyValues[company.id].companyShareValue}
             </CustomText>
           </ItalicText>
         </View>

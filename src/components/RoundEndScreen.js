@@ -23,13 +23,11 @@ export default function RoundEnd() {
           renderItem={({ item }) => (
             <CompanyCardForRoundEnd
               currentWorth={
-                gameState.companyValues[item.id] +
-                Math.floor(Math.random() * 6 - 3) * 5
+                gameState.companyValues[item.id].companyShareValue 
               }
               company={item}
               newValue={
-                gameState.companyValues[item.id] +
-                Math.floor(Math.random() * 6 - 3) * 5
+                gameState.companyValues[item.id].companyShareValue 
               }
             />
           )}

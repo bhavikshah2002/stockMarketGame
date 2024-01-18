@@ -72,7 +72,7 @@ export default function RightIssueCard({ card }) {
               </LightText>
               <RegularText size={13} color={Colors.green}>
                 ₹
-                {Math.floor(gameState.companyValues[item.id] / 2) *
+                {Math.floor(gameState.companyValues[item.id].companyShareValue / 2) *
                   Math.floor(
                     gameState.userState[thisUserId].holdings[item.id] / 2
                   )}

@@ -72,7 +72,7 @@ export default function BonusShareCard({ card }) {
                 stocks worth
               </LightText>
               <RegularText size={13} color={Colors.green}>
-                ₹{Math.floor(gameState.companyValues[item.id] / 2)}
+                ₹{Math.floor(gameState.companyValues[item.id].companyShareValue / 2)}
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

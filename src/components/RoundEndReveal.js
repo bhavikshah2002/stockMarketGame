@@ -33,7 +33,7 @@ export default function RoundEndReveal({}) {
   const currentlyRevealingCompanyId = 2;
   const company = CompanyInObj[currentlyRevealingCompanyId];
   const isProfit =
-    gameState.companyValues[currentlyRevealingCompanyId] >=
+    gameState.companyValues[currentlyRevealingCompanyId].companyShareValue >=
     company.startingPrice;
   const totalChange = revealedCards.reduce(
     (acc, cur) => acc + cur.netChange,
@@ -77,7 +77,7 @@ export default function RoundEndReveal({}) {
           <ItalicText color={Colors.dim}>
             Current Value{" "}
             <CustomText color={Colors.dim} family="BoldItalic">
-              ₹{gameState.companyValues[company.id]}
+              ₹{gameState.companyValues[company.id].companyShareValue}
             </CustomText>
           </ItalicText>
         </View>

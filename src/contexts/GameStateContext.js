@@ -31,7 +31,7 @@ const GameStateContext = createContext({
 
 export default function GameStateContextProvider({ children }) {
   const conn = useRef(null);
-  const [gameState, setGameState] = useState(initializeGameState(6));
+  const [gameState, setGameState] = useState(null);
   const [selectedCard, _setSelectedCard] = useState(getCardStack().at(-12));
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
