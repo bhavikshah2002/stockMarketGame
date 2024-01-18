@@ -7,24 +7,32 @@ import {
 } from "../src/common/Text";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link, router } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function LobbyPage() {
-  const { leave, gameId } = useGameState();
+  const { leave, gameId, conn } = useGameState();
   const [noOfRounds, setNoOfRounds] = useState(10);
   const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
     () => Math.random() - 0.5
   );
-  const [playersWaiting, setPlayersWaiting] = useState(
-    new Array(7).fill(0).map((_, id) => ({
-      id,
-      name: "MyUserName " + (id + 1),
-    }))
-  );
+  const [playersWaiting, setPlayersWaiting] = useState([]);
+
+  useEffect(() => {
+    if (!conn.current) return;
+    const getRoomDetails = (data) => {
+      setPlayersWaiting(data.userArr.map((name, id) => ({ id, name })));
+    };
+
+    conn.current.on("getRoomDetails", getRoomDetails);
+
+    return () => {
+      conn.current.off("getRoomDetails", getRoomDetails);
+    };
+  }, [conn.current]);
 
   const handleStartGame = () => {
     console.log("Not implemented yet");
@@ -115,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: Colors.black,
-    alignItems:"center"
+    alignItems: "center",
   },
 
   left: {
@@ -148,8 +156,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     gap: 5,
-    height:350,
-    justifyContent:"center",
+    height: 350,
+    justifyContent: "center",
   },
   playerBox: {
     flexDirection: "row",
