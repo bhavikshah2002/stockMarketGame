@@ -38,6 +38,7 @@ export default class SocketConn {
   }
 
   close() {
+    this.listeners = [];
     this.conn.close();
   }
 }
