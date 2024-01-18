@@ -20,7 +20,7 @@ export default function HomeLayout() {
     "Poppins-ExtraBold": require("../assets/fonts/Poppins/Poppins-ExtraBold.ttf"),
     "Poppins-ExtraBoldItalic": require("../assets/fonts/Poppins/Poppins-ExtraBoldItalic.ttf"),
     "Poppins-ExtraLight": require("../assets/fonts/Poppins/Poppins-ExtraLight.ttf"),
-    "Poppins-ExtraItalicItalic": require("../assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf"),
+    "Poppins-ExtraLightItalic": require("../assets/fonts/Poppins/Poppins-ExtraLightItalic.ttf"),
     "Poppins-Italic": require("../assets/fonts/Poppins/Poppins-Italic.ttf"),
     "Poppins-Light": require("../assets/fonts/Poppins/Poppins-Light.ttf"),
     "Poppins-LightItalic": require("../assets/fonts/Poppins/Poppins-LightItalic.ttf"),

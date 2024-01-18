@@ -17,12 +17,13 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
+
 export default function HomePage() {
   const inputRef = useRef();
-  const { myUserName, setMyUserName } = useGameState();
+  const { myUserName, setMyUserName, create, join } = useGameState();
   const handleInputChange = (text) => setMyUserName(text);
 
   const onJoin = () => {
@@ -49,6 +50,7 @@ export default function HomePage() {
         },
       ]);
     } else {
+      create();
       router.push("/lobby");
     }
   };

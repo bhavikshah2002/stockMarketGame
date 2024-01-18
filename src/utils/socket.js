@@ -9,8 +9,12 @@ export default class SocketConn {
     this.conn.onopen = (ev) => {
       console.log("OnOpen", ev);
     };
+    this.conn.onclose = (ev) => {
+      console.log("OnClose", ev);
+    };
     this.conn.onmessage = (ev) => {
       const data = JSON.parse(ev.data);
+      console.log(data.data);
       this.listeners
         .filter((listener) => listener.type == data.type)
         .forEach((listener) => {
@@ -31,5 +35,9 @@ export default class SocketConn {
 
   emit(type, data) {
     this.conn.send(JSON.stringify({ type, data }));
+  }
+
+  close() {
+    this.conn.close();
   }
 }

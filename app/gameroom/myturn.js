@@ -4,7 +4,7 @@ import { Companies } from "../../src/data/cards";
 import CompanyCard from "../../src/components/CompanyCard";
 import CardEntity from "../../src/components/CardEntity";
 import CompanyEntity from "../../src/components/CompanyEntity";
-import { LightText, RegularText, SemiBoldText } from "../../src/common/Text";
+import { LightText, SemiBoldText } from "../../src/common/Text";
 import { Colors } from "../../src/common/styles";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";

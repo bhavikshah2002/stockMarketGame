@@ -9,23 +9,30 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { Colors } from "../src/common/styles";
-import SocketConn from "../src/utils/socket";
-
+import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function LobbyPage() {
+  const { leave, gameId } = useGameState();
   const [noOfRounds, setNoOfRounds] = useState(10);
-  const emojiArray = ["😎","😍","😉","🤩","🧐","😁","🥳"].sort(() => Math.random() - 0.5)
+  const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
+    () => Math.random() - 0.5
+  );
   const [playersWaiting, setPlayersWaiting] = useState(
     new Array(6).fill(0).map((_, id) => ({
       id,
-      name: "MyUserName " + (id+1),
+      name: "MyUserName " + (id + 1),
     }))
   );
 
   const handleStartGame = () => {
     console.log("Not implemented yet");
+  };
+
+  const handleLeave = () => {
+    leave();
+    router.push("/");
   };
 
   return (
@@ -42,9 +49,10 @@ export default function LobbyPage() {
           end={{ x: 1, y: 0.5 }}
         >
           <View style={styles.RoomID}>
-          <BoldText size={20}>ROOM ID : </BoldText>
-          <BoldText size={20} color="white">528957 </BoldText>
-
+            <BoldText size={20}>ROOM ID : </BoldText>
+            <BoldText size={20} color="white">
+              {gameId}
+            </BoldText>
           </View>
           <View style={{ height: 150 }} />
           <ItalicText>No of rounds</ItalicText>
@@ -72,13 +80,11 @@ export default function LobbyPage() {
             </TouchableOpacity>
           </Link>
 
-          <Link href={"/"} asChild>
-            <TouchableOpacity style={styles.LeaveBtn}>
-              <BoldText size={20} transform="uppercase">
-                Leave Lobby
-              </BoldText>
-            </TouchableOpacity>
-          </Link>
+          <TouchableOpacity onPress={handleLeave} style={styles.LeaveBtn}>
+            <BoldText size={20} transform="uppercase">
+              Leave Lobby
+            </BoldText>
+          </TouchableOpacity>
           {/* <Link href={"/table"} asChild>
             <TouchableOpacity style={styles.LeaveBtn}>
               <BoldText size={20} transform="uppercase">
@@ -98,7 +104,9 @@ export default function LobbyPage() {
           data={playersWaiting}
           renderItem={({ item }) => (
             <View style={styles.playerBox}>
-              <SemiBoldText style={{marginLeft:10}} size={18}>{emojiArray[item.id]}</SemiBoldText>
+              <SemiBoldText style={{ marginLeft: 10 }} size={18}>
+                {emojiArray[item.id]}
+              </SemiBoldText>
               <SemiBoldText size={15}>{item.name}</SemiBoldText>
             </View>
           )}
@@ -158,12 +166,12 @@ const styles = StyleSheet.create({
     padding: 6,
     borderRadius: 5,
   },
-  RoomID:{
-    top:60,
-    flexDirection:"row",
-    backgroundColor:Colors.info,
-    borderRadius:5,
-    paddingHorizontal:10,
-    paddingTop:2
-  }
+  RoomID: {
+    top: 60,
+    flexDirection: "row",
+    backgroundColor: Colors.info,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingTop: 2,
+  },
 });

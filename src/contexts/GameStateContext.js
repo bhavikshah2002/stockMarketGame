@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import { getCardStack, initializeGameState } from "../data/cards";
+import SocketConn from "../utils/socket";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -17,11 +18,18 @@ const GameStateContext = createContext({
   setIsCircuit: (s) => {},
   players: null,
   setPlayers: (s) => {},
-  myUserName:"username",
-  setMyUserName:(s)=>{}
+  myUserName: "username",
+  setMyUserName: (s) => {},
+
+  gameId: null,
+  setGameId(p) {},
+  create() {},
+  join() {},
+  leave() {},
 });
 
 export default function GameStateContextProvider({ children }) {
+  const conn = useRef(null);
   const [gameState, setGameState] = useState(initializeGameState(6));
   const [selectedCard, _setSelectedCard] = useState(getCardStack().at(-12));
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
@@ -39,6 +47,7 @@ export default function GameStateContextProvider({ children }) {
       active: false,
     }))
   );
+  const [gameId, setGameId] = useState(null);
 
   const selectEntity = (entity, type) => {
     setSelectedEntityType(type);
@@ -57,6 +66,28 @@ export default function GameStateContextProvider({ children }) {
 
   const selectCompany = (company) => {
     selectEntity(company, "company");
+  };
+
+  //########### SOCKET STUFF ###########
+  const create = () => {
+    const id = new Date().getTime();
+    setGameId(id);
+    conn.current = new SocketConn(
+      `http://13.232.187.121/ws/chat/${id}/?create=True&join=False&username=${myUserName}`
+    );
+    console.log("Random id is", id);
+    conn.current.on("testing", console.log);
+  };
+
+  const join = () => {
+    conn.current = new SocketConn(
+      `http://13.232.187.121/ws/chat/${gameId}/?create=False&join=True&username=${myUserName}`
+    );
+  };
+
+  const leave = () => {
+    conn.current?.close();
+    conn.current = null;
   };
 
   return (
@@ -78,7 +109,14 @@ export default function GameStateContextProvider({ children }) {
         players,
         setPlayers,
         myUserName,
-        setMyUserName
+        setMyUserName,
+
+        conn,
+        gameId,
+        setGameId,
+        create,
+        join,
+        leave,
       }}
     >
       {children}
