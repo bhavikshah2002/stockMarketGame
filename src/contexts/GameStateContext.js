@@ -76,8 +76,6 @@ export default function GameStateContextProvider({ children }) {
     conn.current = new SocketConn(
       `http://13.232.187.121/ws/chat/${id}/?create=True&join=False&username=${myUserName}`
     );
-    console.log("Random id is", id);
-    conn.current.on("testing", console.log);
   };
 
   const join = () => {

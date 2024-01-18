@@ -1,6 +1,14 @@
-import { BackHandler, FlatList, Image, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  BackHandler,
+  FlatList,
+  Image,
+  StyleSheet,
+  View,
+} from "react-native";
 import {
   BoldText,
+  CustomText,
   ItalicText,
   RegularText,
   SemiBoldText,
@@ -9,30 +17,43 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useMemo, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function LobbyPage() {
-  const { leave, gameId, conn, myUserName } = useGameState();
+  const { leave, gameId, conn, myUserName, setGameState } = useGameState();
   const [noOfRounds, setNoOfRounds] = useState(10);
   const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
     () => Math.random() - 0.5
   );
   const [playersWaiting, setPlayersWaiting] = useState([]);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const isAdmin = useMemo(() => {
     return playersWaiting[0]?.name == myUserName;
   }, [playersWaiting]);
+
   useEffect(() => {
     if (!conn.current) return;
+
     const getRoomDetails = (data) => {
       setPlayersWaiting(data.userArr.map((name, id) => ({ id, name })));
     };
+    const onStartGame = (data) => {
+      setGameState(data);
+      setIsRedirecting(true);
+
+      setTimeout(() => {
+        router.push("/gameroom");
+      }, 2000);
+    };
 
     conn.current.on("getRoomDetails", getRoomDetails);
+    conn.current.on("onStartGame", onStartGame);
 
     return () => {
       conn.current.off("getRoomDetails", getRoomDetails);
+      conn.current.off("onStartGame", onStartGame);
     };
   }, [conn.current]);
 
@@ -52,7 +73,7 @@ export default function LobbyPage() {
   }, []);
 
   const handleStartGame = () => {
-    console.log("Not implemented yet");
+    conn.current?.emit("onStartGame", { totalMegaRounds: noOfRounds });
   };
 
   const handleLeave = () => {
@@ -99,16 +120,14 @@ export default function LobbyPage() {
                   <AntDesign name="plus" size={16} color="white" />
                 </TouchableOpacity>
               </View>
-              <Link href={"/gameroom"}>
-                <TouchableOpacity
-                  onPress={handleStartGame}
-                  style={styles.startBtn}
-                >
-                  <BoldText size={20} transform="uppercase">
-                    Start game
-                  </BoldText>
-                </TouchableOpacity>
-              </Link>
+              <TouchableOpacity
+                onPress={handleStartGame}
+                style={styles.startBtn}
+              >
+                <BoldText size={20} transform="uppercase">
+                  Start game
+                </BoldText>
+              </TouchableOpacity>
             </>
           )}
 
@@ -138,6 +157,15 @@ export default function LobbyPage() {
           keyExtractor={(item) => item.id}
         />
       </View>
+
+      {isRedirecting && (
+        <View style={styles.redirectingModal}>
+          <ActivityIndicator size="50" color={Colors.white} />
+          <CustomText family="SemiBoldItalic" size={16}>
+            Staring your game in few seconds...
+          </CustomText>
+        </View>
+      )}
     </View>
   );
 }
@@ -148,6 +176,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: Colors.black,
     alignItems: "center",
+    position: "relative",
   },
 
   left: {
@@ -200,5 +229,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     paddingTop: 2,
+  },
+
+  redirectingModal: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "100%",
+    width: "100%",
+    backgroundColor: Colors.black + "e5",
+    zIndex: 9999,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 28,
   },
 });
