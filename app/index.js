@@ -20,11 +20,11 @@ export default function HomePage() {
   const onJoin = () => {
     if (myUserName == "username" || myUserName == "") {
       alertFunction("Invalid username", "Please enter a valid username");
-    } 
+    }
     // else if (gameId.length !=6) {
     //   alertFunction("Invalid Game id", "Please enter a valid 6 digit game id");
     // }
-     else {
+    else {
       const success = join();
       if (success) router.push("/lobby");
     }
@@ -93,6 +93,7 @@ export default function HomePage() {
                 value={gameId || ""}
                 onChangeText={setGameId}
                 keyboardType="numeric"
+                placeholder="Type code here"
               />
               <TouchableOpacity style={styles.joinBtn} onPress={onJoin}>
                 <Ionicons name="enter" size={25} color={Colors.white} />

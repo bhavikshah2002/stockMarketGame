@@ -1,4 +1,4 @@
-import { FlatList, Image, StyleSheet, View } from "react-native";
+import { BackHandler, FlatList, Image, StyleSheet, View } from "react-native";
 import {
   BoldText,
   ItalicText,
@@ -7,20 +7,22 @@ import {
 } from "../src/common/Text";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link, router } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function LobbyPage() {
-  const { leave, gameId, conn } = useGameState();
+  const { leave, gameId, conn, myUserName } = useGameState();
   const [noOfRounds, setNoOfRounds] = useState(10);
   const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
     () => Math.random() - 0.5
   );
   const [playersWaiting, setPlayersWaiting] = useState([]);
-
+  const isAdmin = useMemo(() => {
+    return playersWaiting[0]?.name == myUserName;
+  }, [playersWaiting]);
   useEffect(() => {
     if (!conn.current) return;
     const getRoomDetails = (data) => {
@@ -33,6 +35,21 @@ export default function LobbyPage() {
       conn.current.off("getRoomDetails", getRoomDetails);
     };
   }, [conn.current]);
+
+  useEffect(() => {
+    const backAction = () => {
+      leave();
+      router.push("/");
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   const handleStartGame = () => {
     console.log("Not implemented yet");
@@ -62,31 +79,38 @@ export default function LobbyPage() {
               {gameId}
             </BoldText>
           </View>
-          <View style={{ height: 150 }} />
-          <ItalicText>No of rounds</ItalicText>
+          <View style={{ height: isAdmin ? 150 : 250 }} />
+          {isAdmin && (
+            <>
+              <ItalicText>No of rounds</ItalicText>
 
-          <View style={styles.inputBox}>
-            <TouchableOpacity
-              onPress={() => setNoOfRounds((p) => p - 1)}
-              disabled={noOfRounds == 2}
-            >
-              <AntDesign name="minus" size={16} color="white" />
-            </TouchableOpacity>
-            <BoldText size={20}>{noOfRounds}</BoldText>
-            <TouchableOpacity
-              onPress={() => setNoOfRounds((p) => p + 1)}
-              disabled={noOfRounds == 10}
-            >
-              <AntDesign name="plus" size={16} color="white" />
-            </TouchableOpacity>
-          </View>
-          <Link href={"/gameroom"}>
-            <TouchableOpacity onPress={handleStartGame} style={styles.startBtn}>
-              <BoldText size={20} transform="uppercase">
-                Start game
-              </BoldText>
-            </TouchableOpacity>
-          </Link>
+              <View style={styles.inputBox}>
+                <TouchableOpacity
+                  onPress={() => setNoOfRounds((p) => p - 1)}
+                  disabled={noOfRounds == 2}
+                >
+                  <AntDesign name="minus" size={16} color="white" />
+                </TouchableOpacity>
+                <BoldText size={20}>{noOfRounds}</BoldText>
+                <TouchableOpacity
+                  onPress={() => setNoOfRounds((p) => p + 1)}
+                  disabled={noOfRounds == 10}
+                >
+                  <AntDesign name="plus" size={16} color="white" />
+                </TouchableOpacity>
+              </View>
+              <Link href={"/gameroom"}>
+                <TouchableOpacity
+                  onPress={handleStartGame}
+                  style={styles.startBtn}
+                >
+                  <BoldText size={20} transform="uppercase">
+                    Start game
+                  </BoldText>
+                </TouchableOpacity>
+              </Link>
+            </>
+          )}
 
           <TouchableOpacity onPress={handleLeave} style={styles.LeaveBtn}>
             <BoldText size={20} transform="uppercase">

@@ -100,7 +100,6 @@ export default function GameStateContextProvider({ children }) {
   const leave = () => {
     setGameId(null);
     conn.current?.close();
-    conn.current = null;
   };
 
   return (
