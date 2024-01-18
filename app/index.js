@@ -1,25 +1,14 @@
 import { Image } from "expo-image";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import {
-  BoldText,
-  ItalicText,
-  RegularText,
-  SemiBoldText,
-} from "../src/common/Text";
-import {
-  View,
-  TouchableOpacity,
-  Dimensions,
-  StyleSheet,
-  TextInput,
-  Alert,
-} from "react-native";
+import { BoldText, SemiBoldText } from "../src/common/Text";
+import { View, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import { useRef } from "react";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
+import alertFunction from "../src/utils/alertFunction";
 
 export default function HomePage() {
   const inputRef = useRef();
@@ -28,13 +17,7 @@ export default function HomePage() {
 
   const onJoin = () => {
     if (myUserName == "username" || myUserName == "") {
-      Alert.alert("Invalid username", "Please enter a valid username", [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel",
-        },
-      ]);
+      alertFunction("Invalid username", "Please enter a valid username");
     } else {
       router.push("/lobby");
     }
@@ -42,13 +25,7 @@ export default function HomePage() {
 
   const onCreate = () => {
     if (myUserName == "username" || myUserName == "") {
-      Alert.alert("Invalid username", "Please enter a valid username", [
-        {
-          text: "Cancel",
-          onPress: () => {},
-          style: "cancel",
-        },
-      ]);
+      alertFunction("Invalid username", "Please enter a valid username");
     } else {
       create();
       router.push("/lobby");
