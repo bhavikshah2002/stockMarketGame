@@ -14,7 +14,7 @@ export default class SocketConn {
     };
     this.conn.onmessage = (ev) => {
       const data = JSON.parse(ev.data);
-      console.log(data.data);
+      console.log(data);
       this.listeners
         .filter((listener) => listener.type == data.type)
         .forEach((listener) => {
