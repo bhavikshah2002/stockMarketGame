@@ -70,7 +70,7 @@ export default function MyTurnScreen() {
                   setHistoryModalVisible(true);
                 }}
               >
-                <SemiBoldText size={12} color={Colors.dim}>
+                <SemiBoldText size={12} color={Colors.white}>
                   Transactions
                 </SemiBoldText>
               </TouchableOpacity>
@@ -78,7 +78,7 @@ export default function MyTurnScreen() {
                 style={{
                   height: 1,
                   width: "100%",
-                  backgroundColor: Colors.dim,
+                  backgroundColor: Colors.white,
                 }}
               />
               <TouchableOpacity
@@ -87,7 +87,7 @@ export default function MyTurnScreen() {
                   setPriceBookVisible(true);
                 }}
               >
-                <SemiBoldText size={12} color={Colors.dim}>
+                <SemiBoldText size={12} color={Colors.white}>
                   PriceBook
                 </SemiBoldText>
               </TouchableOpacity>
@@ -137,13 +137,13 @@ const styles = StyleSheet.create({
   },
 
   moreBtn: {
-    backgroundColor: Colors.black,
+    backgroundColor: "#141414",
     borderRadius: 1000,
     padding: 2,
   },
 
   menu: {
-    backgroundColor: Colors.white,
+    backgroundColor: "#141414",
     width: 130,
     padding: 2,
     paddingLeft: 5,
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: Colors.dim,
     borderWidth: 0.3,
-    shadowColor: Colors.black,
+    shadowColor: Colors.dim,
     shadowOffset: {
       width: 0,
       height: 10,

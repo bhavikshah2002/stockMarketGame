@@ -20,7 +20,7 @@ export default function LobbyPage() {
     () => Math.random() - 0.5
   );
   const [playersWaiting, setPlayersWaiting] = useState(
-    new Array(6).fill(0).map((_, id) => ({
+    new Array(7).fill(0).map((_, id) => ({
       id,
       name: "MyUserName " + (id + 1),
     }))
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: Colors.black,
+    alignItems:"center"
   },
 
   left: {
@@ -154,7 +155,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     gap: 5,
-    paddingTop: 30,
+    height:350,
+    justifyContent:"center",
   },
   playerBox: {
     flexDirection: "row",
