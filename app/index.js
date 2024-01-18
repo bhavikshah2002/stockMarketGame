@@ -20,9 +20,11 @@ export default function HomePage() {
   const onJoin = () => {
     if (myUserName == "username" || myUserName == "") {
       alertFunction("Invalid username", "Please enter a valid username");
-    } else if (gameId.length != 6) {
-      alertFunction("Invalid Game id", "Please enter a valid 6 digit game id");
-    } else {
+    } 
+    // else if (gameId.length !=6) {
+    //   alertFunction("Invalid Game id", "Please enter a valid 6 digit game id");
+    // }
+     else {
       const success = join();
       if (success) router.push("/lobby");
     }

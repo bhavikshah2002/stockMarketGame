@@ -85,13 +85,6 @@ export default function LobbyPage() {
               Leave Lobby
             </BoldText>
           </TouchableOpacity>
-          {/* <Link href={"/table"} asChild>
-            <TouchableOpacity style={styles.LeaveBtn}>
-              <BoldText size={20} transform="uppercase">
-                Round End
-              </BoldText>
-            </TouchableOpacity>
-          </Link> */}
         </LinearGradient>
       </View>
 
