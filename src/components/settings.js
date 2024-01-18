@@ -8,7 +8,9 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { Image } from "expo-image";
+import { useGameState } from "../contexts/GameStateContext";
 export default function Settings() {
+  const { gameId} = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <>
@@ -26,6 +28,8 @@ export default function Settings() {
                 Settings
               </BoldText>
             </View>
+            
+
             <View style={styles.ButtonsContainer}>
               <TouchableOpacity
                 style={{ ...styles.Btn, backgroundColor: Colors.green }}
@@ -51,6 +55,15 @@ export default function Settings() {
                   />
                 </TouchableOpacity>
               </Link>
+
+            </View>
+            <View style={{paddingTop:20,flexDirection:"row",gap:5}}>
+              <BoldText size={15} color={Colors.info}>
+                ROOM ID : 
+              </BoldText>
+              <BoldText size={15} >
+              {gameId}
+              </BoldText>
             </View>
             <View style={styles.BottomBar}>
               <View
@@ -95,8 +108,8 @@ export default function Settings() {
                   width:150
                 }}
               >
-                <SemiBoldText color="#5666db">Copyright</SemiBoldText>
-                <AntDesign name="copyright" size={24} color="#5666db" />
+                <SemiBoldText color={Colors.info}>Copyright</SemiBoldText>
+                <AntDesign name="copyright" size={24} color={Colors.info} />
               </View>
             </View>
           </View>
