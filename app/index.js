@@ -6,20 +6,34 @@ import { FontAwesome } from "@expo/vector-icons";
 import { BoldText, SemiBoldText } from "../src/common/Text";
 import { View, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import { useRef } from "react";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+  Alert,
+} from "react-native";
+import { useRef, useState } from "react";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 import alertFunction from "../src/utils/alertFunction";
 
 export default function HomePage() {
   const inputRef = useRef();
-  const { myUserName, setMyUserName, create, join } = useGameState();
+  const { myUserName, setMyUserName, create, join, gameId, setGameId } =
+    useGameState();
   const handleInputChange = (text) => setMyUserName(text);
+  const [isEntering, setIsEntering] = useState(false);
 
   const onJoin = () => {
     if (myUserName == "username" || myUserName == "") {
       alertFunction("Invalid username", "Please enter a valid username");
+      
+    } else if (gameId.length != 6) {
+      alertFunction("Invalid Game id", "Please enter a valid 6 digit game id");
     } else {
-      router.push("/lobby");
+      const success = join();
+      if (success) router.push("/lobby");
     }
   };
 
@@ -79,15 +93,29 @@ export default function HomePage() {
               Create
             </BoldText>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={{ ...styles.center, ...styles.Btn }}
-            onPress={onJoin}
-          >
-            <BoldText size={25} transform="uppercase">
-              Join
-            </BoldText>
-            <Ionicons name="enter" size={30} color="white" />
-          </TouchableOpacity>
+          {isEntering ? (
+            <View style={styles.gameInputContainer}>
+              <TextInput
+                style={styles.gameIdInput}
+                value={gameId || ""}
+                onChangeText={setGameId}
+                keyboardType="numeric"
+              />
+              <TouchableOpacity style={styles.joinBtn} onPress={onJoin}>
+                <Ionicons name="enter" size={25} color={Colors.white} />
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              style={{ ...styles.center, ...styles.Btn }}
+              onPress={() => setIsEntering(true)}
+            >
+              <BoldText size={25} transform="uppercase">
+                Join
+              </BoldText>
+              <Ionicons name="enter" size={30} color={Colors.white} />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <View
@@ -158,7 +186,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
     backgroundColor: Colors.darkGreen,
-    height: 80,
+    height: 70,
     width: 190,
     borderRadius: 100,
   },
@@ -168,5 +196,29 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 30,
+  },
+
+  gameInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 70,
+    width: 190,
+    borderRadius: 10000,
+    overflow: "hidden",
+  },
+
+  gameIdInput: {
+    flex: 1,
+    alignSelf: "stretch",
+    backgroundColor: Colors.white,
+    paddingLeft: 10,
+  },
+
+  joinBtn: {
+    backgroundColor: Colors.darkGreen,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "25%",
   },
 });

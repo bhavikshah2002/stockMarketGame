@@ -1,6 +1,7 @@
 import { createContext, useContext, useRef, useState } from "react";
 import { getCardStack, initializeGameState } from "../data/cards";
 import SocketConn from "../utils/socket";
+import { Alert } from "react-native";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -70,7 +71,7 @@ export default function GameStateContextProvider({ children }) {
 
   //########### SOCKET STUFF ###########
   const create = () => {
-    const id = new Date().getTime();
+    const id = new Date().getTime() % 1000000;
     setGameId(id);
     conn.current = new SocketConn(
       `http://13.232.187.121/ws/chat/${id}/?create=True&join=False&username=${myUserName}`
@@ -80,12 +81,24 @@ export default function GameStateContextProvider({ children }) {
   };
 
   const join = () => {
+    if (!gameId) {
+      Alert.alert("Game Id Invalid", "Please enter a valid gameId", [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+      ]);
+      return false;
+    }
     conn.current = new SocketConn(
       `http://13.232.187.121/ws/chat/${gameId}/?create=False&join=True&username=${myUserName}`
     );
+    return true;
   };
 
   const leave = () => {
+    setGameId(null);
     conn.current?.close();
     conn.current = null;
   };
