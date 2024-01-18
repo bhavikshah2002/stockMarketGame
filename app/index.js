@@ -5,14 +5,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { BoldText, SemiBoldText } from "../src/common/Text";
 import { View, TouchableOpacity, StyleSheet, TextInput } from "react-native";
-import { useRef } from "react";
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-  Alert,
-} from "react-native";
 import { useRef, useState } from "react";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
@@ -28,7 +20,6 @@ export default function HomePage() {
   const onJoin = () => {
     if (myUserName == "username" || myUserName == "") {
       alertFunction("Invalid username", "Please enter a valid username");
-      
     } else if (gameId.length != 6) {
       alertFunction("Invalid Game id", "Please enter a valid 6 digit game id");
     } else {
