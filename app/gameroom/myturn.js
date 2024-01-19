@@ -13,14 +13,14 @@ import HistoryModal from "../../src/components/HistoryModal";
 import PriceBook from "../../src/components/PriceBook";
 
 export default function MyTurnScreen() {
-  const { gameState, selectedEntityType, conn } = useGameState();
+  const { gameState, selectedEntityType, conn,myUserId } = useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
   const thisUserId = 0;
 
   const onPass = () => {
-    conn.current?.emit("pass", { userId: 0 });
+    conn.current?.emit("pass", { userId:  myUserId});
   };
 
   return (
