@@ -42,7 +42,7 @@ export default function LobbyPage() {
     };
     const onStartGame = (data) => {
       setGameState(data);
-      const userId = 0
+      let userId = 0
       for(let i=0;i<data.noOfPlayers;i++){
         if(myUserName==data.userState[i].username){
           userId=data.userState[i].id
