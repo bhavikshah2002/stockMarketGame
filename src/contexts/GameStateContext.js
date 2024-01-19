@@ -126,17 +126,17 @@ export default function GameStateContextProvider({ children }) {
 
       setTimeout(
         () => {
-          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
           setLoadingMsg(
             "अब `" +
-              data.userState[data.playerOrder[data.currentTurn]].username +
-              "` की बारी है"
-          );
-          setIsLoadingScreen(true);
-
-          setTimeout(() => {
-            setIsLoadingScreen(false);
-          }, 1000);
+            data.userState[data.playerOrder[data.currentTurn]].username +
+            "` की बारी है"
+            );
+            setIsLoadingScreen(true);
+            
+            setTimeout(() => {
+              setIsLoadingScreen(false);
+            }, 1000);
+          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         },
         shouldDistributeCards ? 2000 : 0
       );
