@@ -11,8 +11,11 @@ import {
   TableWrapper,
 } from "react-native-table-component";
 import { AntDesign } from "@expo/vector-icons";
+import { useMemo } from "react";
+import { useGameState } from "../contexts/GameStateContext";
 
 export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
+  const { gameState } = useGameState();
   const header = [
     "Tata",
     "ONGC",
@@ -22,9 +25,8 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
     "Adani",
     "Nifty",
   ];
-
-  const data = [
-    [35,40, 50, 55, 60, 80, 120],
+  const priceBook = [
+    ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
@@ -36,6 +38,15 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
     ["-", "-", "-", "-", "-", "-", "-"],
     ["-", "-", "-", "-", "-", "-", "-"],
   ];
+
+  const data = useMemo(() => {
+    if(gameState["currentMegaRound"]>10) return priceBook;
+    for(let i=0;i<7;i++){
+      priceBook[gameState["currentMegaRound"]-1][i] = gameState.priceBook[i+1].at(-1) 
+    }
+    return priceBook
+  }, [gameState]);
+
   return (
     <Modal
       animationType="slide"
