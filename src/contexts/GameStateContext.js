@@ -130,7 +130,7 @@ export default function GameStateContextProvider({ children }) {
           setLoadingMsg(
             "अब `" +
               data.userState[data.playerOrder[data.currentTurn]].username +
-              "` इस आदमी की बारी है"
+              "` की बारी है"
           );
           setIsLoadingScreen(true);
 
