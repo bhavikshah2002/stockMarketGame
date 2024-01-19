@@ -7,19 +7,24 @@ import {
 } from "react-native";
 import { BoldText, RegularText, SemiBoldText } from "../../src/common/Text";
 import { useState } from "react";
-import GameStateContextProvider, { useGameState } from "../../src/contexts/GameStateContext";
+import GameStateContextProvider, {
+  useGameState,
+} from "../../src/contexts/GameStateContext";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import Settings from "./settings";
 
 export default function SelfInfoBarComponent() {
-  const {myUserName,gameState} = useGameState()
+  const { myUserName, gameState, myUserId } = useGameState();
   const [selfInfo, setSelfInfo] = useState({
     userName: myUserName,
-    cashInHand: 6.5,
-    cashInStock: 12.2,
-    totalWorth: 18.7,
+    cashInHand: gameState.userState[myUserId].cashInHand,
+    cashInStock: gameState.userState[myUserId].cashInStocks,
+    totalWorth:
+      (gameState.userState[myUserId].cashInHand +
+        gameState.userState[myUserId].cashInStocks) /
+      100000,
   });
   const [roundInfo, setRoundInfo] = useState({
     subRoundNumber: gameState["currentSubRound"],
@@ -30,18 +35,18 @@ export default function SelfInfoBarComponent() {
       <Settings />
       <View style={styles.SelfInfoContent}>
         <View style={styles.WorthInfo}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 25 }}>
+          <View style={{ alignItems: "center", gap: 5,justifyContent:"center" }}>
             <MaterialCommunityIcons
               name="account-cash-outline"
               size={20}
               color="#e1e3e2"
             />
-            {/* <MaterialCommunityIcons name="cash" size={24} color="#e1e3e2" /> */}
-            <SemiBoldText size={14}>₹{selfInfo.cashInHand}L</SemiBoldText>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 25 }}>
             <Octicons name="graph" size={20} color="#e1e3e2" />
-            <SemiBoldText size={14}>₹{selfInfo.cashInStock}L</SemiBoldText>
+            {/* <MaterialCommunityIcons name="cash" size={24} color="#e1e3e2" /> */}
+          </View>
+          <View style={{justifyContent:"center" }}>
+            <SemiBoldText size={14} >₹{selfInfo.cashInHand}</SemiBoldText>
+            <SemiBoldText size={14} >₹{selfInfo.cashInStock}</SemiBoldText>
           </View>
         </View>
         <View style={styles.UserName}>
@@ -82,8 +87,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   WorthInfo: {
+    flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: 20,
   },
   UserName: {
     justifyContent: "center",
