@@ -22,7 +22,8 @@ import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function LobbyPage() {
-  const { leave, gameId, conn, myUserName, setGameState } = useGameState();
+  const { leave, gameId, conn, myUserName, setGameState, setMyUserId } =
+    useGameState();
   const [noOfRounds, setNoOfRounds] = useState(10);
   const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
     () => Math.random() - 0.5
@@ -41,10 +42,19 @@ export default function LobbyPage() {
     };
     const onStartGame = (data) => {
       setGameState(data);
+      const userId = Object.entries(data.userState).find(
+        ([_, val]) => val.username == myUserName
+      )[0];
+      setMyUserId(userId);
       setIsRedirecting(true);
+      const isMyTurn = data.playerOrder[0] == userId;
 
       setTimeout(() => {
-        router.push("/gameroom");
+        if (isMyTurn) {
+          router.push("/gameroom/myturn");
+        } else {
+          router.push("/gameroom");
+        }
       }, 2000);
     };
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { getCardStack, initializeGameState } from "../data/cards";
 import SocketConn from "../utils/socket";
 import { Alert } from "react-native";
@@ -27,11 +27,14 @@ const GameStateContext = createContext({
   create() {},
   join() {},
   leave() {},
+  myUserId: null,
+  setMyUserId(p) {},
 });
 
 export default function GameStateContextProvider({ children }) {
   const conn = useRef(null);
   const [gameState, setGameState] = useState(null);
+  const [myUserId, setMyUserId] = useState(null);
   const [selectedCard, _setSelectedCard] = useState(getCardStack().at(-12));
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
@@ -97,8 +100,23 @@ export default function GameStateContextProvider({ children }) {
 
   const leave = () => {
     setGameId(null);
+    setMyUserId(null);
     conn.current?.close();
   };
+
+  useEffect(() => {
+    if (!conn.current) return;
+
+    const roundInfo = (data) => {
+      console.log(data);
+    };
+
+    conn.current.on("roundInfo", roundInfo);
+
+    return () => {
+      conn.current.off("roundInfo", roundInfo);
+    };
+  }, [conn.current]);
 
   return (
     <GameStateContext.Provider
@@ -127,6 +145,8 @@ export default function GameStateContextProvider({ children }) {
         create,
         join,
         leave,
+        myUserId,
+        setMyUserId,
       }}
     >
       {children}
