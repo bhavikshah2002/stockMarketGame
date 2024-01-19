@@ -128,18 +128,18 @@ export default function GameStateContextProvider({ children }) {
         () => {
           router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
           setLoadingMsg(
-            data.userState[data.playerOrder[data.currentTurn]].username +
-              "अब इस आदमी की बारी है"
+            "अब `" +
+              data.userState[data.playerOrder[data.currentTurn]].username +
+              "` इस आदमी की बारी है"
           );
+          setIsLoadingScreen(true);
 
           setTimeout(() => {
             setIsLoadingScreen(false);
           }, 1000);
         },
-        shouldDistributeCards ? 2000 : 1
+        shouldDistributeCards ? 2000 : 0
       );
-
-      setTimeout(() => {});
     };
 
     conn.current.on("roundInfo", roundInfo);
