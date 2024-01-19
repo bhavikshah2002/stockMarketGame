@@ -115,6 +115,7 @@ export default function GameStateContextProvider({ children }) {
     if (!conn.current) return;
 
     const roundInfo = (data) => {
+      setGameState(data)
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
