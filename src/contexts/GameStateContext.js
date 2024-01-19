@@ -1,7 +1,10 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { getCardStack, initializeGameState } from "../data/cards";
 import SocketConn from "../utils/socket";
-import { Alert } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
+import { router } from "expo-router";
+import { CustomText } from "../common/Text";
+import { Colors } from "../common/styles";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -52,6 +55,10 @@ export default function GameStateContextProvider({ children }) {
     }))
   );
   const [gameId, setGameId] = useState(null);
+  const [isLoadingScreen, setIsLoadingScreen] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState(
+    "Distributing are being cards. Please hold on..."
+  );
 
   const selectEntity = (entity, type) => {
     setSelectedEntityType(type);
@@ -108,7 +115,31 @@ export default function GameStateContextProvider({ children }) {
     if (!conn.current) return;
 
     const roundInfo = (data) => {
-      console.log(data);
+      const isMyTurn = data.playerOrder[0] == myUserId;
+      const shouldDistributeCards =
+        data.currentSubRound == 1 && data.currentTurn == 0;
+
+      if (shouldDistributeCards) {
+        setLoadingMsg("Distributing are being cards. Please hold on...");
+        setIsLoadingScreen(true);
+      }
+
+      setTimeout(
+        () => {
+          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+          setLoadingMsg(
+            data.userState[data.playerOrder[data.currentTurn]].username +
+              "अब इस आदमी की बारी है"
+          );
+
+          setTimeout(() => {
+            setIsLoadingScreen(false);
+          }, 1000);
+        },
+        shouldDistributeCards ? 2000 : 1
+      );
+
+      setTimeout(() => {});
     };
 
     conn.current.on("roundInfo", roundInfo);
@@ -150,6 +181,15 @@ export default function GameStateContextProvider({ children }) {
       }}
     >
       {children}
+
+      {isLoadingScreen && (
+        <View style={styles.redirectingModal}>
+          <ActivityIndicator size="50" color={Colors.white} />
+          <CustomText family="SemiBoldItalic" size={16}>
+            {loadingMsg}
+          </CustomText>
+        </View>
+      )}
     </GameStateContext.Provider>
   );
 }
@@ -165,3 +205,20 @@ export const useGameState = () => {
 
   return gameContext;
 };
+
+const styles = StyleSheet.create({
+  redirectingModal: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "100%",
+    width: "100%",
+    backgroundColor: Colors.black + "e5",
+    zIndex: 9999,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 28,
+  },
+});
