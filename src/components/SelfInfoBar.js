@@ -14,7 +14,7 @@ import { Link } from "expo-router";
 import Settings from "./settings";
 
 export default function SelfInfoBarComponent() {
-  const {myUserName} = useGameState()
+  const {myUserName,gameState} = useGameState()
   const [selfInfo, setSelfInfo] = useState({
     userName: myUserName,
     cashInHand: 6.5,
@@ -22,8 +22,8 @@ export default function SelfInfoBarComponent() {
     totalWorth: 18.7,
   });
   const [roundInfo, setRoundInfo] = useState({
-    subRoundNumber: 2,
-    megaRoundNumber: 5,
+    subRoundNumber: gameState["currentSubRound"],
+    megaRoundNumber: gameState["currentMegaRound"],
   });
   return (
     <>
