@@ -13,16 +13,20 @@ import HistoryModal from "../../src/components/HistoryModal";
 import PriceBook from "../../src/components/PriceBook";
 
 export default function MyTurnScreen() {
-  const { gameState, selectedEntityType } = useGameState();
+  const { gameState, selectedEntityType, conn } = useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
   const thisUserId = 0;
 
+  const onPass = () => {
+    conn.current?.emit("pass", { userId: 0 });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.sides}>
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity style={styles.btn} onPress={onPass}>
           <LightText align={"center"} size={18}>
             PASS
           </LightText>
@@ -31,9 +35,7 @@ export default function MyTurnScreen() {
           data={Companies}
           renderItem={({ item }) => (
             <CompanyCard
-              currentWorth={
-                gameState.companyValues[item.id].companyShareValue
-              }
+              currentWorth={gameState.companyValues[item.id].companyShareValue}
               company={item}
               yourHoldings={gameState.userState[thisUserId].holdings[item.id]}
             />
