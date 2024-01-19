@@ -1,6 +1,6 @@
 import { Slot } from "expo-router";
 import { FlatList, StyleSheet, View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import SmallCard from "../../src/components/SmallCard";
 import { getCardStack, getShuffledCards } from "../../src/data/cards";
@@ -9,12 +9,11 @@ import DraggableFlatList from "react-native-draggable-flatlist";
 import { useGameState } from "../../src/contexts/GameStateContext";
 
 export default function GameRoomLayout() {
+  const {players,gameState,myUserId} = useGameState()
   const [cards, setCards] = useState(
-    getShuffledCards().slice(0, 10)
+    gameState.userState[myUserId].cardsHeld
     // getCardStack().slice(-10)
   );
-  const {players,setPlayers} = useGameState()
-
   return (
     <View style={styles.Container}>
       <View style={styles.Left}>

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { getCardStack, initializeGameState } from "../data/cards";
 import SocketConn from "../utils/socket";
 import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
@@ -21,7 +21,6 @@ const GameStateContext = createContext({
   isCircuit: false,
   setIsCircuit: (s) => {},
   players: null,
-  setPlayers: (s) => {},
   myUserName: "username",
   setMyUserName: (s) => {},
 
@@ -45,15 +44,16 @@ export default function GameStateContextProvider({ children }) {
   const [myUserName, setMyUserName] = useState("username");
   const [isRoundStart, setIsRoundStart] = useState(true);
   const [isCircuit, setIsCircuit] = useState(false);
-  const [players, setPlayers] = useState(
-    new Array(6).fill(0).map((_, id) => ({
-      id,
-      playerNumber: id,
-      playerName: "UserName" + (id + 1),
-      playerInHandCash: 10 * (id + 1),
-      active: false,
+  const players = useMemo(()=>{
+    if(!gameState) return []
+    return gameState.playerOrder.map((id)=>({
+        id:id,
+        playerNumber: id,
+        playerName: gameState.userState[id].username,
+        playerInHandCash: gameState.userState[id].cashInHand/100000,
+        active: gameState.playerOrder[gameState.currentTurn]==id?true:false
     }))
-  );
+  },[gameState])
   const [gameId, setGameId] = useState(null);
   const [isLoadingScreen, setIsLoadingScreen] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(
@@ -166,7 +166,6 @@ export default function GameStateContextProvider({ children }) {
         isCircuit,
         setIsCircuit,
         players,
-        setPlayers,
         myUserName,
         setMyUserName,
 

@@ -41,7 +41,7 @@ export default function UserBadge({ player }) {
           }}
         >
           <CustomText family="SemiBoldItalic" size={9}>
-            {player.playerName} {JSON.stringify(gameState.currentTurn)}
+            {player.playerName} 
           </CustomText>
           <BoldText>₹{player.playerInHandCash}L</BoldText>
         </View>
