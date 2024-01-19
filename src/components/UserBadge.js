@@ -5,6 +5,8 @@ import { useGameState } from "../contexts/GameStateContext";
 
 const colorsArray = [
   Colors.info,
+  Colors.darkPink,
+  Colors.logoGreen,
   Colors.purple,
   Colors.darkGreen,
   Colors.teal,
@@ -13,7 +15,7 @@ const colorsArray = [
 
 export default function UserBadge({ player }) {
   const { selectedPlayerId, setSelectedPlayerId, gameState } = useGameState();
-  const color = colorsArray[player.id % 5];
+  const color = colorsArray[player.id % 6];
   const isSelected = selectedPlayerId == player.id;
   const isCurrentTurn = gameState.currentTurn == player.id;
 
@@ -27,7 +29,7 @@ export default function UserBadge({ player }) {
             paddingHorizontal: 5,
             paddingLeft: 35,
             justifyContent: "center",
-            alignItems: "flex-end",
+            alignItems: "center",
             borderRadius: 2,
             // borderWidth: 3,
             shadowColor: isCurrentTurn ? Colors.green : color,
@@ -36,11 +38,12 @@ export default function UserBadge({ player }) {
               height: 0,
             },
             shadowRadius: 0,
-            shadowOpacity:0.1
-
+            shadowOpacity:0.1,
+            width:120,
+            gap:-5
           }}
         >
-          <CustomText family="SemiBoldItalic" size={9}>
+          <CustomText family="SemiBoldItalic" size={12}>
             {player.playerName} 
           </CustomText>
           <BoldText>₹{player.playerInHandCash}L</BoldText>

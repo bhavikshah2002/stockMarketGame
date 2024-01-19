@@ -116,12 +116,11 @@ export default function GameStateContextProvider({ children }) {
 
     const roundInfo = (data) => {
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
-      console.log(data.playerOrder,myUserId,isMyTurn)
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
 
       if (shouldDistributeCards) {
-        setLoadingMsg("Distributing are being cards. Please hold on...");
+        setLoadingMsg("Cards Are Being Distributed! Please hold on...");
         setIsLoadingScreen(true);
       }
 
@@ -148,7 +147,7 @@ export default function GameStateContextProvider({ children }) {
     return () => {
       conn.current.off("roundInfo", roundInfo);
     };
-  }, [conn.current]);
+  }, [conn.current,myUserId]);
 
   return (
     <GameStateContext.Provider
