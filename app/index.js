@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -119,9 +119,11 @@ export default function HomePage() {
           gap: -5,
         }}
       >
-        <SemiBoldText color={Colors.dim} size={13}>
-          Created with ❤️
-        </SemiBoldText>
+        <Link href={"/endGame"}>
+          <SemiBoldText color={Colors.dim} size={13}>
+            Created with ❤️
+          </SemiBoldText>
+        </Link>
         <SemiBoldText>Bhavik Shah, Arun Mulakkal, Arpit Shah</SemiBoldText>
       </View>
     </View>
