@@ -1,5 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { getCardStack, initializeGameState } from "../data/cards";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import SocketConn from "../utils/socket";
 import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
@@ -37,23 +43,23 @@ export default function GameStateContextProvider({ children }) {
   const conn = useRef(null);
   const [gameState, setGameState] = useState(null);
   const [myUserId, setMyUserId] = useState(null);
-  const [selectedCard, _setSelectedCard] = useState(getCardStack().at(-12));
+  const [selectedCard, _setSelectedCard] = useState(null);
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useState("username");
   const [isRoundStart, setIsRoundStart] = useState(true);
   const [isCircuit, setIsCircuit] = useState(false);
-  const players = useMemo(()=>{
-    if(!gameState) return []
-    return gameState.playerOrder.map((id)=>({
-        id:id,
-        playerNumber: id,
-        playerName: gameState.userState[id].username,
-        playerInHandCash: gameState.userState[id].cashInHand/100000,
-        active: gameState.playerOrder[gameState.currentTurn]==id?true:false
-    }))
-  },[gameState])
+  const players = useMemo(() => {
+    if (!gameState) return [];
+    return gameState.playerOrder.map((id) => ({
+      id: id,
+      playerNumber: id,
+      playerName: gameState.userState[id].username,
+      playerInHandCash: gameState.userState[id].cashInHand / 100000,
+      active: gameState.playerOrder[gameState.currentTurn] == id ? true : false,
+    }));
+  }, [gameState]);
   const [gameId, setGameId] = useState(null);
   const [isLoadingScreen, setIsLoadingScreen] = useState(false);
   const [loadingMsg, setLoadingMsg] = useState(
@@ -115,7 +121,7 @@ export default function GameStateContextProvider({ children }) {
     if (!conn.current) return;
 
     const roundInfo = (data) => {
-      setGameState(data)
+      setGameState(data);
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
@@ -129,14 +135,14 @@ export default function GameStateContextProvider({ children }) {
         () => {
           setLoadingMsg(
             "अब `" +
-            data.userState[data.playerOrder[data.currentTurn]].username +
-            "` की बारी है"
-            );
-            setIsLoadingScreen(true);
-            
-            setTimeout(() => {
-              setIsLoadingScreen(false);
-            }, 1000);
+              data.userState[data.playerOrder[data.currentTurn]].username +
+              "` की बारी है"
+          );
+          setIsLoadingScreen(true);
+
+          setTimeout(() => {
+            setIsLoadingScreen(false);
+          }, 1000);
           router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         },
         shouldDistributeCards ? 2000 : 0
@@ -148,7 +154,7 @@ export default function GameStateContextProvider({ children }) {
     return () => {
       conn.current.off("roundInfo", roundInfo);
     };
-  }, [conn.current,myUserId]);
+  }, [conn.current, myUserId]);
 
   return (
     <GameStateContext.Provider
