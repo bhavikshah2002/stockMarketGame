@@ -5,7 +5,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { ItalicText, RegularText, SemiBoldText } from "../common/Text";
+import { Entypo } from "@expo/vector-icons";
+import {
+  BoldText,
+  ItalicText,
+  RegularText,
+  SemiBoldText,
+} from "../common/Text";
 import { Colors } from "../common/styles";
 import {
   AntDesign,
@@ -16,6 +22,8 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { CompanyInObj } from "../data/cards";
+import { useMemo } from "react";
+import { useGameState } from "../contexts/GameStateContext";
 
 function GetCrstalIcon({ type }) {
   switch (type) {
@@ -37,7 +45,7 @@ function GetCrstalIcon({ type }) {
         </>
       );
     }
-    case "BONUS": {
+    case "BONUS_SHARE": {
       return (
         <>
           <View style={{ flexDirection: "row" }}>
@@ -47,7 +55,7 @@ function GetCrstalIcon({ type }) {
         </>
       );
     }
-    case "RIGHT": {
+    case "RIGHT_ISSUE": {
       return (
         <>
           <View style={{ flexDirection: "row", gap: -10 }}>
@@ -56,7 +64,7 @@ function GetCrstalIcon({ type }) {
         </>
       );
     }
-    case "LOAN": {
+    case "LOAN_ON_STOCK": {
       return (
         <>
           <Fontisto name="money-symbol" size={30} color="#cf1bc0" />
@@ -68,42 +76,70 @@ function GetCrstalIcon({ type }) {
     }
   }
 }
+function GetCrstalText({ type, transaction }) {
+  switch (type) {
+    case "FRAUD": {
+      return (
+        <RegularText size={12} color={Colors.dim}>{`Bought ${
+          transaction.numberOfStocks / 1000
+        }K stocks of ${CompanyInObj[transaction.companyId].name} @ ₹${
+          transaction.stockPrice
+        } per share `}</RegularText>
+      );
+    }
+    case "DIVIDEND": {
+      return (
+        <RegularText size={12} color={Colors.dim}>{`Received ₹${
+          transaction.stockPrice
+        } as Dividend for ${transaction.numberOfStocks / 1000}K stocks in ${
+          CompanyInObj[transaction.companyId].name
+        } `}</RegularText>
+      );
+    }
+    case "BONUS_SHARE": {
+      return (
+        <RegularText size={12} color={Colors.dim}>{`Collected extra ${
+          transaction.numberOfStocks / 1000
+        }K shares in ${
+          CompanyInObj[transaction.companyId].name
+        } as Bonus`}</RegularText>
+      );
+    }
+    case "RIGHT_ISSUE": {
+      return (
+        <RegularText size={12} color={Colors.dim}>{`Got ${
+          transaction.numberOfStocks / 1000
+        }K shares in ${
+          CompanyInObj[transaction.companyId].name
+        } @ ₹10 per share`}</RegularText>
+      );
+    }
+    case "LOAN_ON_STOCK": {
+      return (
+        <RegularText
+          size={12}
+          color={Colors.dim}
+        >{`Paisa hee Paisa hoga! Collected ₹1L`}</RegularText>
+      );
+    }
+    default: {
+      return (
+        <RegularText size={12} color={Colors.dim}>
+          No transaction
+        </RegularText>
+      );
+    }
+  }
+}
 
 export default function HistoryModal({
   historyModalVisible,
   setHistoryModalVisble,
 }) {
-  let history = new Array(5).fill(0).map((_, id) => ({
-    id,
-    type: "BUY",
-    userId: Math.floor(Math.random() * 6),
-    companyId: Math.floor(Math.random() * 7) + 1,
-    noOfStock: Math.floor(Math.random() * 12) * 1000,
-    price: Math.floor(Math.random() * 50) + 20,
-  }));
-
-  history.push(
-    ...new Array(5).fill(0).map((_, id) => ({
-      id: id + 10,
-      type: "SOLD",
-      userId: Math.floor(Math.random() * 6),
-      companyId: Math.floor(Math.random() * 7) + 1,
-      noOfStock: Math.floor(Math.random() * 12) * 1000,
-      price: Math.floor(Math.random() * 50) + 20,
-    }))
-  );
-
-  history.push(
-    ...["FRAUD", "DIVIDEND", "BONUS_SHARE", "RIGHT_ISSUE", "LOAN_ON_STOCK"].map(
-      (cardType, id) => ({
-        id: id + 20,
-        type: "CARD",
-        cardType,
-        userId: Math.floor(Math.random() * 6),
-        companyId: Math.floor(Math.random() * 8),
-      })
-    )
-  );
+  const { gameState } = useGameState();
+  const history = useMemo(() => {
+    return gameState.transactions;
+  }, [gameState]);
 
   return (
     <Modal
@@ -124,63 +160,132 @@ export default function HistoryModal({
           </View>
 
           <View style={styles.hr} />
-
-          <FlatList
-            data={history}
-            keyExtractor={(i) => i.id}
-            renderItem={({ item }) => {
-              if (item.type == "CARD") {
-                return (
-                  <View style={styles.transactionBox}>
-                    <GetCrstalIcon
-                      size={34}
-                      type={item.cardType.split("_")[0]}
-                    />
-                    <View>
-                      <SemiBoldText transform="capitalize">
-                        Arun Joseph{"  "}
-                        <ItalicText transform="lowercase" size={13}>
-                          used{" "}
-                        </ItalicText>
-                        {item.cardType.split("_").join(" ")} card
-                      </SemiBoldText>
-                      <RegularText size={12} color={Colors.dim}>
-                        This text should be replaced
-                      </RegularText>
+          {history.length == 0 ? (
+            <View
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+              }}
+            >
+              <BoldText size={20}>No transactions to be shown!</BoldText>
+            </View>
+          ) : (
+            <FlatList
+              data={history}
+              renderItem={({ item }) => {
+                if (item.type.split(":")[0] == "CRYSTAL") {
+                  return (
+                    <View style={styles.transactionBox}>
+                      <GetCrstalIcon size={34} type={item.type.split(":")[1]} />
+                      <View>
+                        <SemiBoldText transform="capitalize">
+                          {gameState.userState[item.userId].username}
+                          {"  "}
+                          <ItalicText transform="lowercase" size={13}>
+                            used{" "}
+                          </ItalicText>
+                          {item.type.split(":")[1].split("_").join(" ")} card
+                        </SemiBoldText>
+                        <GetCrstalText
+                          type={item.type.split(":")[1]}
+                          transaction={item}
+                        />
+                      </View>
                     </View>
-                  </View>
-                );
-              }
+                  );
+                } else if (item.type == "BUY" || item.type == "SELL") {
+                  const isBuy = item.type == "BUY";
 
-              const isBuy = item.type == "BUY";
+                  return (
+                    <View style={styles.transactionBox}>
+                      <Fontisto
+                        name={
+                          isBuy
+                            ? "shopping-basket-add"
+                            : "shopping-basket-remove"
+                        }
+                        size={29}
+                        color={isBuy ? Colors.green : Colors.red}
+                      />
+                      <View>
+                        <SemiBoldText>
+                          {gameState.userState[item.userId].username}
+                          {"  "}
+                          <ItalicText size={13}>
+                            {isBuy ? "bought" : "sold"}
+                            {"  "}
+                          </ItalicText>
+                          {CompanyInObj[item.companyId].name}
+                        </SemiBoldText>
+                        <RegularText size={12} color={Colors.dim}>
+                          {isBuy ? "bought" : "sold"} {item.numberOfStocks / 1000}K
+                          stocks at ₹{item.stockPrice} per share
+                        </RegularText>
+                      </View>
+                    </View>
+                  );
+                } else if (item.type.split(":")[0] == "CIRCUIT") {
+                  const isUp = item.type.split(":")[1] == "UP";
 
-              return (
-                <View style={styles.transactionBox}>
-                  <Fontisto
-                    name={
-                      isBuy ? "shopping-basket-add" : "shopping-basket-remove"
-                    }
-                    size={29}
-                    color={isBuy ? Colors.green : Colors.red}
-                  />
-                  <View>
-                    <SemiBoldText>
-                      Arun Joseph{"  "}
-                      <ItalicText size={13}>
-                        {isBuy ? "bought" : "sold"}
-                        {"  "}
-                      </ItalicText>
-                      {CompanyInObj[item.companyId].name}
-                    </SemiBoldText>
-                    <RegularText size={12} color={Colors.dim}>
-                      {isBuy ? "bought" : "sold"} {item.noOfStock / 1000}K
-                      stocks at ₹{item.price} per share
-                    </RegularText>
-                  </View>
-                </View>
-              );
-            }}
-          />
+                  return (
+                    <View style={styles.transactionBox}>
+                      <Entypo
+                        name="bar-graph"
+                        style={
+                          isUp ? {} : { transform: [{ rotateY: "180deg" }] }
+                        }
+                        size={24}
+                        color={isUp ? Colors.green : Colors.red}
+                      />
+                      <View>
+                        <SemiBoldText>
+                          {gameState.userState[item.userId].username}
+                          {"  "}
+                          <ItalicText size={13}>
+                            applied
+                            {"  "}
+                          </ItalicText>
+                          {isUp ? "Upper" : "Lower"} Circuit
+                        </SemiBoldText>
+                        <RegularText size={12} color={Colors.dim}>
+                          On {CompanyInObj[item.companyId].name} of{" "}
+                          {item.circuitValue}
+                        </RegularText>
+                      </View>
+                    </View>
+                  );
+                } else if (item.type == "PASS") {
+                  return (
+                    <View style={styles.transactionBox}>
+                      <FontAwesome5
+                        name="hand-peace"
+                        size={24}
+                        color={Colors.info}
+                      />
+                      <View>
+                        <SemiBoldText>
+                          {gameState.userState[item.userId].username}
+                          {"  "}
+                          <ItalicText size={13}>
+                            has
+                            {"  "}
+                          </ItalicText>
+                          Passed
+                        </SemiBoldText>
+                        <RegularText size={12} color={Colors.dim}>
+                          
+                          {[`current round was passed by ${gameState.userState[item.userId].username}!`,`kuch toh sharam karle bhai!`,`passing turn is subject to market risk!`][Math.floor(Math.random() * 3)]}
+                        </RegularText>
+                      </View>
+                    </View>
+                  );
+                } else {
+                  return <View></View>;
+                }
+              }}
+            />
+          )}
         </View>
       </View>
     </Modal>
