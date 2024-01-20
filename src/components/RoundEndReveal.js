@@ -10,28 +10,34 @@ import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import { AntDesign } from "@expo/vector-icons";
 import { CompanyInObj } from "../data/cards";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Animated, {
   FadeInDown,
+  FadeInUp,
   FadeOutDown,
   FadeOutUp,
 } from "react-native-reanimated";
 
-const l = [
-  "Arun Joseph",
-  "Bhavik Shah",
-  "Arpit Shah",
-  "Arun Joseph",
-  "Bhavik Shah",
-  "Arpit Shah",
-  "Arun Joseph",
-];
-
 export default function RoundEndReveal({}) {
+  const netChangeInCompanyByUser = {
+    1: [1, 10, -20],
+    2: [2, -5, -10],
+    3: [3, -5, -10],
+    4: [4, -5, -10],
+    5: [5, -5, -10],
+    6: [6, -5, -10],
+    7: [7, -5, -10],
+  };
+  const noOfPlayers = netChangeInCompanyByUser[1].length;
+  const noOfCompanies = 7;
   const [revealedCards, setRevealedCards] = useState([]);
+  const [currentlyRevealingCompanyId, setCurrentlyRevealingCompanyId] =
+    useState(1);
   const { gameState } = useGameState();
-  const currentlyRevealingCompanyId = 2;
-  const company = CompanyInObj[currentlyRevealingCompanyId];
+  const company = useMemo(
+    () => CompanyInObj[currentlyRevealingCompanyId],
+    [currentlyRevealingCompanyId]
+  );
   const isProfit =
     gameState.companyValues[currentlyRevealingCompanyId].companyShareValue >=
     company.startingPrice;
@@ -40,20 +46,31 @@ export default function RoundEndReveal({}) {
     0
   );
   const totalUp = totalChange > 0;
-  console.log("From roundend screen", { company });
 
   useEffect(() => {
     const itv = setInterval(() => {
       setRevealedCards((prev) =>
-        prev.length == l.length
-          ? []
-          : prev.concat({
-              user: l[prev.length],
-              id: prev.length,
-              netChange: Math.floor(Math.random() * 15 - 7),
-            })
+        prev.concat({
+          user: gameState.userState[prev.length % 1].username,
+          id: prev.length,
+          netChange:
+            netChangeInCompanyByUser[currentlyRevealingCompanyId][
+              prev.length % noOfPlayers
+            ],
+        })
       );
     }, 2000);
+
+    return () => {
+      clearInterval(itv);
+    };
+  }, [currentlyRevealingCompanyId]);
+
+  useEffect(() => {
+    const itv = setInterval(() => {
+      setCurrentlyRevealingCompanyId((p) => (p == noOfCompanies ? 1 : p + 1));
+      setRevealedCards([]);
+    }, 2000 * (noOfPlayers + 1));
 
     return () => {
       clearInterval(itv);
@@ -136,8 +153,8 @@ export default function RoundEndReveal({}) {
           </SemiBoldText>
           <Animated.View
             key={"tableArrow" + totalUp}
-            entering={FadeInDown.duration(400)}
-            exiting={FadeOutUp.duration(400)}
+            entering={FadeInUp.duration(400)}
+            exiting={FadeOutDown.duration(400)}
           >
             <AntDesign
               width={30}
