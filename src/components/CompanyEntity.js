@@ -13,7 +13,7 @@ import { useSharedValue } from "react-native-reanimated";
 import MySlider from "./Slider";
 
 export default function CompanyEntity() {
-  const { selectedEntity: company, gameState } = useGameState();
+  const { selectedEntity: company, gameState, conn, myUserId } = useGameState();
   const thisUserId = 0;
   const isProfit = true;
   const maxStocksPossibleToSell = Math.floor(
@@ -28,6 +28,22 @@ export default function CompanyEntity() {
   const sellNoOfStocks = useSharedValue(
     Math.floor(maxStocksPossibleToSell / 2)
   );
+
+  const onBuy = () => {
+    conn.current?.emit("buy", {
+      userId: myUserId,
+      companyId: company.id,
+      numberOfStocks: buyNoOfStocks.value * 1000,
+    });
+  };
+
+  const onSell = () => {
+    conn.current?.emit("sell", {
+      userId: myUserId,
+      companyId: company.id,
+      numberOfStocks: sellNoOfStocks.value * 1000,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -63,7 +79,7 @@ export default function CompanyEntity() {
           renderItem={({ item }) => (
             <View style={[styles.graphBar, { height: item / 2 }]} />
           )}
-          data={gameState.history[company.id]}
+          data={gameState.priceBook[company.id]}
           keyExtractor={(_, i) => i}
         />
       </View>
@@ -71,6 +87,7 @@ export default function CompanyEntity() {
         <View style={styles.sliderBox}>
           <TouchableOpacity
             style={[styles.btn, { backgroundColor: Colors.green }]}
+            onPress={onBuy}
           >
             <LightText size={18}>BUY</LightText>
           </TouchableOpacity>
@@ -83,6 +100,7 @@ export default function CompanyEntity() {
         <View style={styles.sliderBox}>
           <TouchableOpacity
             style={[styles.btn, { backgroundColor: Colors.red }]}
+            onPress={onSell}
           >
             <LightText size={18}>SELL</LightText>
           </TouchableOpacity>
@@ -155,7 +173,7 @@ const styles = StyleSheet.create({
 
   graphBar: {
     width: 3,
-    backgroundColor: Colors.green+'88',
+    backgroundColor: Colors.green + "88",
     marginRight: 6,
     alignSelf: "flex-end",
     borderTopLeftRadius: 1.5,
