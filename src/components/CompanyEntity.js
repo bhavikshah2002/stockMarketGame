@@ -14,13 +14,12 @@ import MySlider from "./Slider";
 
 export default function CompanyEntity() {
   const { selectedEntity: company, gameState, conn, myUserId } = useGameState();
-  const thisUserId = 0;
   const isProfit = true;
   const maxStocksPossibleToSell = Math.floor(
-    gameState.userState[thisUserId].holdings[company.id] / 1000
+    gameState.userState[myUserId].holdings[company.id] / 1000
   );
   const maxStocksPossibleToBuy = Math.floor(
-    gameState.userState[thisUserId].cashInHand /
+    gameState.userState[myUserId].cashInHand /
       gameState.companyValues[company.id].companyShareValue /
       1000
   );

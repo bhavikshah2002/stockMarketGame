@@ -1,26 +1,25 @@
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useGameState } from "../../src/contexts/GameStateContext";
-import { Companies } from "../../src/data/cards";
+import { LightText, SemiBoldText } from "../../src/common/Text";
+import CompanyEntity from "../../src/components/CompanyEntity";
+import HistoryModal from "../../src/components/HistoryModal";
 import CompanyCard from "../../src/components/CompanyCard";
 import CardEntity from "../../src/components/CardEntity";
-import CompanyEntity from "../../src/components/CompanyEntity";
-import { LightText, SemiBoldText } from "../../src/common/Text";
+import PriceBook from "../../src/components/PriceBook";
+import { Companies } from "../../src/data/cards";
 import { Colors } from "../../src/common/styles";
+import Animated from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import Animated from "react-native-reanimated";
-import HistoryModal from "../../src/components/HistoryModal";
-import PriceBook from "../../src/components/PriceBook";
 
 export default function MyTurnScreen() {
-  const { gameState, selectedEntityType, conn,myUserId } = useGameState();
+  const { gameState, selectedEntityType, conn, myUserId } = useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
-  const thisUserId = 0;
 
   const onPass = () => {
-    conn.current?.emit("pass", { userId:  myUserId});
+    conn.current?.emit("pass", { userId: myUserId });
   };
 
   return (
@@ -37,7 +36,7 @@ export default function MyTurnScreen() {
             <CompanyCard
               currentWorth={gameState.companyValues[item.id].companyShareValue}
               company={item}
-              yourHoldings={gameState.userState[thisUserId].holdings[item.id]}
+              yourHoldings={gameState.userState[myUserId].holdings[item.id]}
             />
           )}
           keyExtractor={(item) => item.id}

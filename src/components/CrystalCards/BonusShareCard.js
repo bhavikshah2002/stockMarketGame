@@ -1,6 +1,11 @@
-import { BoldText, LightText, RegularText, SemiBoldText } from "../../common/Text";
+import {
+  BoldText,
+  LightText,
+  RegularText,
+  SemiBoldText,
+} from "../../common/Text";
 import CrystalContent from "../CrystalContent";
-import { FlatList, StyleSheet,TouchableOpacity,View } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Colors } from "../../common/styles";
 import { useState } from "react";
 import { Companies } from "../../data/cards";
@@ -9,8 +14,7 @@ import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
 
 export default function BonusShareCard({ card }) {
-  const { gameState } = useGameState();
-  const thisUserId = 0;
+  const { gameState, myUserId } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -55,7 +59,7 @@ export default function BonusShareCard({ card }) {
                 setSelectedCompany(item);
                 setModalVisible(true);
               }}
-              // disabled={gameState.userState[thisUserId].holdings[item.id] == 0}
+              disabled={gameState.userState[myUserId].holdings[item.id] == 0}
               style={styles.companyBox}
             >
               <SemiBoldText size={13} style={{ width: 65 }}>
@@ -64,7 +68,7 @@ export default function BonusShareCard({ card }) {
 
               <LightText size={12} color={Colors.dim} style={styles.strike}>
                 {Math.floor(
-                  gameState.userState[thisUserId].holdings[item.id] / 5
+                  gameState.userState[myUserId].holdings[item.id] / 5
                 )}
               </LightText>
               <LightText color={Colors.dim} size={8}>
@@ -72,7 +76,10 @@ export default function BonusShareCard({ card }) {
                 stocks worth
               </LightText>
               <RegularText size={13} color={Colors.green}>
-                ₹{Math.floor(gameState.companyValues[item.id].companyShareValue / 2)}
+                ₹
+                {Math.floor(
+                  gameState.companyValues[item.id].companyShareValue / 2
+                )}
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

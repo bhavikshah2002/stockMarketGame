@@ -122,8 +122,8 @@ export default function GameStateContextProvider({ children }) {
 
       if (shouldDistributeCards) {
         setLoadingMsg("Cards Are Being Distributed! Please hold on...");
-        setIsLoadingScreen(true);
       }
+      setIsLoadingScreen(true);
 
       setTimeout(
         () => {
