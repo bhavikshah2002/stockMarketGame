@@ -40,6 +40,7 @@ export default function RoundEndReveal({}) {
     0
   );
   const totalUp = totalChange > 0;
+  console.log("From roundend screen", { company });
 
   useEffect(() => {
     const itv = setInterval(() => {
@@ -93,7 +94,7 @@ export default function RoundEndReveal({}) {
           renderItem={({ item }) => (
             <View style={[styles.graphBar, { height: item / 2 }]} />
           )}
-          data={gameState.history[company.id]}
+          data={gameState.priceBook[company.id]}
           keyExtractor={(_, i) => i}
         />
       </View>

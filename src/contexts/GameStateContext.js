@@ -22,10 +22,6 @@ const GameStateContext = createContext({
   selectCompany: (c) => {},
   selectedEntity: null,
   selectedEntityType: "card",
-  isRoundStart: true,
-  setIsRoundStart: (s) => {},
-  isCircuit: false,
-  setIsCircuit: (s) => {},
   players: null,
   myUserName: "username",
   setMyUserName: (s) => {},
@@ -48,8 +44,6 @@ export default function GameStateContextProvider({ children }) {
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useState("username");
-  const [isRoundStart, setIsRoundStart] = useState(true);
-  const [isCircuit, setIsCircuit] = useState(false);
   const players = useMemo(() => {
     if (!gameState) return [];
     return gameState.playerOrder.map((id) => ({
@@ -125,26 +119,6 @@ export default function GameStateContextProvider({ children }) {
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
-      const isCircuitRound = data.currentSubRound == 4;
-
-      // Select appropriate card based on round
-      // if (isCircuitRound) {
-      //   if (
-      //     selectedEntityType == "company" ||
-      //     selectedEntity?.cardType != "CIRCUIT"
-      //   ) {
-      //     setSelectedCard(
-      //       data.userState[myUserId].cardsHeld.find((c) => c.type == "CIRCUIT")
-      //     );
-      //   }
-      // } else {
-      //   if (selectedEntityType == "card") {
-      //     const crystalCard = data.userState[myUserId].cardsHeld.find(
-      //       (c) => c.type == "CRYSTAL"
-      //     );
-      //     setSelectedCard(crystalCard);
-      //   }
-      // }
 
       if (shouldDistributeCards) {
         setLoadingMsg("Cards Are Being Distributed! Please hold on...");
@@ -163,10 +137,15 @@ export default function GameStateContextProvider({ children }) {
           setTimeout(() => {
             setIsLoadingScreen(false);
           }, 1000);
-          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+          if (data.currentSubRound < 5) {
+            //Remove this
+            router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+          }
         },
         shouldDistributeCards ? 2000 : 0
       );
+
+      if (data.currentSubRound == 5) router.push("/roundend");
     };
 
     conn.current.on("roundInfo", roundInfo);
@@ -188,10 +167,6 @@ export default function GameStateContextProvider({ children }) {
         selectCompany,
         selectedEntity,
         selectedEntityType,
-        isRoundStart,
-        setIsRoundStart,
-        isCircuit,
-        setIsCircuit,
         players,
         myUserName,
         setMyUserName,

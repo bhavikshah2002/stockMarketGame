@@ -176,7 +176,7 @@ export default function LobbyPage() {
         <View style={styles.redirectingModal}>
           <ActivityIndicator size="50" color={Colors.white} />
           <CustomText family="SemiBoldItalic" size={16}>
-            Staring your game in few seconds...
+            Starting your game in few seconds...
           </CustomText>
         </View>
       )}
