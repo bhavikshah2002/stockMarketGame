@@ -10,14 +10,21 @@ import ModalForCard from "./ModalForCard";
 
 export default function LoanCard({ card }) {
   const [modalVisible, setModalVisible] = useState(false);
-  function getMoneyInAccount() {}
+
   if (modalVisible) {
     return (
       <View style={styles.container}>
         <ModalForCard
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          operatingFunction={getMoneyInAccount}
+          operatingFunction={() => {
+            conn.current.emit("crystal", {
+              userId: myUserId,
+              crystalType: card.crystalType,
+              companyId: selectedCompany.id,
+              numberOfStocks: 0,
+            });
+          }}
         />
       </View>
     );

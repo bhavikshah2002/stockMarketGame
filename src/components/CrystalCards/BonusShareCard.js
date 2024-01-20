@@ -14,7 +14,7 @@ import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
 
 export default function BonusShareCard({ card }) {
-  const { gameState, myUserId } = useGameState();
+  const { gameState, myUserId, conn } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -29,7 +29,14 @@ export default function BonusShareCard({ card }) {
               You want to continue with {selectedCompany.name}
             </RegularText>
           }
-          operatingFunction={() => {}}
+          operatingFunction={() => {
+            conn.current.emit("crystal", {
+              userId: myUserId,
+              crystalType: card.crystalType,
+              companyId: selectedCompany.id,
+              numberOfStocks: 0,
+            });
+          }}
         />
       </View>
     );
