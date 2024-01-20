@@ -125,6 +125,26 @@ export default function GameStateContextProvider({ children }) {
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
+      const isCircuitRound = data.currentSubRound == 4;
+
+      // Select appropriate card based on round
+      if (isCircuitRound) {
+        if (
+          selectedEntityType == "company" ||
+          selectedEntity?.cardType != "CIRCUIT"
+        ) {
+          setSelectedCard(
+            data.userState[myUserId].cardsHeld.find((c) => c.type == "CIRCUIT")
+          );
+        }
+      } else {
+        if (selectedEntityType == "card") {
+          const crystalCard = data.userState[myUserId].cardsHeld.find(
+            (c) => c.type == "CRYSTAL"
+          );
+          setSelectedCard(crystalCard);
+        }
+      }
 
       if (shouldDistributeCards) {
         setLoadingMsg("Cards Are Being Distributed! Please hold on...");
