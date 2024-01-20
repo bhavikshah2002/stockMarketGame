@@ -1,4 +1,9 @@
-import { BoldText, LightText, RegularText, SemiBoldText } from "../../common/Text";
+import {
+  BoldText,
+  LightText,
+  RegularText,
+  SemiBoldText,
+} from "../../common/Text";
 import CrystalContent from "../CrystalContent";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { FlatList, StyleSheet, View } from "react-native";
@@ -12,7 +17,7 @@ import MySlider from "../Slider";
 import { useSharedValue } from "react-native-reanimated";
 
 export default function FraudCard({ card }) {
-  const { gameState } = useGameState();
+  const { gameState, conn, myUserId } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const noOfStocks = useSharedValue(10);
@@ -36,7 +41,14 @@ export default function FraudCard({ card }) {
               </View>
             </View>
           }
-          operatingFunction={() => {}}
+          operatingFunction={() => {
+            conn.current.emit("crystal", {
+              userId: myUserId,
+              crystalType: card.crystalType,
+              companyId: selectedCompany.id,
+              numberOfStocks: noOfStocks.value,
+            });
+          }}
         />
       </View>
     );
@@ -75,7 +87,10 @@ export default function FraudCard({ card }) {
                 ₹{gameState.companyValues[item.id].companyShareValue}
               </LightText>
               <RegularText size={13} color={Colors.green}>
-                ₹{Math.floor(gameState.companyValues[item.id].companyShareValue / 2)}
+                ₹
+                {Math.floor(
+                  gameState.companyValues[item.id].companyShareValue / 2
+                )}
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

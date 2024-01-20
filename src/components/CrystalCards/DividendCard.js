@@ -11,9 +11,8 @@ import { useState } from "react";
 import ModalForCard from "./ModalForCard";
 
 export default function DividendCard({ card }) {
-  const { gameState } = useGameState();
+  const { gameState, myUserId, conn } = useGameState();
   const [selectedCompany, setSelectedCompany] = useState(null);
-  const thisUserId = 0;
   const [modalVisible, setModalVisible] = useState(false);
 
   if (modalVisible && selectedCompany) {
@@ -27,7 +26,14 @@ export default function DividendCard({ card }) {
               You want to continue with {selectedCompany.name}
             </RegularText>
           }
-          operatingFunction={() => {}}
+          operatingFunction={() => {
+            conn.current.emit("crystal", {
+              userId: myUserId,
+              crystalType: card.crystalType,
+              companyId: selectedCompany.id,
+              numberOfStocks: 0,
+            });
+          }}
         />
       </View>
     );
@@ -52,7 +58,7 @@ export default function DividendCard({ card }) {
           style={{ marginBottom: 5 }}
           renderItem={({ item }) => (
             <TouchableOpacity
-              // disabled={gameState.userState[thisUserId].holdings[item.id] == 0}
+              disabled={gameState.userState[myUserId].holdings[item.id] == 0}
               onPress={() => {
                 setSelectedCompany(item);
                 setModalVisible(true);
@@ -65,9 +71,11 @@ export default function DividendCard({ card }) {
 
               <RegularText size={13} color={Colors.green}>
                 ₹
-                {(gameState.companyValues[item.id].companyShareValue *
-                  gameState.userState[thisUserId].holdings[item.id]) /
-                  1000}
+                {(
+                  (gameState.companyValues[item.id].companyShareValue *
+                    gameState.userState[myUserId].holdings[item.id]) /
+                  1000
+                ).toFixed(0)}
                 K
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />

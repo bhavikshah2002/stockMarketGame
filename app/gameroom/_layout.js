@@ -1,19 +1,33 @@
-import { Slot } from "expo-router";
-import { FlatList, StyleSheet, View } from "react-native";
-import { useEffect, useState } from "react";
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
-import SmallCard from "../../src/components/SmallCard";
-import { getCardStack, getShuffledCards } from "../../src/data/cards";
-import UserBadge from "../../src/components/UserBadge";
-import DraggableFlatList from "react-native-draggable-flatlist";
 import { useGameState } from "../../src/contexts/GameStateContext";
+import DraggableFlatList from "react-native-draggable-flatlist";
+import { FlatList, StyleSheet, View } from "react-native";
+import SmallCard from "../../src/components/SmallCard";
+import UserBadge from "../../src/components/UserBadge";
+import { SemiBoldText } from "../../src/common/Text";
+import { Colors } from "../../src/common/styles";
+import { AntDesign } from "@expo/vector-icons";
+import { Slot } from "expo-router";
+import { useState } from "react";
 
 export default function GameRoomLayout() {
-  const {players,gameState,myUserId} = useGameState()
+  const { players, gameState, myUserId } = useGameState();
   const [cards, setCards] = useState(
-    gameState.userState[myUserId].cardsHeld
-    // getCardStack().slice(-10)
+    gameState?.userState?.[myUserId]?.cardsHeld
   );
+
+  if (!gameState) {
+    return (
+      <View style={styles.errorScreen}>
+        <AntDesign name="exclamationcircle" size={34} color={Colors.red} />
+        <SemiBoldText align="center" size={20}>
+          Something went wrong{"\n"}
+          <SemiBoldText size={15}>(`gameState` is null)</SemiBoldText>
+        </SemiBoldText>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.Container}>
       <View style={styles.Left}>
@@ -43,7 +57,10 @@ export default function GameRoomLayout() {
           data={players}
           renderItem={({ item }) => <UserBadge player={item} />}
           keyExtractor={(item) => item.id}
-          contentContainerStyle = {{justifyContent:'space-evenly',flexGrow:1}}
+          contentContainerStyle={{
+            justifyContent: "space-evenly",
+            flexGrow: 1,
+          }}
         />
       </View>
     </View>
@@ -87,5 +104,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#454547",
     borderRadius: 100,
     alignItems: "center",
+  },
+
+  errorScreen: {
+    backgroundColor: Colors.black,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
   },
 });

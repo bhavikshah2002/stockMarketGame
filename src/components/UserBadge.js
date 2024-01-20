@@ -23,7 +23,6 @@ export default function UserBadge({ player }) {
     <TouchableOpacity onPress={() => setSelectedPlayerId(player.id)}>
       <View style={[styles.container]}>
         <View
-        
           style={{
             backgroundColor: color,
             paddingHorizontal: 5,
@@ -38,15 +37,15 @@ export default function UserBadge({ player }) {
               height: 0,
             },
             shadowRadius: 0,
-            shadowOpacity:0.1,
-            width:120,
-            gap:-5
+            shadowOpacity: 0.1,
+            width: 120,
+            gap: -5,
           }}
         >
           <CustomText family="SemiBoldItalic" size={12}>
-            {player.playerName} 
+            {player.playerName}
           </CustomText>
-          <BoldText>₹{player.playerInHandCash}L</BoldText>
+          <BoldText>₹{(+player.playerInHandCash).toFixed(2)}L</BoldText>
         </View>
         <View
           style={{

@@ -1,21 +1,20 @@
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useGameState } from "../../src/contexts/GameStateContext";
-import { Companies } from "../../src/data/cards";
+import HistoryModal from "../../src/components/HistoryModal";
 import CompanyCard from "../../src/components/CompanyCard";
+import PriceBook from "../../src/components/PriceBook";
+import { SemiBoldText } from "../../src/common/Text";
 import BigCard from "../../src/components/BigCard";
-import { Link } from "expo-router";
-import { RegularText, SemiBoldText } from "../../src/common/Text";
+import { Companies } from "../../src/data/cards";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
-import HistoryModal from "../../src/components/HistoryModal";
-import PriceBook from "../../src/components/PriceBook";
 
 export default function CommonRound() {
-  const { gameState } = useGameState();
-  const thisUserId = 0;
+  const { gameState, myUserId } = useGameState();
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.sides}>
@@ -23,11 +22,9 @@ export default function CommonRound() {
           data={Companies.slice(0, 4)}
           renderItem={({ item }) => (
             <CompanyCard
-              currentWorth={
-                gameState.companyValues[item.id].companyShareValue
-              }
+              currentWorth={gameState.companyValues[item.id].companyShareValue}
               company={item}
-              yourHoldings={gameState.userState[thisUserId].holdings[item.id]}
+              yourHoldings={gameState.userState[myUserId].holdings[item.id]}
             />
           )}
           keyExtractor={(item) => item.id}
@@ -41,11 +38,9 @@ export default function CommonRound() {
           data={Companies.slice(4)}
           renderItem={({ item }) => (
             <CompanyCard
-              currentWorth={
-                gameState.companyValues[item.id].companyShareValue
-              }
+              currentWorth={gameState.companyValues[item.id].companyShareValue}
               company={item}
-              yourHoldings={gameState.userState[thisUserId].holdings[item.id]}
+              yourHoldings={gameState.userState[myUserId].holdings[item.id]}
             />
           )}
           keyExtractor={(item) => item.id}

@@ -44,7 +44,7 @@ function GetCrystalCard({ card_type, cardDetail }) {
 
 function GetCircuitCard({ card }) {
   const isUpperCircuit = card.circuitType == "UP";
-  const { gameState } = useGameState();
+  const { gameState, myUserId, conn } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -59,7 +59,13 @@ function GetCircuitCard({ card }) {
               You want to continue with {selectedCompany.name}
             </RegularText>
           }
-          operatingFunction={() => {}}
+          operatingFunction={() => {
+            conn.current.emit("circuit", {
+              companyId: selectedCompany.id,
+              circuitType: card.circuitType,
+              denomination: card.denomination,
+            });
+          }}
         />
       </View>
     );
@@ -116,7 +122,10 @@ function GetCircuitCard({ card }) {
               </SemiBoldText>
 
               <RegularText size={13} color={Colors.green}>
-                ₹{Math.floor(gameState.companyValues[item.id].companyShareValue / 2)}
+                ₹
+                {Math.floor(
+                  gameState.companyValues[item.id].companyShareValue / 2
+                )}
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>
@@ -131,9 +140,9 @@ function GetCircuitCard({ card }) {
 export default function CardEntity() {
   const { selectedEntity: card } = useGameState();
 
-  if (card?.type == "NORMAL") {
+  if (!card || card?.type == "NORMAL") {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { flexDirection: "column", gap: -20 }]}>
         <AntDesign name="exclamationcircle" size={24} color={Colors.red} />
         <SemiBoldText size={15} align="center">
           No card is selected

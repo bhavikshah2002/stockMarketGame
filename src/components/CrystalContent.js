@@ -21,7 +21,7 @@ export default function CrystalContent({ type }) {
             color={Colors.darkGreen}
           />
           <ItalicText color={Colors.dim} align="center" size={13}>
-            Stock Value @ 50% {"\n"}Discount from Market {"\n"} Price
+            Stock Value @ 70% {"\n"}Discount from Market {"\n"} Price
           </ItalicText>
         </>
       );
