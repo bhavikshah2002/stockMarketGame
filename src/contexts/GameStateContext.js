@@ -128,23 +128,23 @@ export default function GameStateContextProvider({ children }) {
       const isCircuitRound = data.currentSubRound == 4;
 
       // Select appropriate card based on round
-      if (isCircuitRound) {
-        if (
-          selectedEntityType == "company" ||
-          selectedEntity?.cardType != "CIRCUIT"
-        ) {
-          setSelectedCard(
-            data.userState[myUserId].cardsHeld.find((c) => c.type == "CIRCUIT")
-          );
-        }
-      } else {
-        if (selectedEntityType == "card") {
-          const crystalCard = data.userState[myUserId].cardsHeld.find(
-            (c) => c.type == "CRYSTAL"
-          );
-          setSelectedCard(crystalCard);
-        }
-      }
+      // if (isCircuitRound) {
+      //   if (
+      //     selectedEntityType == "company" ||
+      //     selectedEntity?.cardType != "CIRCUIT"
+      //   ) {
+      //     setSelectedCard(
+      //       data.userState[myUserId].cardsHeld.find((c) => c.type == "CIRCUIT")
+      //     );
+      //   }
+      // } else {
+      //   if (selectedEntityType == "card") {
+      //     const crystalCard = data.userState[myUserId].cardsHeld.find(
+      //       (c) => c.type == "CRYSTAL"
+      //     );
+      //     setSelectedCard(crystalCard);
+      //   }
+      // }
 
       if (shouldDistributeCards) {
         setLoadingMsg("Cards Are Being Distributed! Please hold on...");
