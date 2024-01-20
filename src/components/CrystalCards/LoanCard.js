@@ -7,8 +7,10 @@ import { Colors } from "../../common/styles";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useState } from "react";
 import ModalForCard from "./ModalForCard";
+import { useGameState } from "../../contexts/GameStateContext";
 
 export default function LoanCard({ card }) {
+  const { myUserId, conn } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
 
   if (modalVisible) {
@@ -29,6 +31,7 @@ export default function LoanCard({ card }) {
       </View>
     );
   }
+  
   return (
     <View style={styles.container}>
       <View style={styles.left}>

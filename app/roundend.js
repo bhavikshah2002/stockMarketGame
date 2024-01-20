@@ -1,34 +1,25 @@
 import { StyleSheet, View } from "react-native";
-import { Colors } from "../common/styles";
-import { BoldText } from "../common/Text";
+import { Colors } from "../src/common/styles";
 import { FlatList } from "react-native-gesture-handler";
-import { Companies } from "../data/cards";
-import { useGameState } from "../contexts/GameStateContext";
-import RoundEndReveal from "./RoundEndReveal";
-import CompanyCardForRoundEnd from "./CompanyCardForRoundEnd";
+import { Companies } from "../src/data/cards";
+import { useGameState } from "../src/contexts/GameStateContext";
+import RoundEndReveal from "../src/components/RoundEndReveal";
+import CompanyCardForRoundEnd from "../src/components/CompanyCardForRoundEnd";
 
 export default function RoundEnd() {
-  const { gameState, selectedEntityType } = useGameState();
+  const { gameState } = useGameState();
+
   return (
     <View style={styles.Conatiner}>
       <View style={styles.Left}>
         <FlatList
           data={Companies}
-          contentContainerStyle={{
-            flexGrow: 1,
-            justifyContent: "space-between",
-            paddingVertical: 10,
-            paddingLeft: 10,
-          }}
+          contentContainerStyle={styles.contentContainerStyle}
           renderItem={({ item }) => (
             <CompanyCardForRoundEnd
-              currentWorth={
-                gameState.companyValues[item.id].companyShareValue 
-              }
+              currentWorth={gameState.companyValues[item.id].companyShareValue}
               company={item}
-              newValue={
-                gameState.companyValues[item.id].companyShareValue 
-              }
+              newValue={gameState.companyValues[item.id].companyShareValue}
             />
           )}
           keyExtractor={(item) => item.id}
@@ -56,5 +47,11 @@ const styles = StyleSheet.create({
     width: "75%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  contentContainerStyle: {
+    flexGrow: 1,
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    paddingLeft: 10,
   },
 });
