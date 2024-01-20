@@ -32,7 +32,7 @@ export default function CompanyEntity() {
     conn.current?.emit("buy", {
       userId: myUserId,
       companyId: company.id,
-      numberOfStocks: buyNoOfStocks.value * 1000,
+      numberOfStocks: Math.floor(buyNoOfStocks.value) * 1000,
     });
   };
 
@@ -40,7 +40,7 @@ export default function CompanyEntity() {
     conn.current?.emit("sell", {
       userId: myUserId,
       companyId: company.id,
-      numberOfStocks: sellNoOfStocks.value * 1000,
+      numberOfStocks: Math.floor(sellNoOfStocks.value) * 1000,
     });
   };
 
