@@ -14,7 +14,7 @@ export default function BigCard() {
       <View style={styles.container}>
         <AntDesign name="exclamationcircle" size={24} color={Colors.red} />
         <SemiBoldText size={15} align="center">
-          No card is selected
+          Please select a card!
         </SemiBoldText>
       </View>
     );

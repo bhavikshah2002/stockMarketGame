@@ -82,7 +82,7 @@ export default function HomePage() {
             onPress={onCreate}
           >
             <FontAwesome name="user-plus" size={28} color="white" />
-            <BoldText size={25} transform="uppercase">
+            <BoldText size={25} transform="uppercase" style={{paddingTop:3}}>
               Create
             </BoldText>
           </TouchableOpacity>
@@ -104,7 +104,7 @@ export default function HomePage() {
               style={{ ...styles.center, ...styles.Btn }}
               onPress={() => setIsEntering(true)}
             >
-              <BoldText size={25} transform="uppercase">
+              <BoldText size={25} transform="uppercase" style={{paddingTop:3}}>
                 Join
               </BoldText>
               <Ionicons name="enter" size={30} color={Colors.white} />

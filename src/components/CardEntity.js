@@ -11,6 +11,7 @@ import LoanCard from "./CrystalCards/LoanCard";
 import { Companies } from "../data/cards";
 import { useState } from "react";
 import ModalForCard from "./CrystalCards/ModalForCard";
+import { Image } from "expo-image";
 
 function GetCrystalCard({ card_type, cardDetail }) {
   switch (card_type) {
@@ -142,11 +143,15 @@ export default function CardEntity() {
 
   if (!card || card?.type == "NORMAL") {
     return (
-      <View style={[styles.container, { flexDirection: "column", gap: -20 }]}>
-        <AntDesign name="exclamationcircle" size={24} color={Colors.red} />
-        <SemiBoldText size={15} align="center">
-          No card is selected
-        </SemiBoldText>
+      <View style={[styles.container, { flexDirection: "column",justifyContent:"center",gap:15 }]}>
+        <Image
+            style={styles.logo}
+            source={require("../../assets/images/withoutBgLogo1.png")}
+            contentFit="contain"
+          />
+        <RegularText size={13} color={Colors.dim} align="center">
+          Please select a company to proceed a transaction!
+        </RegularText>
       </View>
     );
   }
@@ -198,5 +203,9 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     marginBottom: 5,
     backgroundColor: Colors.black,
+  },
+  logo: {
+    width: 100,
+    height: 80,
   },
 });

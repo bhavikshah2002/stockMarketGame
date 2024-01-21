@@ -23,7 +23,7 @@ export default function LoanCard({ card }) {
             conn.current.emit("crystal", {
               userId: myUserId,
               crystalType: card.crystalType,
-              companyId: selectedCompany.id,
+              companyId: 0,
               numberOfStocks: 0,
             });
           }}

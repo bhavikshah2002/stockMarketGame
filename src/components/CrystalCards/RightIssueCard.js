@@ -83,12 +83,12 @@ export default function RightIssueCard({ card }) {
               </LightText>
               <RegularText size={13} color={Colors.green}>
                 ₹
-                {Math.floor(
+                {(Math.floor(
                   gameState.companyValues[item.id].companyShareValue / 2
                 ) *
                   Math.floor(
                     gameState.userState[myUserId].holdings[item.id] / 2
-                  )}
+                  ))/1000}K
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

@@ -74,9 +74,9 @@ export default function BonusShareCard({ card }) {
               </SemiBoldText>
 
               <LightText size={12} color={Colors.dim} style={styles.strike}>
-                {Math.floor(
-                  gameState.userState[myUserId].holdings[item.id] / 5
-                )}
+                {Math.floor((
+                  gameState.userState[myUserId].holdings[item.id] / 5000
+                )*1000)/1000} K
               </LightText>
               <LightText color={Colors.dim} size={8}>
                 {" "}

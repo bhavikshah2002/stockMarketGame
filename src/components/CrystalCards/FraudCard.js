@@ -20,8 +20,21 @@ export default function FraudCard({ card }) {
   const { gameState, conn, myUserId } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
+  const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(0);
   const noOfStocks = useSharedValue(10);
-
+  function getMaxSliderValue(company) {
+    var newShareValue =
+      Math.floor(
+        Math.floor(
+          (0.7 * gameState.companyValues[company.id].companyShareValue) / 5
+        )
+      ) * 5;
+    setMaxStocksPossibleToBuy(
+      Math.floor(
+        gameState.userState[myUserId].cashInHand / newShareValue / 1000
+      )
+    );
+  }
   if (modalVisible && selectedCompany) {
     return (
       <View style={styles.container}>
@@ -36,7 +49,8 @@ export default function FraudCard({ card }) {
               <View style={styles.slider}>
                 <MySlider
                   value={noOfStocks}
-                  max={gameState.userState.cashInHand}
+                  max={maxStocksPossibleToBuy}
+                  min={0}
                 />
               </View>
             </View>
@@ -76,6 +90,7 @@ export default function FraudCard({ card }) {
               onPress={() => {
                 setSelectedCompany(item);
                 setModalVisible(true);
+                getMaxSliderValue(item);
               }}
               style={styles.companyBox}
             >
@@ -89,8 +104,11 @@ export default function FraudCard({ card }) {
               <RegularText size={13} color={Colors.green}>
                 ₹
                 {Math.floor(
-                  gameState.companyValues[item.id].companyShareValue / 2
-                )}
+                  Math.floor(
+                    (0.7 * gameState.companyValues[item.id].companyShareValue) /
+                      5
+                  )
+                ) * 5}
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

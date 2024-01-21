@@ -72,7 +72,7 @@ export default function DividendCard({ card }) {
               <RegularText size={13} color={Colors.green}>
                 ₹
                 {(
-                  (gameState.companyValues[item.id].companyShareValue *
+                  (5 *
                     gameState.userState[myUserId].holdings[item.id]) /
                   1000
                 ).toFixed(0)}
