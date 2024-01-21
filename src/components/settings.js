@@ -2,16 +2,21 @@ import { Modal, Pressable, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { BoldText, RegularText, SemiBoldText } from "../common/Text";
+import { BoldText, LightText, RegularText, SemiBoldText } from "../common/Text";
 import { Link } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
+import { FontAwesome5 } from "@expo/vector-icons";
 export default function Settings() {
-  const { gameId} = useGameState();
+  const { gameId, gameState, myUserId } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [admin, setAdmin] = useState(0);
+  const onPass = () => {
+    // router.push("/");
+  };
   return (
     <>
       <View>
@@ -28,42 +33,80 @@ export default function Settings() {
                 Settings
               </BoldText>
             </View>
-            
 
-            <View style={styles.ButtonsContainer}>
-              <TouchableOpacity
-                style={{ ...styles.Btn, backgroundColor: Colors.green }}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <BoldText size={25} transform="uppercase">
-                  Resume
-                </BoldText>
-                <AntDesign name="play" size={35} color="white" />
-              </TouchableOpacity>
-              <Link href={"/lobby"} asChild>
+            <View style={styles.MiddleContainer}>
+              <View style={styles.ButtonsContainer}>
                 <TouchableOpacity
-                  style={{ ...styles.Btn, backgroundColor: Colors.red }}
+                  style={{ ...styles.Btn, backgroundColor: Colors.green }}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
                   <BoldText size={25} transform="uppercase">
-                    Leave
+                    Resume
                   </BoldText>
-                  <MaterialCommunityIcons
-                    name="exit-run"
-                    size={35}
-                    color="white"
-                  />
+                  <AntDesign name="play" size={35} color="white" />
                 </TouchableOpacity>
-              </Link>
-
+                <Link href={"/lobby"} asChild>
+                  <TouchableOpacity
+                    style={{ ...styles.Btn, backgroundColor: Colors.red }}
+                    onPress={() => setModalVisible(!modalVisible)}
+                  >
+                    <BoldText size={25} transform="uppercase">
+                      Leave
+                    </BoldText>
+                    <MaterialCommunityIcons
+                      name="exit-run"
+                      size={35}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                </Link>
+              </View>
+              {myUserId != admin ? (
+                <></>
+              ) : (
+                <View style={styles.AdminPanel}>
+                  <SemiBoldText
+                    color={Colors.white}
+                    style={styles.AdminText}
+                    size={22}
+                  >
+                    ADMIN PANNEL
+                  </SemiBoldText>
+                  <View style={styles.AdminWork}>
+                    <View style={styles.AdminPass}>
+                      <SemiBoldText size={15} style={{marginTop:1}}>
+                        Pass{" "}
+                        {
+                          gameState.userState[
+                            gameState.playerOrder[gameState.currentTurn]
+                          ].username
+                        }
+                        {"'s "}turn
+                      </SemiBoldText>
+                      <TouchableOpacity
+                        style={[
+                          styles.btnAdmin,
+                          { backgroundColor: Colors.info },
+                        ]}
+                        onPress={onPass}
+                      >
+                        <LightText size={15}>PASS</LightText>
+                        <FontAwesome5
+                        name="hand-peace"
+                        size={20}
+                        color={Colors.white}
+                      />
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              )}
             </View>
-            <View style={{paddingTop:20,flexDirection:"row",gap:5}}>
+            <View style={{ paddingTop: 20, flexDirection: "row", gap: 5 }}>
               <BoldText size={15} color={Colors.info}>
-                ROOM ID : 
+                ROOM ID :
               </BoldText>
-              <BoldText size={15} >
-              {gameId}
-              </BoldText>
+              <BoldText size={15}>{gameId}</BoldText>
             </View>
             <View style={styles.BottomBar}>
               <View
@@ -72,7 +115,7 @@ export default function Settings() {
                   justifyContent: "center",
                   alignItems: "center",
                   marginLeft: 15,
-                  width:150
+                  width: 150,
                 }}
               >
                 <SemiBoldText size={18} color={Colors.logoGreen}>
@@ -105,7 +148,7 @@ export default function Settings() {
                   alignItems: "center",
                   gap: 10,
                   marginRight: 15,
-                  width:150
+                  width: 150,
                 }}
               >
                 <SemiBoldText color={Colors.info}>Copyright</SemiBoldText>
@@ -135,6 +178,7 @@ const styles = StyleSheet.create({
   SettingButton: {
     marginLeft: 20,
   },
+
   Btn: {
     flexDirection: "row",
     borderRadius: 5,
@@ -149,6 +193,11 @@ const styles = StyleSheet.create({
     gap: 25,
     justifyContent: "center",
     alignItems: "center",
+    flex: 1,
+  },
+  MiddleContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
   BottomBar: {
     width: "100%",
@@ -160,5 +209,39 @@ const styles = StyleSheet.create({
   logo: {
     width: 40,
     height: 40,
+  },
+  AdminPanel: {
+    width: "50%",
+    alignItems: "center",
+    borderLeftWidth: 2,
+    borderColor: Colors.dim,
+    gap:10
+  },
+  AdminText: {
+    paddingTop: 3,
+    paddingHorizontal: 2,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "white",
+  },
+  AdminWork: {
+    marginTop: 20,
+    // borderWidth:1,
+    // borderColor:"white"
+  },
+  AdminPass: {
+    flexDirection: "row",
+    gap: 10,
+    alignItems:"center",
+    justifyContent:"center"
+  },
+  btnAdmin: {
+    paddingTop: 3,
+    paddingHorizontal:15,
+    paddingBottom: 1,
+    borderRadius: 5,
+    flexDirection:"row",
+    gap:5,
+    justifyContent:"center"
   },
 });

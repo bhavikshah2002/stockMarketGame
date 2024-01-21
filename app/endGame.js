@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderLeftWidth: 2,
     borderColor: "#262525",
-    width: "50%",
+    width: "60%",
     alignItems: "center",
   },
   btn: {
