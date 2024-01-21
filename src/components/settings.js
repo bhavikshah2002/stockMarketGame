@@ -11,11 +11,15 @@ import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 export default function Settings() {
-  const { gameId, gameState, myUserId } = useGameState();
+  const { gameId, gameState, myUserId,conn } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const onPass = () => {
-    // router.push("/");
+    conn.current?.emit("pass", { userId: gameState.playerOrder[gameState.currentTurn] });
+    setModalVisible(!modalVisible);
   };
+  const onResults=()=>{
+    conn.current?.emit("endGame", {});
+  }
   return (
     <>
       <View>
@@ -106,7 +110,7 @@ export default function Settings() {
                           styles.btnAdmin,
                           { backgroundColor: Colors.darkGreen },
                         ]}
-                        onPress={onPass}
+                        onPress={onResults}
                       >
                         <LightText size={15}>RESULTS</LightText>
                         <AntDesign name="calculator" size={19} color={Colors.white}/>

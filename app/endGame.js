@@ -1,4 +1,4 @@
-import { Button, StyleSheet, View } from "react-native";
+import { Alert, BackHandler, Button, StyleSheet, View } from "react-native";
 import { useEffect, useState } from "react";
 import {
   BoldText,
@@ -13,59 +13,48 @@ import { Image } from "expo-image";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { Row, Rows, Table } from "react-native-table-component";
+import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function EndGame() {
   const [sound, setSound] = useState();
-  const results = [
-    {
-      id: 0,
-      username: "Buddy",
-      cashInHand: 800000,
-      cashInStocks: 900000,
-    },
-    {
-      id: 2,
-      username: "Arun",
-      cashInHand: 200000,
-      cashInStocks: 1000000,
-    },
-    {
-      id: 1,
-      username: "Arpit",
-      cashInHand: 1000000,
-      cashInStocks: 0,
-    },
-    {
-      id: 4,
-      username: "Lala",
-      cashInHand: 10000,
-      cashInStocks: 500000,
-    },
-    {
-      id: 5,
-      username: "Gotya",
-      cashInHand: 5000,
-      cashInStocks: 500000,
-    },
-    {
-      id: 6,
-      username: "Lalu",
-      cashInHand: 10000,
-      cashInStocks: 400000,
-    },
-    {
-      id: 3,
-      username: "Deep",
-      cashInHand: 0,
-      cashInStocks: 450000,
-    },
-  ];
-  const data = getData(results);
+  const { leave, results: currentResults } = useGameState();
+  const results = [];
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "YES",
+          onPress: () => {
+            router.push("/");
+            leave();
+            stopSound();
+            return true;
+          },
+        },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
+  const data = [];
   function getData(results) {
-    if (!results) return [[1, 1, 1, 1, 1]];
-    let l = [];
+    if (!results) {
+      data.push([]);
+      return;
+    }
     for (let i = 0; i < results.length; i++) {
-      l.push([
+      data.push([
         i + 1,
         results[i].username,
         results[i].cashInHand,
@@ -73,7 +62,10 @@ export default function EndGame() {
         results[i].cashInHand + results[i].cashInStocks,
       ]);
     }
-    return l;
+  }
+  async function stopSound() {
+    await sound.stopAsync();
+    await sound.unloadAsync();
   }
   async function playSound() {
     console.log("Loading Sound");
@@ -87,13 +79,15 @@ export default function EndGame() {
   }
 
   useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
+    for (let i = 0; i < currentResults.length; i++) {
+      results.push(currentResults[i]);
+    }
+    getData(results);
+    console.log(results, data);
+  }, []);
+  useEffect(() => {
+    playSound();
+  }, []);
 
   function GetWinners({ results }) {
     if (!results) return <></>;
@@ -101,7 +95,7 @@ export default function EndGame() {
       <View style={styles.AllWinners}>
         <View style={styles.WinnerName}>
           <FontAwesome5 name="trophy" size={24} color="#d67400" />
-          <RegularText size={24}>{results[0].username}</RegularText>
+          <RegularText size={24}>{results[0]?.username}</RegularText>
         </View>
         {!(results.length > 1) ? (
           <></>
@@ -127,6 +121,8 @@ export default function EndGame() {
   }
   const header = ["Rank", "Player", "Cash", "Stocks", "Total"];
   const onExit = () => {
+    leave();
+    stopSound();
     router.push("/");
   };
 
