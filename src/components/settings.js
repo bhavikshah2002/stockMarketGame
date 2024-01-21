@@ -74,7 +74,7 @@ export default function Settings() {
                   </SemiBoldText>
                   <View style={styles.AdminWork}>
                     <View style={styles.AdminPass}>
-                      <SemiBoldText size={15} style={{marginTop:1}}>
+                      <SemiBoldText size={15} style={{ marginTop: 3 }}>
                         Pass{" "}
                         {
                           gameState.userState[
@@ -92,10 +92,25 @@ export default function Settings() {
                       >
                         <LightText size={15}>PASS</LightText>
                         <FontAwesome5
-                        name="hand-peace"
-                        size={20}
-                        color={Colors.white}
-                      />
+                          name="hand-peace"
+                          size={19}
+                          color={Colors.white}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.AdminPass}>
+                      <SemiBoldText size={15} style={{ marginTop: 3 }}>
+                        Calculate Results
+                      </SemiBoldText>
+                      <TouchableOpacity
+                        style={[
+                          styles.btnAdmin,
+                          { backgroundColor: Colors.darkGreen },
+                        ]}
+                        onPress={onPass}
+                      >
+                        <LightText size={15}>RESULTS</LightText>
+                        <AntDesign name="calculator" size={19} color={Colors.white}/>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -215,7 +230,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderLeftWidth: 2,
     borderColor: Colors.dim,
-    gap:10
+    gap: 10,
   },
   AdminText: {
     paddingTop: 3,
@@ -228,20 +243,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
     // borderWidth:1,
     // borderColor:"white"
+    gap:20
   },
   AdminPass: {
     flexDirection: "row",
-    gap: 10,
-    alignItems:"center",
-    justifyContent:"center"
+    gap: 15,
+    alignItems: "center",
+    justifyContent: "center",
   },
   btnAdmin: {
     paddingTop: 3,
-    paddingHorizontal:15,
+    width:100,
     paddingBottom: 1,
     borderRadius: 5,
-    flexDirection:"row",
-    gap:5,
-    justifyContent:"center"
+    flexDirection: "row",
+    gap: 5,
+    justifyContent: "center",
   },
 });
