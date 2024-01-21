@@ -13,7 +13,6 @@ import { FontAwesome5 } from "@expo/vector-icons";
 export default function Settings() {
   const { gameId, gameState, myUserId } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
-  const [admin, setAdmin] = useState(0);
   const onPass = () => {
     // router.push("/");
   };
@@ -61,7 +60,7 @@ export default function Settings() {
                   </TouchableOpacity>
                 </Link>
               </View>
-              {myUserId != admin ? (
+              {myUserId != gameState.adminId ? (
                 <></>
               ) : (
                 <View style={styles.AdminPanel}>
