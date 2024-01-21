@@ -1,20 +1,48 @@
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import { useGameState } from "../../src/contexts/GameStateContext";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { FlatList, StyleSheet, View } from "react-native";
+import { Alert, BackHandler, FlatList, StyleSheet, View } from "react-native";
 import SmallCard from "../../src/components/SmallCard";
 import UserBadge from "../../src/components/UserBadge";
 import { SemiBoldText } from "../../src/common/Text";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
-import { Slot } from "expo-router";
-import { useState } from "react";
+import { Slot, router } from "expo-router";
+import { useEffect, useState } from "react";
 
 export default function GameRoomLayout() {
-  const { players, gameState, myUserId } = useGameState();
+  const { players, gameState, myUserId, leave } = useGameState();
   const [cards, setCards] = useState(
     gameState?.userState?.[myUserId]?.cardsHeld
   );
+
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel",
+        },
+        {
+          text: "YES",
+          onPress: () => {
+            router.push("/");
+            leave();
+            return true;
+          },
+        },
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   if (!gameState) {
     return (

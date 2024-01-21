@@ -5,35 +5,54 @@ import {
   LightText,
   SemiBoldText,
 } from "../common/Text";
-import { FlatList, Image, StyleSheet, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import { AntDesign } from "@expo/vector-icons";
 import { CompanyInObj } from "../data/cards";
 import { useEffect, useMemo, useState } from "react";
 import Animated, {
+  FadeIn,
   FadeInDown,
   FadeInUp,
   FadeOutDown,
   FadeOutUp,
 } from "react-native-reanimated";
+import { Entypo } from "@expo/vector-icons";
 
 export default function RoundEndReveal({}) {
   const netChangeInCompanyByUser = {
     1: [1, 10, -20],
-    2: [2, -5, -10],
+    2: [2, -5, 10],
     3: [3, -5, -10],
-    4: [4, -5, -10],
+    4: [4, -5, 10],
     5: [5, -5, -10],
-    6: [6, -5, -10],
+    6: [6, -5, 10],
     7: [7, -5, -10],
   };
+  const { gameState, myUserId, conn } = useGameState();
+  const isAdmin = myUserId == 0;
   const noOfPlayers = netChangeInCompanyByUser[1].length;
   const noOfCompanies = 7;
-  const [revealedCards, setRevealedCards] = useState([]);
   const [currentlyRevealingCompanyId, setCurrentlyRevealingCompanyId] =
     useState(1);
-  const { gameState } = useGameState();
+  const revealedCards = useMemo(
+    () =>
+      netChangeInCompanyByUser[currentlyRevealingCompanyId].map(
+        (netChange, id) => ({
+          id,
+          netChange,
+          user: gameState.userState[id % 1].username,
+        })
+      ),
+    [currentlyRevealingCompanyId]
+  );
   const company = useMemo(
     () => CompanyInObj[currentlyRevealingCompanyId],
     [currentlyRevealingCompanyId]
@@ -49,33 +68,17 @@ export default function RoundEndReveal({}) {
 
   useEffect(() => {
     const itv = setInterval(() => {
-      setRevealedCards((prev) =>
-        prev.concat({
-          user: gameState.userState[prev.length % 1].username,
-          id: prev.length,
-          netChange:
-            netChangeInCompanyByUser[currentlyRevealingCompanyId][
-              prev.length % noOfPlayers
-            ],
-        })
-      );
-    }, 2000);
-
-    return () => {
-      clearInterval(itv);
-    };
-  }, [currentlyRevealingCompanyId]);
-
-  useEffect(() => {
-    const itv = setInterval(() => {
-      setCurrentlyRevealingCompanyId((p) => (p == noOfCompanies ? 1 : p + 1));
-      setRevealedCards([]);
+      setCurrentlyRevealingCompanyId((p) => (p == noOfCompanies ? p : p + 1));
     }, 2000 * (noOfPlayers + 1));
 
     return () => {
       clearInterval(itv);
     };
   }, []);
+
+  const onNextRound = () => {
+    conn.current?.emit("startMegaRound", {});
+  };
 
   return (
     <View style={styles.container}>
@@ -125,8 +128,13 @@ export default function RoundEndReveal({}) {
             const up = item.netChange > 0;
             return (
               <Animated.View
-                key={"tableRow" + item.id}
-                entering={FadeInDown.duration(400)}
+                key={
+                  "tableRow" +
+                  item.id +
+                  "-company" +
+                  currentlyRevealingCompanyId
+                }
+                entering={FadeInDown.duration(400).delay((index + 1) * 2000)}
                 exiting={FadeOutDown.duration(400)}
                 style={styles.row}
               >
@@ -152,8 +160,8 @@ export default function RoundEndReveal({}) {
             Total
           </SemiBoldText>
           <Animated.View
-            key={"tableArrow" + totalUp}
-            entering={FadeInUp.duration(400)}
+            key={"tableArrow" + currentlyRevealingCompanyId}
+            entering={FadeInUp.duration(400).delay(2000 * noOfPlayers)}
             exiting={FadeOutDown.duration(400)}
           >
             <AntDesign
@@ -169,14 +177,26 @@ export default function RoundEndReveal({}) {
               color: Colors.dim,
               fontFamily: "Poppins-BoldItalic",
             }}
-            key={"tableRowLast" + Math.abs(totalChange)}
-            entering={FadeInDown.duration(400)}
+            key={"tableRowLast" + currentlyRevealingCompanyId}
+            entering={FadeInDown.duration(400).delay(2000 * noOfPlayers)}
             exiting={FadeOutUp.duration(400)}
           >
             {totalUp ? "+" : "-"}₹{Math.abs(totalChange)}
           </Animated.Text>
         </View>
       </View>
+
+      {currentlyRevealingCompanyId == noOfCompanies && isAdmin && (
+        <Animated.View
+          style={styles.nextRound}
+          entering={FadeIn.duration(1000)}
+        >
+          <TouchableOpacity onPress={onNextRound} style={styles.nextRoundBtn}>
+            <BoldText>NEXT ROUND</BoldText>
+            <Entypo name="chevron-right" size={24} color={Colors.white} />
+          </TouchableOpacity>
+        </Animated.View>
+      )}
     </View>
   );
 }
@@ -188,6 +208,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: 20,
     alignItems: "center",
+    position: "relative",
   },
 
   logo: {
@@ -257,5 +278,23 @@ const styles = StyleSheet.create({
     width: 10,
     alignSelf: "flex-end",
     paddingBottom: 2,
+  },
+
+  nextRound: {
+    position: "absolute",
+    right: 10,
+    bottom: 10,
+    padding: 10,
+    paddingHorizontal: 15,
+    backgroundColor: Colors.darkPink,
+    borderRadius: 5,
+    zIndex: 9999,
+    flexDirection: "row",
+  },
+
+  nextRoundBtn: {
+    flexDirection: "row",
+    gap: 2,
+    alignItems: "center",
   },
 });
