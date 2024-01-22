@@ -17,8 +17,9 @@ import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function EndGame() {
   const [sound, setSound] = useState();
-  const { leave, results: currentResults } = useGameState();
-  const results = [];
+  const [results, setResults] = useState([]);
+  const [data, setData] = useState([[0,0,0,0,0]]);
+  const { leave, conn } = useGameState();
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
@@ -47,14 +48,14 @@ export default function EndGame() {
 
     return () => backHandler.remove();
   }, []);
-  const data = [];
   function getData(results) {
     if (!results) {
-      data.push([]);
+      setData([]);
       return;
     }
+    let l =[]
     for (let i = 0; i < results.length; i++) {
-      data.push([
+      l.push([
         i + 1,
         results[i].username,
         results[i].cashInHand,
@@ -62,6 +63,7 @@ export default function EndGame() {
         results[i].cashInHand + results[i].cashInStocks,
       ]);
     }
+    setData(l)
   }
   async function stopSound() {
     await sound.stopAsync();
@@ -78,16 +80,24 @@ export default function EndGame() {
     await sound.playAsync();
   }
 
+  
   useEffect(() => {
-    for (let i = 0; i < currentResults.length; i++) {
-      results.push(currentResults[i]);
-    }
-    getData(results);
-    console.log(results, data);
-  }, []);
-  useEffect(() => {
+    conn.current?.emit("endGame", {});
     playSound();
-  }, []);
+    if (!conn.current) return;
+
+    const endGame = (data) => {
+      console.log(data)
+      setResults(data.results)
+      getData(data.results)
+    };
+
+    conn.current.on("endGame", endGame);
+
+    return () => {
+      conn.current.off("endGame", endGame);
+    };
+  }, [conn.current]);
 
   function GetWinners({ results }) {
     if (!results) return <></>;
