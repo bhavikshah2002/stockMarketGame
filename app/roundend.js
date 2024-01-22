@@ -6,10 +6,11 @@ import { useGameState } from "../src/contexts/GameStateContext";
 import RoundEndReveal from "../src/components/RoundEndReveal";
 import CompanyCardForRoundEnd from "../src/components/CompanyCardForRoundEnd";
 import { router } from "expo-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function RoundEnd() {
-  const { gameState,leave } = useGameState();
+  const { gameState, leave, conn } = useGameState();
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const backAction = () => {
@@ -39,24 +40,43 @@ export default function RoundEnd() {
     return () => backHandler.remove();
   }, []);
 
+  useEffect(() => {
+    conn.current?.emit("endMegaRound", {});
+  }, []);
+
+  useEffect(() => {
+    if (!conn.current) return;
+    const endMegaRound = (curdata) => {
+      setData(curdata);
+    };
+
+    conn.current.on("endMegaRound", endMegaRound);
+
+    return () => {
+      conn.current.off("endMegaRound", endMegaRound);
+    };
+  }, [conn.current]);
+
   return (
     <View style={styles.Conatiner}>
       <View style={styles.Left}>
-        <FlatList
-          data={Companies}
-          contentContainerStyle={styles.contentContainerStyle}
-          renderItem={({ item }) => (
-            <CompanyCardForRoundEnd
-              currentWorth={gameState.companyValues[item.id].companyShareValue}
-              company={item}
-              newValue={gameState.companyValues[item.id].companyShareValue}
-            />
-          )}
-          keyExtractor={(item) => item.id}
-        />
+        {data && (
+          <FlatList
+            data={Companies}
+            contentContainerStyle={styles.contentContainerStyle}
+            renderItem={({ item }) => (
+              <CompanyCardForRoundEnd
+                currentWorth={data.priceBook[item.id].at(-2)}
+                company={item}
+                newValue={data.priceBook[item.id].at(-1)}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        )}
       </View>
       <View style={styles.Right}>
-        <RoundEndReveal />
+        {data && <RoundEndReveal netChangeInCompanyByUser={data.netChange} />}
       </View>
     </View>
   );

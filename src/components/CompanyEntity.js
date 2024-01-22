@@ -11,18 +11,39 @@ import { useGameState } from "../contexts/GameStateContext";
 import { AntDesign } from "@expo/vector-icons";
 import { useSharedValue } from "react-native-reanimated";
 import MySlider from "./Slider";
+import { useEffect, useState } from "react";
 
 export default function CompanyEntity() {
   const { selectedEntity: company, gameState, conn, myUserId } = useGameState();
+  const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(
+    Math.floor(
+      gameState.userState[myUserId].cashInHand /
+        gameState.companyValues[company.id].companyShareValue /
+        1000
+    )
+    
+  );
+  const [maxStocksPossibleToSell, setMaxStocksPossibleToSell] = useState(
+    Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
+  );
   const isProfit = true;
-  const maxStocksPossibleToSell = Math.floor(
-    gameState.userState[myUserId].holdings[company.id] / 1000
-  );
-  const maxStocksPossibleToBuy = Math.floor(
-    gameState.userState[myUserId].cashInHand /
-      gameState.companyValues[company.id].companyShareValue /
-      1000
-  );
+
+  useEffect(() => {
+    
+    console.log(company,"Here")
+    setMaxStocksPossibleToSell(
+      Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
+    );
+    setMaxStocksPossibleToBuy(
+      Math.floor(
+        gameState.userState[myUserId].cashInHand /
+          gameState.companyValues[company.id].companyShareValue /
+          1000
+      )
+    );
+    console.log(maxStocksPossibleToBuy,maxStocksPossibleToSell,"After")
+  }, [company]);
+
   const buyNoOfStocks = useSharedValue(Math.floor(maxStocksPossibleToBuy / 2));
   const sellNoOfStocks = useSharedValue(
     Math.floor(maxStocksPossibleToSell / 2)
@@ -43,7 +64,6 @@ export default function CompanyEntity() {
       numberOfStocks: Math.floor(sellNoOfStocks.value) * 1000,
     });
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -67,7 +87,7 @@ export default function CompanyEntity() {
           </ItalicText>
         </View>
 
-        <FlatList
+        {/* <FlatList
           horizontal
           style={{
             // backgroundColor: "#23d99721",
@@ -76,11 +96,11 @@ export default function CompanyEntity() {
             paddingRight: 10,
           }}
           renderItem={({ item }) => (
-            <View style={[styles.graphBar, { height: item / 2 }]} />
+            <View style={[styles.graphBar, { height: item / 3 }]} />
           )}
           data={gameState.priceBook[company.id]}
           keyExtractor={(_, i) => i}
-        />
+        /> */}
       </View>
       <View style={styles.bottom}>
         <View style={styles.sliderBox}>
@@ -91,6 +111,7 @@ export default function CompanyEntity() {
             <LightText size={18}>BUY</LightText>
           </TouchableOpacity>
           <MySlider
+            key={company.name+`${maxStocksPossibleToBuy}`+`${maxStocksPossibleToSell}`}
             value={buyNoOfStocks}
             max={maxStocksPossibleToBuy}
             min={0}
@@ -104,6 +125,7 @@ export default function CompanyEntity() {
             <LightText size={18}>SELL</LightText>
           </TouchableOpacity>
           <MySlider
+            key={company.name+`${maxStocksPossibleToBuy}`+`${maxStocksPossibleToSell}`}
             value={sellNoOfStocks}
             max={maxStocksPossibleToSell}
             min={0}
@@ -128,7 +150,7 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    width: "25%",
+    width: "30%",
     height: 60,
     objectFit: "cover",
   },
@@ -136,9 +158,8 @@ const styles = StyleSheet.create({
   top: {
     width: "100%",
     flexDirection: "row",
-    gap: 8,
+    gap: 30,
     alignItems: "center",
-    justifyContent: "space-between",
   },
 
   bottom: {

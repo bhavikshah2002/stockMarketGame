@@ -88,6 +88,11 @@ export default function Settings() {
                         }
                         {"'s "}turn
                       </SemiBoldText>
+                      <SemiBoldText size={15} style={{ marginTop: 3 }}>
+                        Calculate Results
+                      </SemiBoldText>
+                    </View>
+                    <View style={styles.AdminPass}>
                       <TouchableOpacity
                         style={[
                           styles.btnAdmin,
@@ -102,11 +107,6 @@ export default function Settings() {
                           color={Colors.white}
                         />
                       </TouchableOpacity>
-                    </View>
-                    <View style={styles.AdminPass}>
-                      <SemiBoldText size={15} style={{ marginTop: 3 }}>
-                        Calculate Results
-                      </SemiBoldText>
                       <TouchableOpacity
                         style={[
                           styles.btnAdmin,
@@ -250,12 +250,13 @@ const styles = StyleSheet.create({
   },
   AdminWork: {
     marginTop: 20,
+    flexDirection: "row",
     // borderWidth:1,
     // borderColor:"white"
     gap: 20,
   },
   AdminPass: {
-    flexDirection: "row",
+    
     gap: 15,
     alignItems: "center",
     justifyContent: "center",

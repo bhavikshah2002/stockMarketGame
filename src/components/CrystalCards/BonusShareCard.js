@@ -73,20 +73,10 @@ export default function BonusShareCard({ card }) {
                 {item.name}
               </SemiBoldText>
 
-              <LightText size={12} color={Colors.dim} style={styles.strike}>
-                {Math.floor((
+              <RegularText size={10} color={Colors.dim} style={styles.strike}>
+                Get <BoldText color={Colors.green}>{Math.floor(Math.floor(
                   gameState.userState[myUserId].holdings[item.id] / 5000
-                )*1000)/1000} K
-              </LightText>
-              <LightText color={Colors.dim} size={8}>
-                {" "}
-                stocks worth
-              </LightText>
-              <RegularText size={13} color={Colors.green}>
-                ₹
-                {Math.floor(
-                  gameState.companyValues[item.id].companyShareValue / 2
-                )}
+                )*1000)/1000}K</BoldText> stocks for Free
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

@@ -26,29 +26,21 @@ import Animated, {
 } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 
-export default function RoundEndReveal({}) {
-  const netChangeInCompanyByUser = {
-    1: [1, 10, -20],
-    2: [2, -5, 10],
-    3: [3, -5, -10],
-    4: [4, -5, 10],
-    5: [5, -5, -10],
-    6: [6, -5, 10],
-    7: [7, -5, -10],
-  };
+export default function RoundEndReveal({netChangeInCompanyByUser}) {
   const { gameState, myUserId, conn } = useGameState();
-  const isAdmin = myUserId == 0;
+  const isAdmin = myUserId == gameState.adminId;
   const noOfPlayers = netChangeInCompanyByUser[1].length;
   const noOfCompanies = 7;
   const [currentlyRevealingCompanyId, setCurrentlyRevealingCompanyId] =
     useState(1);
+  const isLastRound = gameState.totalMegaRounds==gameState.currentMegaRound
   const revealedCards = useMemo(
     () =>
       netChangeInCompanyByUser[currentlyRevealingCompanyId].map(
         (netChange, id) => ({
           id,
           netChange,
-          user: gameState.userState[id % 1].username,
+          user: gameState.userState[id].username,
         })
       ),
     [currentlyRevealingCompanyId]
@@ -79,6 +71,9 @@ export default function RoundEndReveal({}) {
   const onNextRound = () => {
     conn.current?.emit("startMegaRound", {});
   };
+  const onResults = () => {
+    conn.current?.emit("endGame", {});
+  };
 
   return (
     <View style={styles.container}>
@@ -102,21 +97,6 @@ export default function RoundEndReveal({}) {
             </CustomText>
           </ItalicText>
         </View>
-
-        <FlatList
-          horizontal
-          style={{
-            // backgroundColor: "#23d99721",
-            marginRight: 10,
-            padding: 5,
-            paddingRight: 10,
-          }}
-          renderItem={({ item }) => (
-            <View style={[styles.graphBar, { height: item / 2 }]} />
-          )}
-          data={gameState.priceBook[company.id]}
-          keyExtractor={(_, i) => i}
-        />
       </View>
 
       <View style={styles.table}>
@@ -189,12 +169,18 @@ export default function RoundEndReveal({}) {
       {currentlyRevealingCompanyId == noOfCompanies && isAdmin && (
         <Animated.View
           style={styles.nextRound}
-          entering={FadeIn.duration(1000)}
+          entering={FadeIn.duration(1000).delay(gameState.noOfPlayers*2000)}
         >
+          { isLastRound?
+          <TouchableOpacity onPress={onResults} style={styles.nextRoundBtn}>
+            <BoldText>Results</BoldText>
+            <Entypo name="chevron-right" size={24} color={Colors.white} />
+          </TouchableOpacity>:
           <TouchableOpacity onPress={onNextRound} style={styles.nextRoundBtn}>
             <BoldText>NEXT ROUND</BoldText>
             <Entypo name="chevron-right" size={24} color={Colors.white} />
           </TouchableOpacity>
+          } 
         </Animated.View>
       )}
     </View>
@@ -282,8 +268,8 @@ const styles = StyleSheet.create({
 
   nextRound: {
     position: "absolute",
-    right: 10,
-    bottom: 10,
+    right: 15,
+    bottom: 15,
     padding: 10,
     paddingHorizontal: 15,
     backgroundColor: Colors.darkPink,
