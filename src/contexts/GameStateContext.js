@@ -42,7 +42,7 @@ export default function GameStateContextProvider({ children }) {
   const [myUserId, setMyUserId] = useState(null);
   const [selectedCard, _setSelectedCard] = useState(null);
   const [results, setResults] = useState([]);
-  const [selectedPlayerId, setSelectedPlayerId] = useState(1);
+  const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useState("username");
@@ -118,7 +118,7 @@ export default function GameStateContextProvider({ children }) {
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
-      if(data.currentSubRound==4) setSelectedCard(null)
+      if (data.currentSubRound == 4) setSelectedCard(null);
       if (shouldDistributeCards) {
         setLoadingMsg("Cards Are Being Distributed! Please hold on...");
 
@@ -164,12 +164,12 @@ export default function GameStateContextProvider({ children }) {
       conn.current.off("roundInfo", roundInfo);
     };
   }, [conn.current, myUserId]);
-  
+
   useEffect(() => {
     if (!conn.current) return;
     const endGame = (data) => {
       setResults(data.results);
-      router.push("/endGame")
+      router.push("/endGame");
     };
 
     conn.current.on("endGame", endGame);

@@ -11,7 +11,7 @@ import { useState } from "react";
 import ModalForCard from "./ModalForCard";
 
 export default function DividendCard({ card }) {
-  const { gameState, myUserId, conn } = useGameState();
+  const { gameState, myUserId, conn, setSelectedCard } = useGameState();
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -33,6 +33,7 @@ export default function DividendCard({ card }) {
               companyId: selectedCompany.id,
               numberOfStocks: 0,
             });
+            setSelectedCard(null);
           }}
         />
       </View>
@@ -72,8 +73,7 @@ export default function DividendCard({ card }) {
               <RegularText size={13} color={Colors.green}>
                 ₹
                 {(
-                  (5 *
-                    gameState.userState[myUserId].holdings[item.id]) /
+                  (5 * gameState.userState[myUserId].holdings[item.id]) /
                   1000
                 ).toFixed(0)}
                 K

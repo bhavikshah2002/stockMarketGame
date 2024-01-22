@@ -11,13 +11,12 @@ import { CompanyInObj } from "../data/cards";
 import { useGameState } from "../contexts/GameStateContext";
 
 export default function CompanyCard({ company, currentWorth, yourHoldings }) {
-  const { selectCompany ,gameState,myUserId} = useGameState();
+  const { selectCompany, gameState, myUserId } = useGameState();
   let color =
     currentWorth > gameState.priceBook[company.id].at(-2)
       ? Colors.green
       : Colors.red;
-  if(gameState.priceBook[company.id].length==1)
-    color = Colors.info
+  if (gameState.priceBook[company.id].length == 1) color = Colors.info;
   if (currentWorth == gameState.priceBook[company.id].at(-2))
     color = Colors.info;
 
@@ -36,18 +35,19 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
       <View style={{ flex: 1 }}>
         <SemiBoldText size={13}>{company.name}</SemiBoldText>
         <RegularText size={9} color={Colors.dim}>
-          Current Value
+          Price
           <CustomText family="SemiBoldItalic" color={color}>
             {"  "}₹{currentWorth}
           </CustomText>
         </RegularText>
       </View>
       <View style={{ marginRight: 6 }}>
-        {yourHoldings!=0?
-        <BoldText size={18}>{(yourHoldings / 1000).toFixed(0)}K</BoldText>:
-        <BoldText size={18}></BoldText>
-        }
-        </View>
+        {yourHoldings != 0 ? (
+          <BoldText size={18}>{(yourHoldings / 1000).toFixed(0)}K</BoldText>
+        ) : (
+          <BoldText size={18}></BoldText>
+        )}
+      </View>
     </TouchableOpacity>
   );
 }

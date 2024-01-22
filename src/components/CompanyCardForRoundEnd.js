@@ -1,14 +1,7 @@
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-import {
-  BoldText,
-  CustomText,
-  RegularText,
-  SemiBoldText,
-} from "../common/Text";
+import { Image, StyleSheet, View } from "react-native";
+import { CustomText, RegularText, SemiBoldText } from "../common/Text";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../common/styles";
-import { CompanyInObj } from "../data/cards";
-import { useGameState } from "../contexts/GameStateContext";
 
 export default function CompanyCardForRoundEnd({
   company,

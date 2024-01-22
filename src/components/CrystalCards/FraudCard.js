@@ -17,7 +17,7 @@ import MySlider from "../Slider";
 import { useSharedValue } from "react-native-reanimated";
 
 export default function FraudCard({ card }) {
-  const { gameState, conn, myUserId } = useGameState();
+  const { gameState, conn, myUserId, setSelectedCard } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(0);
@@ -35,6 +35,7 @@ export default function FraudCard({ card }) {
       )
     );
   }
+  
   if (modalVisible && selectedCompany) {
     return (
       <View style={styles.container}>
@@ -62,6 +63,7 @@ export default function FraudCard({ card }) {
               companyId: selectedCompany.id,
               numberOfStocks: noOfStocks.value,
             });
+            setSelectedCard(null);
           }}
         />
       </View>

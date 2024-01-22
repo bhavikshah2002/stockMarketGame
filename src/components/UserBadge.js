@@ -17,11 +17,15 @@ export default function UserBadge({ player }) {
   const { selectedPlayerId, setSelectedPlayerId, gameState } = useGameState();
   const color = colorsArray[player.id % 6];
   const isSelected = selectedPlayerId == player.id;
-  const isCurrentTurn = gameState.currentTurn == player.id;
+  const isCurrentTurn =
+    gameState.playerOrder[gameState.currentTurn] == player.id;
 
   return (
-    <TouchableOpacity onPress={() => setSelectedPlayerId(player.id)}>
-      <View style={[styles.container]}>
+    <TouchableOpacity
+      style={isCurrentTurn && styles.shadow}
+      onPress={() => setSelectedPlayerId(player.id)}
+    >
+      <View style={[styles.shadow, styles.container]}>
         <View
           style={{
             backgroundColor: color,
@@ -88,5 +92,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     overflow: "hidden",
     position: "relative",
+  },
+
+  shadow: {
+    shadowColor: Colors.green,
+    shadowOffset: {
+      width: 13,
+      height: 8,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 30,
+    elevation: 16,
   },
 });

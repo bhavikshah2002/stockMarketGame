@@ -14,7 +14,7 @@ import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
 
 export default function BonusShareCard({ card }) {
-  const { gameState, myUserId, conn } = useGameState();
+  const { gameState, myUserId, conn, setSelectedCard } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -36,6 +36,7 @@ export default function BonusShareCard({ card }) {
               companyId: selectedCompany.id,
               numberOfStocks: 0,
             });
+            setSelectedCard(null);
           }}
         />
       </View>
@@ -74,9 +75,16 @@ export default function BonusShareCard({ card }) {
               </SemiBoldText>
 
               <RegularText size={10} color={Colors.dim} style={styles.strike}>
-                Get <BoldText color={Colors.green}>{Math.floor(Math.floor(
-                  gameState.userState[myUserId].holdings[item.id] / 5000
-                )*1000)/1000}K</BoldText> stocks for Free
+                Get{" "}
+                <BoldText color={Colors.green}>
+                  {Math.floor(
+                    Math.floor(
+                      gameState.userState[myUserId].holdings[item.id] / 5000
+                    ) * 1000
+                  ) / 1000}
+                  K
+                </BoldText>{" "}
+                stocks for Free
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>
