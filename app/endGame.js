@@ -17,9 +17,8 @@ import { useGameState } from "../src/contexts/GameStateContext";
 
 export default function EndGame() {
   const [sound, setSound] = useState();
-  const [results, setResults] = useState([]);
   const [data, setData] = useState([[0, 0, 0, 0, 0]]);
-  const { leave, conn } = useGameState();
+  const { leave, results } = useGameState();
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
@@ -78,21 +77,9 @@ export default function EndGame() {
   }
 
   useEffect(() => {
-    conn.current?.emit("endGame", {});
     playSound();
-    if (!conn.current) return;
-
-    const endGame = (data) => {
-      setResults(data.results);
-      getData(data.results);
-    };
-
-    conn.current.on("endGame", endGame);
-
-    return () => {
-      conn.current.off("endGame", endGame);
-    };
-  }, [conn.current]);
+    getData(results)
+  }, [results]);
 
   function GetWinners({ results }) {
     if (!results) return <></>;

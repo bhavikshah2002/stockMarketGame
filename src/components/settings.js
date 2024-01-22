@@ -20,7 +20,7 @@ export default function Settings() {
     setModalVisible(!modalVisible);
   };
   const onResults = () => {
-    router.push("/endGame");
+    conn.current?.emit("endGame", {});
   };
   return (
     <>
