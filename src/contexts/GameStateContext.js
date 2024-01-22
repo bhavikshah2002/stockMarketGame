@@ -25,8 +25,6 @@ const GameStateContext = createContext({
   players: null,
   myUserName: "username",
   setMyUserName: (s) => {},
-  results:[],
-  serResults:(s)=>{},
   gameId: null,
   setGameId(p) {},
   create() {},
@@ -39,7 +37,6 @@ const GameStateContext = createContext({
 export default function GameStateContextProvider({ children }) {
   const conn = useRef(null);
   const [gameState, setGameState] = useState(null);
-  const [results, setResults] = useState([]);
   const [myUserId, setMyUserId] = useState(null);
   const [selectedCard, _setSelectedCard] = useState(null);
   const [selectedPlayerId, setSelectedPlayerId] = useState(1);
@@ -157,24 +154,6 @@ export default function GameStateContextProvider({ children }) {
     };
   }, [conn.current, myUserId]);
 
-  useEffect(() => {
-    if (!conn.current) return;
-
-    const endGame = (data) => {
-      console.log(data)
-      setResults(data.results)
-      router.push("/endGame")
-    };
-
-    conn.current.on("endGame", endGame);
-
-    return () => {
-      conn.current.off("endGame", endGame);
-    };
-  }, [conn.current]);
-
-
-
   return (
     <GameStateContext.Provider
       value={{
@@ -190,7 +169,6 @@ export default function GameStateContextProvider({ children }) {
         players,
         myUserName,
         setMyUserName,
-
         conn,
         gameId,
         setGameId,
@@ -199,8 +177,6 @@ export default function GameStateContextProvider({ children }) {
         leave,
         myUserId,
         setMyUserId,
-        results,
-        setResults
       }}
     >
       {children}

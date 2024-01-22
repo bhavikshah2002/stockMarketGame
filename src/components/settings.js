@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { BoldText, LightText, RegularText, SemiBoldText } from "../common/Text";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
@@ -18,7 +18,7 @@ export default function Settings() {
     setModalVisible(!modalVisible);
   };
   const onResults=()=>{
-    conn.current?.emit("endGame", {});
+    router.push("/endGame")
   }
   return (
     <>
