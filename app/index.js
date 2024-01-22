@@ -82,7 +82,7 @@ export default function HomePage() {
             onPress={onCreate}
           >
             <FontAwesome name="user-plus" size={28} color="white" />
-            <BoldText size={25} transform="uppercase" style={{paddingTop:3}}>
+            <BoldText size={25} transform="uppercase" style={{ paddingTop: 3 }}>
               Create
             </BoldText>
           </TouchableOpacity>
@@ -104,7 +104,11 @@ export default function HomePage() {
               style={{ ...styles.center, ...styles.Btn }}
               onPress={() => setIsEntering(true)}
             >
-              <BoldText size={25} transform="uppercase" style={{paddingTop:3}}>
+              <BoldText
+                size={25}
+                transform="uppercase"
+                style={{ paddingTop: 3 }}
+              >
                 Join
               </BoldText>
               <Ionicons name="enter" size={30} color={Colors.white} />
@@ -119,11 +123,9 @@ export default function HomePage() {
           gap: -5,
         }}
       >
-        <Link href={"/endGame"}>
-          <SemiBoldText color={Colors.dim} size={13}>
-            Created with ❤️
-          </SemiBoldText>
-        </Link>
+        <SemiBoldText color={Colors.dim} size={13}>
+          Created with ❤️
+        </SemiBoldText>
         <SemiBoldText>Bhavik Shah, Arun Mulakkal, Arpit Shah</SemiBoldText>
       </View>
     </View>

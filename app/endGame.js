@@ -18,7 +18,7 @@ import { useGameState } from "../src/contexts/GameStateContext";
 export default function EndGame() {
   const [sound, setSound] = useState();
   const [results, setResults] = useState([]);
-  const [data, setData] = useState([[0,0,0,0,0]]);
+  const [data, setData] = useState([[0, 0, 0, 0, 0]]);
   const { leave, conn } = useGameState();
   useEffect(() => {
     const backAction = () => {
@@ -53,7 +53,7 @@ export default function EndGame() {
       setData([]);
       return;
     }
-    let l =[]
+    let l = [];
     for (let i = 0; i < results.length; i++) {
       l.push([
         i + 1,
@@ -63,33 +63,28 @@ export default function EndGame() {
         results[i].cashInHand + results[i].cashInStocks,
       ]);
     }
-    setData(l)
+    setData(l);
   }
   async function stopSound() {
     await sound.stopAsync();
     await sound.unloadAsync();
   }
   async function playSound() {
-    console.log("Loading Sound");
     const { sound } = await Audio.Sound.createAsync(
       require("../assets/audio/makemoney.mp3")
     );
     setSound(sound);
-
-    console.log("Playing Sound");
     await sound.playAsync();
   }
 
-  
   useEffect(() => {
     conn.current?.emit("endGame", {});
     playSound();
     if (!conn.current) return;
 
     const endGame = (data) => {
-      console.log(data)
-      setResults(data.results)
-      getData(data.results)
+      setResults(data.results);
+      getData(data.results);
     };
 
     conn.current.on("endGame", endGame);
@@ -121,9 +116,6 @@ export default function EndGame() {
           <View style={styles.WinnerName}>
             <FontAwesome5 name="trophy" size={24} color="#964B00" />
             <RegularText size={24}>{results[2].username}</RegularText>
-            {/* <RegularText size={18} color={Colors.dim}>
-            ₹ {(results[2].cashInHand + results[2].cashInStocks)/100000}L
-          </RegularText> */}
           </View>
         )}
       </View>
@@ -138,9 +130,6 @@ export default function EndGame() {
 
   return (
     <View style={styles.container}>
-      {/* <SemiBoldText>Hello</SemiBoldText> */}
-      {/* <Button title="Play Sound" onPress={playSound} /> */}
-
       <View style={styles.Winner}>
         <Image
           style={{ width: 250, height: 300, marginTop: -80 }}

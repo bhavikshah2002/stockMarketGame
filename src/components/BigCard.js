@@ -11,9 +11,13 @@ export default function BigCard() {
 
   if (!card)
     return (
-      <View style={styles.container}>
-        <AntDesign name="exclamationcircle" size={24} color={Colors.red} />
-        <SemiBoldText size={15} align="center">
+      <View style={[styles.container, { justifyContent:"center",alignItems:"center",paddingLeft:3,gap:15}]}>
+        <Image
+            style={styles.logo}
+            source={require("../../assets/images/withoutBgLogo1.png")}
+            contentFit="contain"
+          />
+        <SemiBoldText size={15} align="center" color={Colors.dim}>
           Please select a card!
         </SemiBoldText>
       </View>
@@ -122,5 +126,9 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 5,
     objectFit: "contain",
+  },
+  logo: {
+    width: 100,
+    height: 80,
   },
 });

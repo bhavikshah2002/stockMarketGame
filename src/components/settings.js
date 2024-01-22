@@ -11,15 +11,17 @@ import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 export default function Settings() {
-  const { gameId, gameState, myUserId,conn } = useGameState();
+  const { gameId, gameState, myUserId, conn } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const onPass = () => {
-    conn.current?.emit("pass", { userId: gameState.playerOrder[gameState.currentTurn] });
+    conn.current?.emit("pass", {
+      userId: gameState.playerOrder[gameState.currentTurn],
+    });
     setModalVisible(!modalVisible);
   };
-  const onResults=()=>{
-    router.push("/endGame")
-  }
+  const onResults = () => {
+    router.push("/endGame");
+  };
   return (
     <>
       <View>
@@ -113,7 +115,11 @@ export default function Settings() {
                         onPress={onResults}
                       >
                         <LightText size={15}>RESULTS</LightText>
-                        <AntDesign name="calculator" size={19} color={Colors.white}/>
+                        <AntDesign
+                          name="calculator"
+                          size={19}
+                          color={Colors.white}
+                        />
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -246,7 +252,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     // borderWidth:1,
     // borderColor:"white"
-    gap:20
+    gap: 20,
   },
   AdminPass: {
     flexDirection: "row",
@@ -256,7 +262,7 @@ const styles = StyleSheet.create({
   },
   btnAdmin: {
     paddingTop: 3,
-    width:100,
+    width: 100,
     paddingBottom: 1,
     borderRadius: 5,
     flexDirection: "row",
