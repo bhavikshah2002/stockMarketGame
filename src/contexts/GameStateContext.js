@@ -107,6 +107,9 @@ export default function GameStateContextProvider({ children }) {
   const leave = () => {
     setGameId(null);
     setMyUserId(null);
+    _setSelectedCard(null);
+    selectEntity(null);
+    setSelectedPlayerId(0);
     conn.current?.close();
   };
 
@@ -118,7 +121,7 @@ export default function GameStateContextProvider({ children }) {
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
-      if(data.currentSubRound==4) setSelectedCard(null)
+      if (data.currentSubRound == 4) setSelectedCard(null);
       if (shouldDistributeCards) {
         setLoadingMsg("Cards Are Being Distributed! Please hold on...");
 
@@ -164,12 +167,12 @@ export default function GameStateContextProvider({ children }) {
       conn.current.off("roundInfo", roundInfo);
     };
   }, [conn.current, myUserId]);
-  
+
   useEffect(() => {
     if (!conn.current) return;
     const endGame = (data) => {
       setResults(data.results);
-      router.push("/endGame")
+      router.push("/endGame");
     };
 
     conn.current.on("endGame", endGame);

@@ -30,8 +30,12 @@ export default function FraudCard({ card }) {
         )
       ) * 5;
     setMaxStocksPossibleToBuy(
-      Math.floor(
-        gameState.userState[myUserId].cashInHand / newShareValue / 1000
+      Math.min(
+        gameState.companyValues[company.id].stocksAvailable,
+        Math.floor(
+          gameState.userState[myUserId].cashInHand / newShareValue / 1000
+        ),
+        gameState.c
       )
     );
   }
@@ -60,7 +64,7 @@ export default function FraudCard({ card }) {
               userId: myUserId,
               crystalType: card.crystalType,
               companyId: selectedCompany.id,
-              numberOfStocks: noOfStocks.value,
+              numberOfStocks: Math.floor(noOfStocks.value) * 1000,
             });
           }}
         />

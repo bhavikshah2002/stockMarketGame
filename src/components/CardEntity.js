@@ -135,7 +135,6 @@ function GetCircuitCard({ card }) {
 
 export default function CardEntity() {
   const { selectedEntity: card } = useGameState();
-
   if (!card || card?.type == "NORMAL") {
     return (
       <View style={[styles.container, { flexDirection: "column",justifyContent:"center",gap:15 }]}>

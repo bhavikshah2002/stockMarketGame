@@ -15,7 +15,10 @@ export default function GameRoomLayout() {
   const [cards, setCards] = useState(
     gameState?.userState?.[myUserId]?.cardsHeld
   );
-
+  console.log(
+    gameState?.currentSubRound,
+    gameState?.userState?.[myUserId]?.cardsHeld
+  );
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
@@ -73,7 +76,12 @@ export default function GameRoomLayout() {
             onDragEnd={({ data }) => setCards(data)}
             horizontal={true}
             renderItem={({ item, drag, isActive }) => (
-              <SmallCard card={item} drag={drag} isActive={isActive} />
+              <SmallCard
+                key={item.id}
+                card={item}
+                drag={drag}
+                isActive={isActive}
+              />
             )}
             keyExtractor={(item) => item.id}
           />

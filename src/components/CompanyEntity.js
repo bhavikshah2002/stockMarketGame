@@ -5,7 +5,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BoldText, CustomText, ItalicText, LightText } from "../common/Text";
+import {
+  BoldText,
+  CustomText,
+  ItalicText,
+  LightText,
+  RegularText,
+} from "../common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import { AntDesign } from "@expo/vector-icons";
@@ -15,13 +21,31 @@ import { useEffect, useState } from "react";
 
 export default function CompanyEntity() {
   const { selectedEntity: company, gameState, conn, myUserId } = useGameState();
+  if (!company) {
+    return (
+      <View
+        style={[
+          styles.container,
+          { flexDirection: "column", justifyContent: "center", gap: 15 },
+        ]}
+      >
+        <Image
+          style={styles.logo}
+          source={require("../../assets/images/withoutBgLogo1.png")}
+          contentFit="contain"
+        />
+        <RegularText size={13} color={Colors.dim} align="center">
+          Please select a company to proceed a transaction!
+        </RegularText>
+      </View>
+    );
+  }
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(
     Math.floor(
       gameState.userState[myUserId].cashInHand /
         gameState.companyValues[company.id].companyShareValue /
         1000
     )
-    
   );
   const [maxStocksPossibleToSell, setMaxStocksPossibleToSell] = useState(
     Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
@@ -29,8 +53,6 @@ export default function CompanyEntity() {
   const isProfit = true;
 
   useEffect(() => {
-    
-    console.log(company,"Here")
     setMaxStocksPossibleToSell(
       Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
     );
@@ -41,7 +63,7 @@ export default function CompanyEntity() {
           1000
       )
     );
-    console.log(maxStocksPossibleToBuy,maxStocksPossibleToSell,"After")
+    console.log(maxStocksPossibleToBuy, maxStocksPossibleToSell, "After");
   }, [company]);
 
   const buyNoOfStocks = useSharedValue(Math.floor(maxStocksPossibleToBuy / 2));
@@ -64,6 +86,9 @@ export default function CompanyEntity() {
       numberOfStocks: Math.floor(sellNoOfStocks.value) * 1000,
     });
   };
+
+  console.log(company, "HERE COMPANY");
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -111,7 +136,11 @@ export default function CompanyEntity() {
             <LightText size={18}>BUY</LightText>
           </TouchableOpacity>
           <MySlider
-            key={company.name+`${maxStocksPossibleToBuy}`+`${maxStocksPossibleToSell}`}
+            key={
+              company.name +
+              `${maxStocksPossibleToBuy}` +
+              `${maxStocksPossibleToSell}`
+            }
             value={buyNoOfStocks}
             max={maxStocksPossibleToBuy}
             min={0}
@@ -125,7 +154,11 @@ export default function CompanyEntity() {
             <LightText size={18}>SELL</LightText>
           </TouchableOpacity>
           <MySlider
-            key={company.name+`${maxStocksPossibleToBuy}`+`${maxStocksPossibleToSell}`}
+            key={
+              company.name +
+              `${maxStocksPossibleToBuy}` +
+              `${maxStocksPossibleToSell}`
+            }
             value={sellNoOfStocks}
             max={maxStocksPossibleToSell}
             min={0}
@@ -198,5 +231,9 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     borderTopLeftRadius: 1.5,
     borderTopRightRadius: 1.5,
+  },
+  logo: {
+    width: 100,
+    height: 80,
   },
 });

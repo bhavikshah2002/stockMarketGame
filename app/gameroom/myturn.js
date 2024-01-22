@@ -43,8 +43,7 @@ export default function MyTurnScreen() {
         />
       </View>
       <View style={styles.center}>
-        {selectedEntityType == "card" && <CardEntity />}
-        {selectedEntityType == "company" && <CompanyEntity />}
+        {selectedEntityType == "card" ? <CardEntity /> : <CompanyEntity />}
         <View style={styles.moreOptions}>
           <TouchableOpacity
             onPress={() => setIsMenuOpen((p) => !p)}
