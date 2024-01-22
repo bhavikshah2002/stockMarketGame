@@ -14,7 +14,7 @@ import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
 
 export default function RightIssueCard({ card }) {
-  const { gameState, myUserId, conn, setSelectedCard } = useGameState();
+  const { gameState, myUserId, conn, _setSelectedCard } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -36,7 +36,7 @@ export default function RightIssueCard({ card }) {
               companyId: selectedCompany.id,
               numberOfStocks: 0,
             });
-            setSelectedCard(null);
+            _setSelectedCard(null);
           }}
         />
       </View>

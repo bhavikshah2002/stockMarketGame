@@ -10,7 +10,7 @@ import ModalForCard from "./ModalForCard";
 import { useGameState } from "../../contexts/GameStateContext";
 
 export default function LoanCard({ card }) {
-  const { myUserId, conn, setSelectedCard } = useGameState();
+  const { myUserId, conn, _setSelectedCard } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
 
   if (modalVisible) {
@@ -26,7 +26,7 @@ export default function LoanCard({ card }) {
               companyId: 0,
               numberOfStocks: 0,
             });
-            setSelectedCard(null);
+            _setSelectedCard(null);
           }}
         />
       </View>

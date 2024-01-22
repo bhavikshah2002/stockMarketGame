@@ -11,7 +11,7 @@ import { useState } from "react";
 import ModalForCard from "./ModalForCard";
 
 export default function DividendCard({ card }) {
-  const { gameState, myUserId, conn, setSelectedCard } = useGameState();
+  const { gameState, myUserId, conn, _setSelectedCard } = useGameState();
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -33,7 +33,7 @@ export default function DividendCard({ card }) {
               companyId: selectedCompany.id,
               numberOfStocks: 0,
             });
-            setSelectedCard(null);
+            _setSelectedCard(null);
           }}
         />
       </View>
