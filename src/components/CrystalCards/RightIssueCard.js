@@ -14,7 +14,7 @@ import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
 
 export default function RightIssueCard({ card }) {
-  const { gameState, myUserId, conn } = useGameState();
+  const { gameState, myUserId, conn, setSelectedCard } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
 
@@ -36,6 +36,7 @@ export default function RightIssueCard({ card }) {
               companyId: selectedCompany.id,
               numberOfStocks: 0,
             });
+            setSelectedCard(null);
           }}
         />
       </View>
@@ -88,7 +89,9 @@ export default function RightIssueCard({ card }) {
                 ) *
                   Math.floor(
                     gameState.userState[myUserId].holdings[item.id] / 2
-                  ))/1000}K
+                  )) /
+                  1000}
+                K
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>

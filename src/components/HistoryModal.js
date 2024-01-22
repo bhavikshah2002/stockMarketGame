@@ -219,8 +219,9 @@ export default function HistoryModal({
                           {CompanyInObj[item.companyId].name}
                         </SemiBoldText>
                         <RegularText size={12} color={Colors.dim}>
-                          {isBuy ? "bought" : "sold"} {item.numberOfStocks / 1000}K
-                          stocks at ₹{item.stockPrice} per share
+                          {isBuy ? "bought" : "sold"}{" "}
+                          {item.numberOfStocks / 1000}K stocks at ₹
+                          {item.stockPrice} per share
                         </RegularText>
                       </View>
                     </View>
@@ -260,7 +261,8 @@ export default function HistoryModal({
                     <View style={styles.transactionBox}>
                       <FontAwesome5
                         name="hand-peace"
-                        size={24}
+                        size={28}
+                        style={{ marginHorizontal: 9 }}
                         color={Colors.info}
                       />
                       <View>
@@ -274,8 +276,15 @@ export default function HistoryModal({
                           Passed
                         </SemiBoldText>
                         <RegularText size={12} color={Colors.dim}>
-                          
-                          {[`current round was passed by ${gameState.userState[item.userId].username}!`,`kuch toh sharam karle bhai!`,`passing turn is subject to market risk!`][Math.floor(Math.random() * 3)]}
+                          {
+                            [
+                              `current round was passed by ${
+                                gameState.userState[item.userId].username
+                              }!`,
+                              `kuch toh sharam karle bhai!`,
+                              `passing turn is subject to market risk!`,
+                            ][Math.floor(Math.random() * 3)]
+                          }
                         </RegularText>
                       </View>
                     </View>

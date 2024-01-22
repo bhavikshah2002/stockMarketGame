@@ -42,7 +42,7 @@ export default function GameStateContextProvider({ children }) {
   const [myUserId, setMyUserId] = useState(null);
   const [selectedCard, _setSelectedCard] = useState(null);
   const [results, setResults] = useState([]);
-  const [selectedPlayerId, setSelectedPlayerId] = useState(1);
+  const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useState("username");

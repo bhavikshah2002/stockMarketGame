@@ -13,7 +13,8 @@ import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 
 export default function MyTurnScreen() {
-  const { gameState, selectedEntityType, conn, myUserId } = useGameState();
+  const { gameState, selectedEntityType, conn, myUserId, selectedPlayerId } =
+    useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
@@ -36,7 +37,9 @@ export default function MyTurnScreen() {
             <CompanyCard
               currentWorth={gameState.companyValues[item.id].companyShareValue}
               company={item}
-              yourHoldings={gameState.userState[myUserId].holdings[item.id]}
+              yourHoldings={
+                gameState.userState[selectedPlayerId].holdings[item.id]
+              }
             />
           )}
           keyExtractor={(item) => item.id}

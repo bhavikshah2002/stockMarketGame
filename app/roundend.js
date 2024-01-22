@@ -90,11 +90,11 @@ const styles = StyleSheet.create({
   },
   Left: {
     height: "100%",
-    width: "25%",
+    width: "28%",
   },
   Right: {
     height: "100%",
-    width: "75%",
+    width: "72%",
     justifyContent: "center",
     alignItems: "center",
   },
