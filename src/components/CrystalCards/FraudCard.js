@@ -34,12 +34,11 @@ export default function FraudCard({ card }) {
         gameState.companyValues[company.id].stocksAvailable,
         Math.floor(
           gameState.userState[myUserId].cashInHand / newShareValue / 1000
-        ),
-        gameState.c
+        )
       )
     );
   }
-  
+
   if (modalVisible && selectedCompany) {
     return (
       <View style={styles.container}>
