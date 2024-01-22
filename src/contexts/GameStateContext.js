@@ -25,8 +25,8 @@ const GameStateContext = createContext({
   players: null,
   myUserName: "username",
   setMyUserName: (s) => {},
-  results:[],
-  serResults:(s)=>{},
+  results: [],
+  serResults: (s) => {},
   gameId: null,
   setGameId(p) {},
   create() {},
@@ -57,10 +57,7 @@ export default function GameStateContextProvider({ children }) {
     }));
   }, [gameState]);
   const [gameId, setGameId] = useState(null);
-  const [isLoadingScreen, setIsLoadingScreen] = useState(false);
-  const [loadingMsg, setLoadingMsg] = useState(
-    "Distributing are being cards. Please hold on..."
-  );
+  const [loadingMsg, setLoadingMsg] = useState("");
 
   const selectEntity = (entity, type) => {
     setSelectedEntityType(type);
@@ -124,30 +121,41 @@ export default function GameStateContextProvider({ children }) {
 
       if (shouldDistributeCards) {
         setLoadingMsg("Cards Are Being Distributed! Please hold on...");
-      }
-      setIsLoadingScreen(true);
 
-      setTimeout(
-        () => {
+        setTimeout(() => {
           setLoadingMsg(
             "अब `" +
               data.userState[data.playerOrder[data.currentTurn]].username +
               "` की बारी है"
           );
-          setIsLoadingScreen(true);
+
+          if (data.currentSubRound < 5) {
+            router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+          } else {
+            router.push("/roundend");
+          }
 
           setTimeout(() => {
-            setIsLoadingScreen(false);
+            setLoadingMsg("");
           }, 1000);
-          if (data.currentSubRound < 5) {
-            //Remove this
-            router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
-          }
-        },
-        shouldDistributeCards ? 2000 : 0
-      );
+        }, 2000);
+      } else {
+        setLoadingMsg(
+          "अब `" +
+            data.userState[data.playerOrder[data.currentTurn]].username +
+            "` की बारी है"
+        );
 
-      if (data.currentSubRound == 5) router.push("/roundend");
+        if (data.currentSubRound < 5) {
+          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+        } else {
+          router.push("/roundend");
+        }
+
+        setTimeout(() => {
+          setLoadingMsg("");
+        }, 1000);
+      }
     };
 
     conn.current.on("roundInfo", roundInfo);
@@ -161,9 +169,9 @@ export default function GameStateContextProvider({ children }) {
     if (!conn.current) return;
 
     const endGame = (data) => {
-      console.log(data)
-      setResults(data.results)
-      router.push("/endGame")
+      console.log(data);
+      setResults(data.results);
+      router.push("/endGame");
     };
 
     conn.current.on("endGame", endGame);
@@ -172,8 +180,6 @@ export default function GameStateContextProvider({ children }) {
       conn.current.off("endGame", endGame);
     };
   }, [conn.current]);
-
-
 
   return (
     <GameStateContext.Provider
@@ -200,12 +206,12 @@ export default function GameStateContextProvider({ children }) {
         myUserId,
         setMyUserId,
         results,
-        setResults
+        setResults,
       }}
     >
       {children}
 
-      {isLoadingScreen && (
+      {loadingMsg && (
         <View style={styles.redirectingModal}>
           <ActivityIndicator size="50" color={Colors.white} />
           <CustomText family="SemiBoldItalic" size={16}>
