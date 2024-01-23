@@ -39,11 +39,6 @@ export default function LobbyPage() {
     if (!conn.current) return;
 
     const getRoomDetails = (data) => {
-      let count =0;
-      for(let i=0;i<data.userArr.length;i++){
-        if(myUserName==data.userArr[i]) count++;
-      }
-      if(count==2) alertFunction("Please Change Your Username","A player with this username already exist in game, Please change your username and join again","close",leave)
       setPlayersWaiting(data.userArr.map((name, id) => ({ id, name })));
     };
     const onStartGame = (data) => {
