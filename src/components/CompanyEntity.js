@@ -55,14 +55,14 @@ export default function CompanyEntity() {
   useEffect(() => {
     setMaxStocksPossibleToSell(
       Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
-    );
+      );
     setMaxStocksPossibleToBuy(
       Math.floor(
         gameState.userState[myUserId].cashInHand /
           gameState.companyValues[company.id].companyShareValue /
           1000
       )
-    );
+      );
 
   }, [company]);
 

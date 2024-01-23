@@ -113,6 +113,7 @@ export default function GameStateContextProvider({ children }) {
     selectEntity(null);
     setSelectedPlayerId(0);
     conn.current?.close();
+    router.push("/");
   };
 
   useEffect(() => {

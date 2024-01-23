@@ -1,3 +1,6 @@
+import { router } from "expo-router";
+import alertFunction from "./alertFunction";
+
 export default class SocketConn {
   constructor(url) {
     this.url = url;
@@ -5,6 +8,14 @@ export default class SocketConn {
     this.listeners = [];
     this.conn.onerror = (ev) => {
       console.log("Error", ev);
+      alertFunction(
+        "Invalid Room ID",
+        "Room does not exist, please try again",
+        "close",
+        () => {
+          router.push("/");
+        }
+      );
     };
     this.conn.onopen = (ev) => {
       console.log("OnOpen", ev);
