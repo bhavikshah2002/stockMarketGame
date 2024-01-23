@@ -152,7 +152,7 @@ export default function GameStateContextProvider({ children }) {
         await wait(1000);
       }
 
-      if (data.currentSubRound == 4){
+      if (data.currentSubRound == 4 && data.currentTurn==0){
         _setSelectedCard(null);
         playSound();
         await wait(500);
