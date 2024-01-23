@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { BoldText, CustomText, RegularText } from "../../src/common/Text";
+import { BoldText, CustomText } from "../../src/common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 
@@ -15,7 +15,7 @@ const colorsArray = [
 
 export default function UserBadge({ player }) {
   const { selectedPlayerId, setSelectedPlayerId, gameState } = useGameState();
-  const color = colorsArray[player.id % 6];
+  const backgroundColor = colorsArray[player.id % 6];
   const isSelected = selectedPlayerId == player.id;
   const isCurrentTurn =
     gameState.playerOrder[gameState.currentTurn] == player.id;
@@ -25,59 +25,39 @@ export default function UserBadge({ player }) {
       style={isCurrentTurn && styles.shadow}
       onPress={() => setSelectedPlayerId(player.id)}
     >
-      <View style={[styles.shadow, styles.container]}>
-        <View
-          style={{
-            backgroundColor: color,
-            paddingHorizontal: 5,
-            paddingLeft: 35,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 2,
-            // borderWidth: 3,
-            shadowColor: isCurrentTurn ? Colors.green : color,
-            shadowOffset: {
-              width: 0,
-              height: 0,
-            },
-            shadowRadius: 0,
-            shadowOpacity: 0.1,
-            width: 120,
-            gap: -5,
-          }}
-        >
-          <CustomText family="SemiBoldItalic" size={12}>
-            {player.playerName}
-          </CustomText>
-          <BoldText>₹{(+player.playerInHandCash).toFixed(2)}L</BoldText>
+      <View style={styles.container}>
+        <View style={[styles.innerBox, { backgroundColor }]}>
+          {isCurrentTurn && <View style={styles.whiteDot} />}
+          <View>
+            <CustomText family="SemiBoldItalic" size={12}>
+              {player.playerName}
+            </CustomText>
+            <BoldText>₹{(+player.playerInHandCash).toFixed(2)}L</BoldText>
+          </View>
         </View>
         <View
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width: 100,
-            height: 100,
-            backgroundColor: Colors.black,
-            transform: [
-              { rotateZ: "35deg" },
-              { translateX: isSelected ? -105 : -95 },
-            ],
-          }}
+          style={[
+            styles.diagonal,
+            {
+              top: 0,
+              transform: [
+                { rotateZ: "35deg" },
+                { translateX: isSelected ? -105 : -95 },
+              ],
+            },
+          ]}
         />
         <View
-          style={{
-            position: "absolute",
-            left: 0,
-            bottom: 0,
-            width: 100,
-            height: 100,
-            backgroundColor: Colors.black,
-            transform: [
-              { rotateZ: "-35deg" },
-              { translateX: isSelected ? -105 : -95 },
-            ],
-          }}
+          style={[
+            styles.diagonal,
+            {
+              bottom: 0,
+              transform: [
+                { rotateZ: "-35deg" },
+                { translateX: isSelected ? -105 : -95 },
+              ],
+            },
+          ]}
         />
       </View>
     </TouchableOpacity>
@@ -94,14 +74,33 @@ const styles = StyleSheet.create({
     position: "relative",
   },
 
-  shadow: {
-    shadowColor: Colors.green,
-    shadowOffset: {
-      width: 13,
-      height: 8,
-    },
-    shadowOpacity: 1,
-    shadowRadius: 30,
-    elevation: 16,
+  innerBox: {
+    paddingHorizontal: 5,
+    paddingLeft: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 2,
+    width: 120,
+    gap: -5,
+    position: "relative",
+  },
+
+  whiteDot: {
+    width: 14,
+    height: 14,
+    backgroundColor: Colors.white,
+    borderRadius: 1000,
+    position: "absolute",
+    top: "50%",
+    left: 20,
+    transform: [{ translateY: -7 }],
+  },
+
+  diagonal: {
+    position: "absolute",
+    left: 0,
+    width: 100,
+    height: 100,
+    backgroundColor: Colors.black,
   },
 });

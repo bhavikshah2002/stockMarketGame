@@ -7,11 +7,10 @@ import {
 } from "../common/Text";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../common/styles";
-import { CompanyInObj } from "../data/cards";
 import { useGameState } from "../contexts/GameStateContext";
 
 export default function CompanyCard({ company, currentWorth, yourHoldings }) {
-  const { selectCompany, gameState, myUserId } = useGameState();
+  const { selectCompany, gameState } = useGameState();
   let color =
     currentWorth > gameState.priceBook[company.id].at(-2)
       ? Colors.green
@@ -24,6 +23,7 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
     <TouchableOpacity
       onPress={() => selectCompany(company)}
       style={styles.container}
+      disabled={gameState.currentSubRound == 4}
     >
       <Image source={company.photoUrl} style={styles.logo} />
       <LinearGradient

@@ -1,8 +1,10 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { CustomText, RegularText } from "../common/Text";
 import { useGameState } from "../contexts/GameStateContext";
 import { CompanyInObj } from "../data/cards";
 import { GetCrstalIcon } from "./SmallCard";
+import { Entypo } from "@expo/vector-icons";
+import { Colors } from "../common/styles";
 
 export default function TransactionSplash({ transaction }) {
   const { gameState } = useGameState();
@@ -13,7 +15,7 @@ export default function TransactionSplash({ transaction }) {
   switch (transaction.type) {
     case "PASS": {
       return (
-        <View style={{ gap: 30, alignItems: "center" }}>
+        <View style={styles.container}>
           <Image
             source={require("../../assets/gif/pass.gif")}
             style={{ width: 180, height: 180 }}
@@ -26,7 +28,7 @@ export default function TransactionSplash({ transaction }) {
     }
     case "BUY": {
       return (
-        <View style={{ gap: 30, alignItems: "center" }}>
+        <View style={styles.container}>
           <Image
             source={require("../../assets/gif/buy.gif")}
             style={{ width: 150, height: 150 }}
@@ -39,7 +41,7 @@ export default function TransactionSplash({ transaction }) {
     }
     case "SELL": {
       return (
-        <View style={{ gap: 30, alignItems: "center" }}>
+        <View style={styles.container}>
           <Image
             source={require("../../assets/gif/sell.gif")}
             style={{ width: 150, height: 150 }}
@@ -52,7 +54,8 @@ export default function TransactionSplash({ transaction }) {
     }
     case "CIRCUIT:UP": {
       return (
-        <View>
+        <View style={styles.container}>
+          <Entypo name="bar-graph" size={44} color={Colors.green} />
           <CustomText family="SemiBoldItalic" size={16}>
             {userName} used Upper circuit on {companyName}
           </CustomText>
@@ -61,7 +64,13 @@ export default function TransactionSplash({ transaction }) {
     }
     case "CIRCUIT:LOW": {
       return (
-        <View>
+        <View style={styles.container}>
+          <Entypo
+            name="bar-graph"
+            style={{ transform: [{ rotateY: "180deg" }] }}
+            size={44}
+            color={Colors.red}
+          />
           <CustomText family="SemiBoldItalic" size={16}>
             {userName} used Lower circuit on {companyName}
           </CustomText>
@@ -73,7 +82,7 @@ export default function TransactionSplash({ transaction }) {
         const crystalType = transaction.type.split(":")[1];
 
         return (
-          <View style={{ gap: 30, alignItems: "center" }}>
+          <View style={styles.container}>
             <View style={{ transform: [{ scale: 2 }] }}>
               <GetCrstalIcon type={crystalType.split("_")[0]} />
             </View>
@@ -95,3 +104,10 @@ export default function TransactionSplash({ transaction }) {
       }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    gap: 30,
+    alignItems: "center",
+  },
+});
