@@ -20,6 +20,7 @@ import { Colors } from "../common/styles";
 import wait from "../utils/wait";
 import TransactionSplash from "../components/TransactionSplash";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+import { Audio } from "expo-av";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -55,6 +56,7 @@ export default function GameStateContextProvider({ children }) {
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useState("username");
+  const [sound, setSound] = useState();
   const players = useMemo(() => {
     if (!gameState) return [];
     return gameState.playerOrder.map((id) => ({
@@ -86,6 +88,17 @@ export default function GameStateContextProvider({ children }) {
   const selectCompany = (company) => {
     selectEntity(company, "company");
   };
+
+  async function stopSound() {
+    await sound.unloadAsync();
+  }
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../../assets/audio/circuit.mp3")
+    );
+    setSound(sound);
+    sound.playAsync();
+  }
 
   //########### SOCKET STUFF ###########
   const create = () => {
@@ -131,13 +144,32 @@ export default function GameStateContextProvider({ children }) {
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
-      if (data.currentSubRound == 4) _setSelectedCard(null);
+      
 
       if (data.transactions.length > 0 && !shouldDistributeCards) {
         setLoadingMsg(<TransactionSplash transaction={data.transactions[0]} />);
 
         await wait(1000);
       }
+
+      if (data.currentSubRound == 4){
+        _setSelectedCard(null);
+        playSound();
+        await wait(500);
+        setLoadingMsg(
+          <View style={{ gap: 30, alignItems: "center" }}>
+            <Image
+              source={require("../../assets/images/circuit.png")}
+              style={{ width: 200, height: 150*1.5 }}
+            />
+            <CustomText family="SemiBoldItalic" size={20}>
+              Circuit Round Begins!
+            </CustomText>
+          </View>
+        );
+        await wait(5000);
+        stopSound();
+      } 
 
       if (shouldDistributeCards) {
         setLoadingMsg(
