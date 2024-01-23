@@ -89,7 +89,7 @@ export default function TransactionSplash({ transaction }) {
             <CustomText family="SemiBoldItalic" size={16}>
               {userName} used{" "}
               <Text style={{ textTransform: "capitalize" }}>
-                {crystalType.split("_").join(" ")}
+                {crystalType.split("_").join(" ")}{" "}
               </Text>
               card
             </CustomText>
