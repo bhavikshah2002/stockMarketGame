@@ -11,7 +11,7 @@ import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 export default function Settings() {
-  const { gameId, gameState, myUserId, conn } = useGameState();
+  const { gameId, gameState, myUserId, conn,leave } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const onPass = () => {
     conn.current?.emit("pass", {
@@ -50,10 +50,9 @@ export default function Settings() {
                   </BoldText>
                   <AntDesign name="play" size={35} color="white" />
                 </TouchableOpacity>
-                <Link href={"/lobby"} asChild>
                   <TouchableOpacity
                     style={{ ...styles.Btn, backgroundColor: Colors.red }}
-                    onPress={() => setModalVisible(!modalVisible)}
+                    onPress={() =>{ setModalVisible(!modalVisible);leave();}}
                   >
                     <BoldText size={25} transform="uppercase">
                       Leave
@@ -64,7 +63,6 @@ export default function Settings() {
                       color="white"
                     />
                   </TouchableOpacity>
-                </Link>
               </View>
               {myUserId != gameState.adminId ? (
                 <></>
