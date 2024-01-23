@@ -191,6 +191,7 @@ export default function GameStateContextProvider({ children }) {
         selectCompany,
         selectedEntity,
         selectedEntityType,
+        setSelectedEntityType,
         players,
         myUserName,
         setMyUserName,

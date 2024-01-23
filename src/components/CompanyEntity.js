@@ -30,7 +30,7 @@ export default function CompanyEntity() {
         ]}
       >
         <Image
-          style={styles.logo}
+          style={styles.logoMain}
           source={require("../../assets/images/withoutBgLogo1.png")}
           contentFit="contain"
         />
@@ -63,7 +63,7 @@ export default function CompanyEntity() {
           1000
       )
     );
-    console.log(maxStocksPossibleToBuy, maxStocksPossibleToSell, "After");
+
   }, [company]);
 
   const buyNoOfStocks = useSharedValue(Math.floor(maxStocksPossibleToBuy / 2));
@@ -87,7 +87,6 @@ export default function CompanyEntity() {
     });
   };
 
-  console.log(company, "HERE COMPANY");
 
   return (
     <View style={styles.container}>
@@ -112,20 +111,6 @@ export default function CompanyEntity() {
           </ItalicText>
         </View>
 
-        {/* <FlatList
-          horizontal
-          style={{
-            // backgroundColor: "#23d99721",
-            marginRight: 10,
-            padding: 5,
-            paddingRight: 10,
-          }}
-          renderItem={({ item }) => (
-            <View style={[styles.graphBar, { height: item / 3 }]} />
-          )}
-          data={gameState.priceBook[company.id]}
-          keyExtractor={(_, i) => i}
-        /> */}
       </View>
       <View style={styles.bottom}>
         <View style={styles.sliderBox}>
@@ -232,7 +217,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 1.5,
     borderTopRightRadius: 1.5,
   },
-  logo: {
+  logoMain: {
     width: 100,
     height: 80,
   },

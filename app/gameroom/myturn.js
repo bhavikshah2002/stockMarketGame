@@ -10,10 +10,10 @@ import { Companies } from "../../src/data/cards";
 import { Colors } from "../../src/common/styles";
 import Animated from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function MyTurnScreen() {
-  const { gameState, selectedEntityType, conn, myUserId, selectedPlayerId } =
+  const { gameState, selectedEntityType, conn, myUserId, selectedPlayerId,setSelectedCard} =
     useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);

@@ -48,7 +48,6 @@ export default function LobbyPage() {
           userId=data.userState[i].id
         }
       }
-      console.log("OnStartGame",userId)
       setMyUserId(userId);
       setIsRedirecting(true);
       const isMyTurn = data.playerOrder[0] == userId;
