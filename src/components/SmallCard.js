@@ -19,7 +19,7 @@ export function GetCrstalIcon({ type }) {
         <>
           <MaterialCommunityIcons
             name="guy-fawkes-mask"
-            size={24}
+            size={22}
             color="#0c5419"
           />
         </>
@@ -28,7 +28,7 @@ export function GetCrstalIcon({ type }) {
     case "DIVIDEND": {
       return (
         <>
-          <FontAwesome5 name="divide" size={24} color="#aa42f5" />
+          <FontAwesome5 name="divide" size={22} color="#aa42f5" />
         </>
       );
     }
@@ -36,8 +36,8 @@ export function GetCrstalIcon({ type }) {
       return (
         <>
           <View style={{ flexDirection: "row" }}>
-            <FontAwesome name="plus" size={24} color="#1bcfab" />
-            <FontAwesome name="plus" size={15} color="#14967c" />
+            <FontAwesome name="plus" size={22} color="#1bcfab" />
+            <FontAwesome name="plus" size={14} color="#14967c" />
             <FontAwesome name="plus" size={8} color="#074034" />
           </View>
         </>
@@ -47,9 +47,9 @@ export function GetCrstalIcon({ type }) {
       return (
         <>
           <View style={{ flexDirection: "row", gap: -10 }}>
-            <MaterialIcons name="attach-money" size={23} color="pink" />
-            <MaterialIcons name="attach-money" size={23} color="orange" />
-            <MaterialIcons name="attach-money" size={23} color="#e0ae84" />
+            <MaterialIcons name="attach-money" size={22} color="pink" />
+            <MaterialIcons name="attach-money" size={22} color="orange" />
+            <MaterialIcons name="attach-money" size={22} color="#e0ae84" />
           </View>
         </>
       );
@@ -57,12 +57,12 @@ export function GetCrstalIcon({ type }) {
     case "LOAN": {
       return (
         <>
-          <Fontisto name="money-symbol" size={24} color="#cf1bc0" />
+          <Fontisto name="money-symbol" size={22} color="#cf1bc0" />
         </>
       );
     }
     default: {
-      return <FontAwesome name="diamond" size={24} color="blue" />;
+      return <FontAwesome name="diamond" size={22} color="blue" />;
     }
   }
 }
@@ -96,7 +96,7 @@ export default function SmallCard({ card, drag, isActive }) {
                 >
                   <AntDesign
                     name={isProfit ? "caretup" : "caretdown"}
-                    size={24}
+                    size={22}
                     color={isProfit ? Colors.green : Colors.red}
                   />
                 </View>
@@ -138,7 +138,7 @@ export default function SmallCard({ card, drag, isActive }) {
                 <Entypo
                   name="bar-graph"
                   style={isUp ? {} : { transform: [{ rotateY: "180deg" }] }}
-                  size={24}
+                  size={22}
                   color={isUp ? Colors.green : Colors.red}
                 />
                 <View>
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#262525",
     justifyContent: "center",
     alignItems: "center",
-    gap: 1,
+    gap: 2,
     borderRadius: 5,
     overflow: "hidden",
   },
