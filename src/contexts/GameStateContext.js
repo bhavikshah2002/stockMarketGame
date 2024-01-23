@@ -12,6 +12,7 @@ import { router } from "expo-router";
 import { CustomText } from "../common/Text";
 import { Colors } from "../common/styles";
 import wait from "../utils/wait";
+import TransactionSplash from "../components/TransactionSplash";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -124,6 +125,12 @@ export default function GameStateContextProvider({ children }) {
         data.currentSubRound == 1 && data.currentTurn == 0;
       if (data.currentSubRound == 4) _setSelectedCard(null);
 
+      if (data.transactions.length > 0) {
+        setLoadingMsg(<TransactionSplash transaction={data.transactions[0]} />);
+
+        await wait(1000);
+      }
+
       if (shouldDistributeCards) {
         setLoadingMsg(
           <>
@@ -134,7 +141,7 @@ export default function GameStateContextProvider({ children }) {
           </>
         );
 
-        await wait(2000);
+        await wait(1000);
       }
 
       setLoadingMsg(

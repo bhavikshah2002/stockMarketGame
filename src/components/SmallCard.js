@@ -12,7 +12,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { ScaleDecorator } from "react-native-draggable-flatlist";
 import { useGameState } from "../contexts/GameStateContext";
 
-function GetCrstalIcon({ type }) {
+export function GetCrstalIcon({ type }) {
   switch (type) {
     case "FRAUD": {
       return (
