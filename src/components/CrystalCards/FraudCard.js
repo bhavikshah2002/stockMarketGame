@@ -21,7 +21,7 @@ export default function FraudCard({ card }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(0);
-  const noOfStocks = useSharedValue(10);
+  const noOfStocks = useSharedValue(0);
   function getMaxSliderValue(company) {
     var newShareValue =
       Math.floor(

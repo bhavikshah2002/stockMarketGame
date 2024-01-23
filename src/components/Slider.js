@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { Colors } from "../common/styles";
 import { useSharedValue } from "react-native-reanimated";
 import { RegularText } from "../common/Text";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function MySlider({
   value,
@@ -15,10 +15,12 @@ export default function MySlider({
 }) {
   const _max = useSharedValue(max);
   const _min = useSharedValue(min);
-  const [_value, setValue] = useState(value.value);
+  const [_value, setValue] = useState(0);
   const isDisabled = min >= max;
   const dimCol = isDisabled ? Colors.dim + "88" : Colors.dim;
-
+  useEffect(()=>{
+    value.value;
+  },[max,min])
   return (
     <>
       <TouchableOpacity
