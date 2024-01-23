@@ -11,6 +11,7 @@ import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { CustomText } from "../common/Text";
 import { Colors } from "../common/styles";
+import wait from "../utils/wait";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -57,7 +58,7 @@ export default function GameStateContextProvider({ children }) {
     }));
   }, [gameState]);
   const [gameId, setGameId] = useState(null);
-  const [loadingMsg, setLoadingMsg] = useState("");
+  const [loadingMsg, setLoadingMsg] = useState(null);
 
   const selectEntity = (entity, type) => {
     setSelectedEntityType(type);
@@ -116,50 +117,44 @@ export default function GameStateContextProvider({ children }) {
   useEffect(() => {
     if (!conn.current) return;
 
-    const roundInfo = (data) => {
+    const roundInfo = async (data) => {
       setGameState(data);
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
       if (data.currentSubRound == 4) _setSelectedCard(null);
-  
+
       if (shouldDistributeCards) {
-        setLoadingMsg("Cards Are Being Distributed! Please hold on...");
-
-        setTimeout(() => {
-          setLoadingMsg(
-            "अब `" +
-              data.userState[data.playerOrder[data.currentTurn]].username +
-              "` की बारी है"
-          );
-
-          if (data.currentSubRound < 5) {
-            router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
-          } else {
-            router.push("/roundend");
-          }
-
-          setTimeout(() => {
-            setLoadingMsg("");
-          }, 1000);
-        }, 2000);
-      } else {
         setLoadingMsg(
-          "अब `" +
-            data.userState[data.playerOrder[data.currentTurn]].username +
-            "` की बारी है"
+          <>
+            <ActivityIndicator size="50" color={Colors.white} />
+            <CustomText family="SemiBoldItalic" size={16}>
+              Cards Are Being Distributed! Please hold on...
+            </CustomText>
+          </>
         );
 
-        if (data.currentSubRound < 5) {
-          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
-        } else {
-          router.push("/roundend");
-        }
-
-        setTimeout(() => {
-          setLoadingMsg("");
-        }, 1000);
+        await wait(2000);
       }
+
+      setLoadingMsg(
+        <>
+          <ActivityIndicator size="50" color={Colors.white} />
+          <CustomText family="SemiBoldItalic" size={16}>
+            अब `{data.userState[data.playerOrder[data.currentTurn]].username}`
+            की बारी है"
+          </CustomText>
+        </>
+      );
+
+      if (data.currentSubRound < 5) {
+        router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+      } else {
+        router.push("/roundend");
+      }
+      await wait(1000);
+
+      setLoadingMsg(null);
     };
 
     conn.current.on("roundInfo", roundInfo);
@@ -213,14 +208,7 @@ export default function GameStateContextProvider({ children }) {
     >
       {children}
 
-      {loadingMsg && (
-        <View style={styles.redirectingModal}>
-          <ActivityIndicator size="50" color={Colors.white} />
-          <CustomText family="SemiBoldItalic" size={16}>
-            {loadingMsg}
-          </CustomText>
-        </View>
-      )}
+      {loadingMsg && <View style={styles.redirectingModal}>{loadingMsg}</View>}
     </GameStateContext.Provider>
   );
 }
