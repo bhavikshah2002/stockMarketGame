@@ -27,7 +27,9 @@ export default function UserBadge({ player }) {
     >
       <View style={styles.container}>
         <View style={[styles.innerBox, { backgroundColor }]}>
-          {isCurrentTurn && <View style={styles.whiteDot} />}
+          {isCurrentTurn && (
+            <View style={[styles.whiteDot, { left: isSelected ? 15 : 25 }]} />
+          )}
           <View>
             <CustomText family="SemiBoldItalic" size={12}>
               {player.playerName}
@@ -89,11 +91,10 @@ const styles = StyleSheet.create({
     width: 14,
     height: 14,
     backgroundColor: "#6EC531",
-    borderRadius: 1000,
+    borderRadius: 3,
     position: "absolute",
     top: "50%",
-    left: 20,
-    transform: [{ translateY: -7 }],
+    transform: [{ translateY: -7 }, { rotate: "45deg" }],
   },
 
   diagonal: {
@@ -102,5 +103,17 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     backgroundColor: Colors.black,
+  },
+
+  shadow: {
+    overflow: "visible",
+    shadowColor: Colors.green,
+    shadowOffset: {
+      width: 13,
+      height: 8,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 30,
+    elevation: 16,
   },
 });

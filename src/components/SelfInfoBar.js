@@ -1,10 +1,16 @@
-import { BoldText, RegularText, SemiBoldText } from "../../src/common/Text";
+import {
+  BoldText,
+  CustomText,
+  RegularText,
+  SemiBoldText,
+} from "../../src/common/Text";
 import { useGameState } from "../../src/contexts/GameStateContext";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import Settings from "./settings";
 import { useMemo } from "react";
+import { Colors } from "../common/styles";
 
 export default function SelfInfoBarComponent() {
   const { myUserName, gameState, myUserId } = useGameState();
@@ -39,31 +45,29 @@ export default function SelfInfoBarComponent() {
           >
             <MaterialCommunityIcons
               name="account-cash-outline"
-              size={20}
-              color="#e1e3e2"
+              size={18}
+              color="white"
             />
-            <Octicons name="graph" size={20} color="#e1e3e2" />
+            <Octicons name="graph" size={16} color="white" />
           </View>
           <View style={{ justifyContent: "center" }}>
-            <SemiBoldText size={14}>
+            <RegularText size={13}>
               ₹{(+selfInfo.cashInHand).toFixed(0)}
-            </SemiBoldText>
-            <SemiBoldText size={14}>
+            </RegularText>
+            <RegularText size={13}>
               ₹{(+selfInfo.cashInStock).toFixed(0)}
-            </SemiBoldText>
+            </RegularText>
           </View>
         </View>
         <View style={styles.UserName}>
           <TouchableOpacity>
-            <BoldText
+            <CustomText
+              family="ExtraBoldItalic"
               size={20}
-              style={{
-                textDecorationLine: "underline",
-                fontStyle: "italic",
-              }}
+              style={{ marginBottom: -5 }}
             >
               {selfInfo.userName}
-            </BoldText>
+            </CustomText>
           </TouchableOpacity>
           <RegularText size={12}>
             Total Worth{" "}
@@ -71,13 +75,17 @@ export default function SelfInfoBarComponent() {
           </RegularText>
         </View>
         <View style={styles.RoundInfo}>
-          <View>
-            <SemiBoldText size={13}>Sub Round</SemiBoldText>
-            <SemiBoldText size={13}>Mega Round</SemiBoldText>
+          <View style={styles.roundInfoSec}>
+            <SemiBoldText size={10}>Sub Round</SemiBoldText>
+            <BoldText style={{ marginBottom: -2 }} size={13}>
+              {gameState.currentSubRound}
+            </BoldText>
           </View>
-          <View style={{ marginLeft: 10 }}>
-            <RegularText size={13}>{gameState.currentSubRound}</RegularText>
-            <RegularText size={13}>{gameState.currentMegaRound}</RegularText>
+          <View style={styles.roundInfoSec}>
+            <SemiBoldText size={10}>Mega Round</SemiBoldText>
+            <BoldText style={{ marginBottom: -2 }} size={13}>
+              {gameState.currentMegaRound}
+            </BoldText>
           </View>
         </View>
       </View>
@@ -101,7 +109,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   RoundInfo: {
+    alignItems: "flex-end",
+    gap: 2,
+    marginTop: 3,
+  },
+
+  roundInfoSec: {
     flexDirection: "row",
-    alignItems: "center",
+    gap: 8,
+    alignItems: "flex-end",
   },
 });
