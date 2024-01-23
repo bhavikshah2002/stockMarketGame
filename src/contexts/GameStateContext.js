@@ -7,12 +7,19 @@ import {
   useState,
 } from "react";
 import SocketConn from "../utils/socket";
-import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  StyleSheet,
+  View,
+} from "react-native";
 import { router } from "expo-router";
 import { CustomText } from "../common/Text";
 import { Colors } from "../common/styles";
 import wait from "../utils/wait";
 import TransactionSplash from "../components/TransactionSplash";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -125,7 +132,7 @@ export default function GameStateContextProvider({ children }) {
         data.currentSubRound == 1 && data.currentTurn == 0;
       if (data.currentSubRound == 4) _setSelectedCard(null);
 
-      if (data.transactions.length > 0) {
+      if (data.transactions.length > 0 && !shouldDistributeCards) {
         setLoadingMsg(<TransactionSplash transaction={data.transactions[0]} />);
 
         await wait(1000);
@@ -144,19 +151,32 @@ export default function GameStateContextProvider({ children }) {
         await wait(1000);
       }
 
-      setLoadingMsg(
-        <>
-          <ActivityIndicator size="50" color={Colors.white} />
-          <CustomText family="SemiBoldItalic" size={16}>
-            अब `{data.userState[data.playerOrder[data.currentTurn]].username}`
-            की बारी है"
-          </CustomText>
-        </>
-      );
-
       if (data.currentSubRound < 5) {
+        setLoadingMsg(
+          <>
+            <ActivityIndicator size="50" color={Colors.white} />
+            <CustomText family="SemiBoldItalic" size={16}>
+              अब `{data.userState[data.playerOrder[data.currentTurn]].username}`
+              की बारी है"
+            </CustomText>
+          </>
+        );
+
         router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
       } else {
+        setLoadingMsg(
+          <View style={{ gap: 30, alignItems: "center" }}>
+            <Image
+              source={require("../../assets/gif/bear-and-bull.gif")}
+              style={{ width: 200 * 1.5, height: 150 * 1.5 }}
+            />
+            <CustomText family="SemiBoldItalic" size={16}>
+              Calculating results...
+            </CustomText>
+          </View>
+        );
+        await wait(2000);
+
         router.push("/roundend");
       }
       await wait(1000);
@@ -216,7 +236,15 @@ export default function GameStateContextProvider({ children }) {
     >
       {children}
 
-      {loadingMsg && <View style={styles.redirectingModal}>{loadingMsg}</View>}
+      {loadingMsg && (
+        <Animated.View
+          entering={FadeIn}
+          exiting={FadeOut}
+          style={styles.redirectingModal}
+        >
+          {loadingMsg}
+        </Animated.View>
+      )}
     </GameStateContext.Provider>
   );
 }

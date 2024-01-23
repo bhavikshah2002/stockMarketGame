@@ -13,7 +13,11 @@ export default function TransactionSplash({ transaction }) {
   switch (transaction.type) {
     case "PASS": {
       return (
-        <View>
+        <View style={{ gap: 30, alignItems: "center" }}>
+          <Image
+            source={require("../../assets/gif/pass.gif")}
+            style={{ width: 180, height: 180 }}
+          />
           <CustomText family="SemiBoldItalic" size={16}>
             {userName} passed the turn
           </CustomText>
