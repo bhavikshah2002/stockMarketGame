@@ -9,8 +9,8 @@ export default class SocketConn {
     this.conn.onerror = (ev) => {
       console.log("Error", ev);
       alertFunction(
-        "Invalid Room ID",
-        "Room does not exist, please try again",
+        "Something went wrong",
+        "Try changing your username or check room id",
         "close",
         () => {
           router.push("/");
