@@ -74,7 +74,7 @@ export default function TransactionSplash({ transaction }) {
               <GetCrstalIcon type={crystalType.split("_")[0]} />
             </View>
             <CustomText family="SemiBoldItalic" size={16}>
-              {userName} used
+              {userName} used{" "}
               <Text style={{ textTransform: "capitalize" }}>
                 {crystalType.split("_").join(" ")}
               </Text>

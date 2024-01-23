@@ -26,14 +26,14 @@ import Animated, {
 } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 
-export default function RoundEndReveal({netChangeInCompanyByUser}) {
+export default function RoundEndReveal({ netChangeInCompanyByUser }) {
   const { gameState, myUserId, conn } = useGameState();
   const isAdmin = myUserId == gameState.adminId;
   const noOfPlayers = netChangeInCompanyByUser[1].length;
   const noOfCompanies = 7;
   const [currentlyRevealingCompanyId, setCurrentlyRevealingCompanyId] =
     useState(1);
-  const isLastRound = gameState.totalMegaRounds==gameState.currentMegaRound
+  const isLastRound = gameState.totalMegaRounds == gameState.currentMegaRound;
   const revealedCards = useMemo(
     () =>
       netChangeInCompanyByUser[currentlyRevealingCompanyId].map(
@@ -105,7 +105,7 @@ export default function RoundEndReveal({netChangeInCompanyByUser}) {
           data={revealedCards}
           keyExtractor={(item) => item.id}
           renderItem={({ item, index }) => {
-            const up = item.netChange > 0;
+            const up = item.netChange >= 0;
             return (
               <Animated.View
                 key={
@@ -169,18 +169,19 @@ export default function RoundEndReveal({netChangeInCompanyByUser}) {
       {currentlyRevealingCompanyId == noOfCompanies && isAdmin && (
         <Animated.View
           style={styles.nextRound}
-          entering={FadeIn.duration(1000).delay(gameState.noOfPlayers*2000)}
+          entering={FadeIn.duration(1000).delay(gameState.noOfPlayers * 2000)}
         >
-          { isLastRound?
-          <TouchableOpacity onPress={onResults} style={styles.nextRoundBtn}>
-            <BoldText>Results</BoldText>
-            <Entypo name="chevron-right" size={24} color={Colors.white} />
-          </TouchableOpacity>:
-          <TouchableOpacity onPress={onNextRound} style={styles.nextRoundBtn}>
-            <BoldText>NEXT ROUND</BoldText>
-            <Entypo name="chevron-right" size={24} color={Colors.white} />
-          </TouchableOpacity>
-          } 
+          {isLastRound ? (
+            <TouchableOpacity onPress={onResults} style={styles.nextRoundBtn}>
+              <BoldText>Results</BoldText>
+              <Entypo name="chevron-right" size={24} color={Colors.white} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={onNextRound} style={styles.nextRoundBtn}>
+              <BoldText>NEXT ROUND</BoldText>
+              <Entypo name="chevron-right" size={24} color={Colors.white} />
+            </TouchableOpacity>
+          )}
         </Animated.View>
       )}
     </View>
