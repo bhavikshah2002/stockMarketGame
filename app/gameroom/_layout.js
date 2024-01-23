@@ -15,9 +15,9 @@ export default function GameRoomLayout() {
   const [cards, setCards] = useState(
     gameState?.userState?.[myUserId]?.cardsHeld
   );
-  useEffect(()=>{
-    setCards(gameState?.userState?.[myUserId]?.cardsHeld)
-  },[gameState])
+  useEffect(() => {
+    setCards(gameState?.userState?.[myUserId]?.cardsHeld);
+  }, [gameState]);
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     flexDirection: "row",
     marginHorizontal: 10,
-    backgroundColor: "#454547",
+    backgroundColor: "#45454788",
     borderRadius: 100,
     alignItems: "center",
   },

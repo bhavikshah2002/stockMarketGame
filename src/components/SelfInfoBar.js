@@ -66,17 +66,18 @@ export default function SelfInfoBarComponent() {
             </BoldText>
           </TouchableOpacity>
           <RegularText size={12}>
-            Total Worth <SemiBoldText>₹{selfInfo.totalWorth.toFixed(2)}L</SemiBoldText>
+            Total Worth{" "}
+            <SemiBoldText>₹{selfInfo.totalWorth.toFixed(2)}L</SemiBoldText>
           </RegularText>
         </View>
         <View style={styles.RoundInfo}>
           <View>
-            <SemiBoldText size={13}>Sub-Round</SemiBoldText>
-            <SemiBoldText size={13}>Mega-Round</SemiBoldText>
+            <SemiBoldText size={13}>Sub Round</SemiBoldText>
+            <SemiBoldText size={13}>Mega Round</SemiBoldText>
           </View>
           <View style={{ marginLeft: 10 }}>
-            <RegularText size={13}>{gameState["currentSubRound"]}</RegularText>
-            <RegularText size={13}>{gameState["currentMegaRound"]}</RegularText>
+            <RegularText size={13}>{gameState.currentSubRound}</RegularText>
+            <RegularText size={13}>{gameState.currentMegaRound}</RegularText>
           </View>
         </View>
       </View>

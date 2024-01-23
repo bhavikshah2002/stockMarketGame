@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   whiteDot: {
     width: 14,
     height: 14,
-    backgroundColor: Colors.white,
+    backgroundColor: "#6EC531",
     borderRadius: 1000,
     position: "absolute",
     top: "50%",
