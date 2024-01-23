@@ -15,6 +15,9 @@ export default function GameRoomLayout() {
   const [cards, setCards] = useState(
     gameState?.userState?.[myUserId]?.cardsHeld
   );
+  useEffect(()=>{
+    setCards(gameState?.userState?.[myUserId]?.cardsHeld)
+  },[gameState])
   console.log(
     gameState?.currentSubRound,
     gameState?.userState?.[myUserId]?.cardsHeld

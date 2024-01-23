@@ -40,11 +40,13 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
   ];
 
   const data = useMemo(() => {
-    if(gameState["currentMegaRound"]>10) return priceBook;
-    for(let i=0;i<7;i++){
-      priceBook[gameState["currentMegaRound"]-1][i] = gameState.priceBook[i+1].at(-1) 
+    if (gameState["currentMegaRound"] > 10) return priceBook;
+    for (let j = 0; j < gameState.currentMegaRound; j++) {
+      for (let i = 0; i < 7; i++) {
+        priceBook[j][i] = gameState.priceBook[i+1].at(j);
+      }
     }
-    return priceBook
+    return priceBook;
   }, [gameState]);
 
   return (
