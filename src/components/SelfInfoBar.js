@@ -46,9 +46,9 @@ export default function SelfInfoBarComponent() {
             <MaterialCommunityIcons
               name="account-cash-outline"
               size={18}
-              color="#e1e3e2"
+              color="white"
             />
-            <Octicons name="graph" size={16} color="#e1e3e2" />
+            <Octicons name="graph" size={16} color="white" />
           </View>
           <View style={{ justifyContent: "center" }}>
             <RegularText size={13}>
