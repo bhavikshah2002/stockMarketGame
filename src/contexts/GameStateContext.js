@@ -144,7 +144,11 @@ export default function GameStateContextProvider({ children }) {
       const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
       const shouldDistributeCards =
         data.currentSubRound == 1 && data.currentTurn == 0;
-      
+
+      if (isMyTurn) {
+        _setSelectedCard(null);
+        setSelectedEntity(null);
+      }
 
       if (data.transactions.length > 0 && !shouldDistributeCards) {
         setLoadingMsg(<TransactionSplash transaction={data.transactions[0]} />);
@@ -152,7 +156,7 @@ export default function GameStateContextProvider({ children }) {
         await wait(1000);
       }
 
-      if (data.currentSubRound == 4 && data.currentTurn==0){
+      if (data.currentSubRound == 4 && data.currentTurn == 0) {
         _setSelectedCard(null);
         playSound();
         await wait(500);
@@ -160,7 +164,7 @@ export default function GameStateContextProvider({ children }) {
           <View style={{ gap: 30, alignItems: "center" }}>
             <Image
               source={require("../../assets/images/circuit.png")}
-              style={{ width: 200, height: 150*1.5 }}
+              style={{ width: 200, height: 150 * 1.5 }}
             />
             <CustomText family="SemiBoldItalic" size={20}>
               Circuit Round Begins!
@@ -169,7 +173,7 @@ export default function GameStateContextProvider({ children }) {
         );
         await wait(5000);
         stopSound();
-      } 
+      }
 
       if (shouldDistributeCards) {
         setLoadingMsg(
