@@ -23,7 +23,8 @@
         "foregroundImage": "./assets/images/Logo2.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.stockbazar.stockmarket"
+      "package": "com.stockbazar.stockmarket",
+      "permissions": [ "INTERNET" ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

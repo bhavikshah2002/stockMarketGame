@@ -105,7 +105,7 @@ export default function GameStateContextProvider({ children }) {
     const id = new Date().getTime() % 1000000;
     setGameId(id);
     conn.current = new SocketConn(
-      `http://13.232.187.121/ws/chat/${id}/?create=True&join=False&username=${myUserName}`
+      `ws://13.232.187.121/ws/chat/${id}/?create=True&join=False&username=${myUserName}`
     );
   };
 
@@ -121,7 +121,7 @@ export default function GameStateContextProvider({ children }) {
       return false;
     }
     conn.current = new SocketConn(
-      `http://13.232.187.121/ws/chat/${gameId}/?create=False&join=True&username=${myUserName}`
+      `ws://13.232.187.121/ws/chat/${gameId}/?create=False&join=True&username=${myUserName}`
     );
     return true;
   };
