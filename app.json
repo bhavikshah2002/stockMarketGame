@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true
@@ -20,9 +22,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/Logo2.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.stockbazar.stockmarket"
     },
-   
     "web": {
       "favicon": "./assets/favicon.png"
     },
@@ -38,6 +40,14 @@
     "scheme": "stock-bazar",
     "androidNavigationBar": {
       "visible": "sticky-immersive"
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "127735b3-1e8d-4e02-8073-80a7eda97aea"
+      }
     }
   }
 }
