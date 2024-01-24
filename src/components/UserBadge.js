@@ -31,10 +31,10 @@ export default function UserBadge({ player }) {
             <View style={[styles.whiteDot, { left: isSelected ? 15 : 25 }]} />
           )}
           <View>
-            <CustomText family="SemiBoldItalic" size={12}>
+            <CustomText family="SemiBoldItalic" size={10}>
               {player.playerName}
             </CustomText>
-            <BoldText>₹{(+player.playerInHandCash).toFixed(2)}L</BoldText>
+            <BoldText size={12}>₹{(+player.playerInHandCash).toFixed(2)}L</BoldText>
           </View>
         </View>
         <View
