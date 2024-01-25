@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true
@@ -24,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.stockbazar.stockmarket",
-      "permissions": [ "INTERNET" ]
+      "permissions": ["INTERNET"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,6 +33,14 @@
         "expo-screen-orientation",
         {
           "initialOrientation": "LANDSCAPE"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
         }
       ]
     ],
