@@ -71,7 +71,7 @@ export default function LobbyPage() {
       }
       setMyUserId(userId);
       setIsRedirecting(true);
-      const isMyTurn = data.playerOrder[0] == userId;
+      const isMyTurn = data.playerOrder[data.currentTurn] == userId;
 
       setTimeout(() => {
         if (isMyTurn) {
