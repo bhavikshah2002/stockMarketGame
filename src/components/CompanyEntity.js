@@ -19,30 +19,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSharedValue } from "react-native-reanimated";
 import MySlider from "./Slider";
 import { useEffect, useState } from "react";
+import ModalForCard from "./CrystalCards/ModalForCard";
 
 export default function CompanyEntity() {
   const { selectedEntity: company, gameState, conn, myUserId } = useGameState();
-  if (!company) {
-    return (
-      <View
-        style={[
-          styles.container,
-          { flexDirection: "column", justifyContent: "center", gap: 15 },
-        ]}
-      >
-        <Image
-          style={styles.logoMain}
-          source={require("../../assets/images/withoutBgLogo1.png")}
-          contentFit="contain"
-        />
-        <RegularText size={13} color={Colors.dim} align="center">
-          Please select a company to proceed a transaction!
-        </RegularText>
-      </View>
-    );
-  }
+  const [modalBuyVisible, setModalBuyVisible] = useState(false);
+  const [modalSellVisible, setModalSellVisible] = useState(false);
+  
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(
-    gameState.companyValues[company.id].companyShareValue>0
+    gameState.companyValues[company.id].companyShareValue > 0
       ? Math.min(
           Math.floor(
             gameState.userState[myUserId].cashInHand /
@@ -54,7 +39,7 @@ export default function CompanyEntity() {
       : 0
   );
   const [maxStocksPossibleToSell, setMaxStocksPossibleToSell] = useState(
-    gameState.companyValues[company.id].companyShareValue>0
+    gameState.companyValues[company.id].companyShareValue > 0
       ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
       : 0
   );
@@ -62,7 +47,7 @@ export default function CompanyEntity() {
 
   useEffect(() => {
     setMaxStocksPossibleToBuy(
-      gameState.companyValues[company.id].companyShareValue>0
+      gameState.companyValues[company.id].companyShareValue > 0
         ? Math.min(
             Math.floor(
               gameState.userState[myUserId].cashInHand /
@@ -74,7 +59,7 @@ export default function CompanyEntity() {
         : 0
     );
     setMaxStocksPossibleToSell(
-      gameState.companyValues[company.id].companyShareValue>0
+      gameState.companyValues[company.id].companyShareValue > 0
         ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
         : 0
     );
@@ -98,6 +83,42 @@ export default function CompanyEntity() {
       numberOfStocks: Math.floor(sellNoOfStocks.value) * 1000,
     });
   };
+
+
+  if (modalBuyVisible && company) {
+    return (
+      <View style={styles.BuySellModal}>
+        <ModalForCard
+          modalVisible={modalBuyVisible}
+          setModalVisible={setModalBuyVisible}
+          transactionInfo={
+            <RegularText color={Colors.dim} align={"center"}>
+              Are you sure, You want to buy {Math.floor(buyNoOfStocks.value)}K stocks of{" "}
+              {company.name}?
+            </RegularText>
+          }
+          operatingFunction={onBuy}
+        />
+      </View>
+    );
+  }
+  if (modalSellVisible && company) {
+    return (
+      <View style={styles.BuySellModal}>
+        <ModalForCard
+          modalVisible={modalSellVisible}
+          setModalVisible={setModalSellVisible}
+          transactionInfo={
+            <RegularText color={Colors.dim} align={"center"}>
+              Are you sure, You want to sell {Math.floor(sellNoOfStocks.value)}K stocks of{" "}
+              {company.name}?
+            </RegularText>
+          }
+          operatingFunction={onSell}
+        />
+      </View>
+    );
+  }
   if (gameState.companyValues[company.id].companyShareValue == 0) {
     return (
       <View style={styles.container}>
@@ -131,11 +152,14 @@ export default function CompanyEntity() {
               size={40}
               color={Colors.red}
             />
-            <BoldText size={22} style={{paddingTop:3}}>Company Bankrupt!</BoldText>
+            <BoldText size={22} style={{ paddingTop: 3 }}>
+              Company Bankrupt!
+            </BoldText>
           </View>
           <View>
-            <RegularText color={Colors.dim} style={{paddingHorizontal:20}}>
-              Since company share value is zero, No transaction can be made! Wait for the Company share value to rise again.
+            <RegularText color={Colors.dim} style={{ paddingHorizontal: 20 }}>
+              Since company share value is zero, No transaction can be made!
+              Wait for the Company share value to rise again.
             </RegularText>
           </View>
         </View>
@@ -165,11 +189,12 @@ export default function CompanyEntity() {
           </ItalicText>
         </View>
       </View>
+
       <View style={styles.bottom}>
         <View style={styles.sliderBox}>
           <TouchableOpacity
             style={[styles.btn, { backgroundColor: Colors.green }]}
-            onPress={onBuy}
+            onPress={() => setModalBuyVisible(true)}
           >
             <LightText size={18}>BUY</LightText>
           </TouchableOpacity>
@@ -187,7 +212,7 @@ export default function CompanyEntity() {
         <View style={styles.sliderBox}>
           <TouchableOpacity
             style={[styles.btn, { backgroundColor: Colors.red }]}
-            onPress={onSell}
+            onPress={()=>{setModalSellVisible(true)}}
           >
             <LightText size={18}>SELL</LightText>
           </TouchableOpacity>
@@ -243,8 +268,8 @@ const styles = StyleSheet.create({
   bottom2: {
     width: "100%",
     alignItems: "center",
-    paddingTop:10,
-    gap:5,
+    paddingTop: 10,
+    gap: 5,
     flex: 1,
   },
   sliderBox: {
@@ -279,5 +304,9 @@ const styles = StyleSheet.create({
   logoMain: {
     width: 100,
     height: 80,
+  },
+  BuySellModal: {
+    flex: 1,
+    marginVertical: 10,
   },
 });

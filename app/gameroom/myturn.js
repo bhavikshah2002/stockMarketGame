@@ -12,11 +12,13 @@ import Animated from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import ModalForCard from "../../src/components/CrystalCards/ModalForCard";
+import { Image } from "expo-image";
 
 export default function MyTurnScreen() {
   const {
     gameState,
     selectedEntityType,
+    selectedEntity:company,
     conn,
     myUserId,
     selectedPlayerId,
@@ -60,6 +62,7 @@ export default function MyTurnScreen() {
       </View>
       <View style={styles.center}>
         {modalVisible ? (
+          <View style={styles.PassModal}>
           <ModalForCard
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
@@ -72,10 +75,28 @@ export default function MyTurnScreen() {
               conn.current?.emit("pass", { userId: myUserId });
             }}
           />
+          </View>
         ) : selectedEntityType == "card" ? (
           <CardEntity />
         ) : (
-          <CompanyEntity />
+          company?
+          <CompanyEntity />:(
+            <View
+              style={[
+                styles.companyContainer,
+                { flexDirection: "column", justifyContent: "center", gap: 15 },
+              ]}
+            >
+              <Image
+                style={styles.logoMain}
+                source={require("../../assets/images/withoutBgLogo1.png")}
+                contentFit="contain"
+              />
+              <RegularText size={13} color={Colors.dim} align="center">
+                Please select a company to proceed a transaction!
+              </RegularText>
+            </View>
+          )
         )}
         <View style={styles.moreOptions}>
           <TouchableOpacity
@@ -191,5 +212,24 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.51,
     shadowRadius: 13.16,
     elevation: 20,
+  },
+  PassModal:{
+   flex:1,
+   marginVertical:10
+  },
+  companyContainer: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#141414",
+    gap: 6,
+    marginVertical: 10,
+    borderRadius: 6,
+    overflow: "hidden",
+    borderColor: Colors.green + "22",
+    borderWidth: 2,
+  },
+  logoMain: {
+    width: 100,
+    height: 80,
   },
 });
