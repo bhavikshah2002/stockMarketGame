@@ -2,12 +2,15 @@ import { Image, StyleSheet, View } from "react-native";
 import { CustomText, RegularText, SemiBoldText } from "../common/Text";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../common/styles";
+import Animated, { FadeIn } from "react-native-reanimated";
+import { useGameState } from "../contexts/GameStateContext";
 
 export default function CompanyCardForRoundEnd({
   company,
   currentWorth,
   newValue = null,
 }) {
+  const { gameState } = useGameState();
   let color = Colors.info;
   if (newValue != null) {
     color = newValue > currentWorth ? Colors.logoGreen : Colors.red;
@@ -33,13 +36,14 @@ export default function CompanyCardForRoundEnd({
         </RegularText>
       </View>
       <View style={{ marginRight: 6 }}>
-        {newValue ? (
-          <CustomText family="SemiBoldItalic" color={color}>
-            {"  "}₹{newValue}
-          </CustomText>
-        ) : (
-          <></>
-        )}
+        <Animated.Text
+          style={{ fontFamily: "Poppins-SemiBoldItalic", color }}
+          entering={FadeIn.delay(
+            (gameState.noOfPlayers + 1) * company.id * 2000
+          )}
+        >
+          {"  "}₹{newValue}
+        </Animated.Text>
       </View>
     </View>
   );
