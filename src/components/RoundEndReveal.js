@@ -25,6 +25,23 @@ import Animated, {
   FadeOutUp,
 } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+
+function ChangeIcon({ netChange, size = 34, ...props }) {
+  if (netChange == 0)
+    return (
+      <FontAwesome5 name="equals" size={size} color={Colors.info} {...props} />
+    );
+
+  return (
+    <AntDesign
+      name={netChange > 0 ? "caretup" : "caretdown"}
+      size={34}
+      color={netChange > 0 ? Colors.green : Colors.red}
+      {...props}
+    />
+  );
+}
 
 export default function RoundEndReveal({ netChangeInCompanyByUser }) {
   const { gameState, myUserId, conn } = useGameState();
@@ -56,7 +73,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
     (acc, cur) => acc + cur.netChange,
     0
   );
-  const totalUp = totalChange > 0;
+  const totalUp = totalChange >= 0;
 
   useEffect(() => {
     const itv = setInterval(() => {
@@ -84,18 +101,25 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
             <BoldText size={21} style={{ letterSpacing: 1 }}>
               {company.name}
             </BoldText>
-            <AntDesign
-              name={isProfit ? "caretup" : "caretdown"}
-              size={34}
-              color={isProfit ? Colors.green : Colors.red}
-            />
+            <Animated.View
+              key={currentlyRevealingCompanyId}
+              entering={FadeIn.delay(gameState.noOfPlayers * 2000)}
+            >
+              <ChangeIcon netChange={totalChange} />
+            </Animated.View>
           </View>
-          <ItalicText color={Colors.dim}>
-            Current Value{" "}
-            <CustomText color={Colors.dim} family="BoldItalic">
-              ₹{gameState.companyValues[company.id].companyShareValue}
-            </CustomText>
-          </ItalicText>
+
+          <Animated.View
+            key={currentlyRevealingCompanyId}
+            entering={FadeIn.delay(gameState.noOfPlayers * 2000)}
+          >
+            <ItalicText color={Colors.dim}>
+              Current Value{" "}
+              <CustomText color={Colors.dim} family="BoldItalic">
+                ₹{gameState.companyValues[company.id].companyShareValue}
+              </CustomText>
+            </ItalicText>
+          </Animated.View>
         </View>
       </View>
 
@@ -122,12 +146,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
                   {index + 1}.
                 </LightText>
                 <SemiBoldText style={{ width: 130 }}>{item.user}</SemiBoldText>
-                <AntDesign
-                  size={15}
-                  width={30}
-                  name={up ? "caretup" : "caretdown"}
-                  color={up ? Colors.green : Colors.red}
-                />
+                <ChangeIcon netChange={item.netChange} size={15} width={30} />
                 <CustomText family="BoldItalic" color={Colors.dim}>
                   {up ? "+" : "-"}₹{Math.abs(item.netChange)}
                 </CustomText>
@@ -144,12 +163,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
             entering={FadeInUp.duration(400).delay(2000 * noOfPlayers)}
             exiting={FadeOutDown.duration(400)}
           >
-            <AntDesign
-              width={30}
-              size={20}
-              name={totalUp ? "caretup" : "caretdown"}
-              color={totalUp ? Colors.green : Colors.red}
-            />
+            <ChangeIcon netChange={totalChange} width={30} size={20} />
           </Animated.View>
           <Animated.Text
             style={{
@@ -207,9 +221,8 @@ const styles = StyleSheet.create({
   top: {
     width: "75%",
     flexDirection: "row",
-    gap: 8,
+    gap: 28,
     alignItems: "center",
-    justifyContent: "space-between",
     overflow: "hidden",
     borderRadius: 8,
     borderWidth: 2,
