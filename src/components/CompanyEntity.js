@@ -42,7 +42,7 @@ export default function CompanyEntity() {
     );
   }
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(
-    gameState.companyValues[company.id].companyShareValue
+    gameState.companyValues[company.id].companyShareValue>0
       ? Math.min(
           Math.floor(
             gameState.userState[myUserId].cashInHand /
@@ -54,7 +54,7 @@ export default function CompanyEntity() {
       : 0
   );
   const [maxStocksPossibleToSell, setMaxStocksPossibleToSell] = useState(
-    gameState.companyValues[company.id].companyShareValue
+    gameState.companyValues[company.id].companyShareValue>0
       ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
       : 0
   );
@@ -62,7 +62,7 @@ export default function CompanyEntity() {
 
   useEffect(() => {
     setMaxStocksPossibleToBuy(
-      gameState.companyValues[company.id].companyShareValue
+      gameState.companyValues[company.id].companyShareValue>0
         ? Math.min(
             Math.floor(
               gameState.userState[myUserId].cashInHand /
@@ -74,7 +74,7 @@ export default function CompanyEntity() {
         : 0
     );
     setMaxStocksPossibleToSell(
-      gameState.companyValues[company.id].companyShareValue
+      gameState.companyValues[company.id].companyShareValue>0
         ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
         : 0
     );
