@@ -89,9 +89,6 @@ export default function GameStateContextProvider({ children }) {
     selectEntity(company, "company");
   };
 
-  async function stopSound() {
-    await sound.unloadAsync();
-  }
   async function playSound() {
     const { sound } = await Audio.Sound.createAsync(
       require("../../assets/audio/circuit.mp3")
@@ -153,7 +150,7 @@ export default function GameStateContextProvider({ children }) {
       if (data.transactions.length > 0 && !shouldDistributeCards) {
         setLoadingMsg(<TransactionSplash transaction={data.transactions[0]} />);
 
-        await wait(1000);
+        await wait(2000);
       }
 
       if (data.currentSubRound == 4 && data.currentTurn == 0) {
@@ -172,20 +169,24 @@ export default function GameStateContextProvider({ children }) {
           </View>
         );
         await wait(5000);
-        stopSound();
       }
 
       if (shouldDistributeCards) {
         setLoadingMsg(
           <>
-            <ActivityIndicator size="50" color={Colors.white} />
-            <CustomText family="SemiBoldItalic" size={16}>
-              Cards Are Being Distributed! Please hold on...
-            </CustomText>
+            <View style={{ gap: 30, alignItems: "center" }}>
+              <Image
+                source={require("../../assets/gif/cards.gif")}
+                style={{ width: 200 , height: 150 }}
+              />
+              <CustomText family="SemiBoldItalic" size={16}>
+                Cards Are Being Distributed! Please hold on...
+              </CustomText>
+            </View>
           </>
         );
 
-        await wait(1000);
+        await wait(2000);
       }
 
       if (data.currentSubRound < 5) {
