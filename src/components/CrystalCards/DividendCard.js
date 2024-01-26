@@ -9,6 +9,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useGameState } from "../../contexts/GameStateContext";
 import { useState } from "react";
 import ModalForCard from "./ModalForCard";
+import CompanyValueZeroCard from "./CompanyValueZeroCard";
 
 export default function DividendCard({ card }) {
   const { gameState, myUserId, conn, _setSelectedCard } = useGameState();
@@ -16,6 +17,14 @@ export default function DividendCard({ card }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   if (modalVisible && selectedCompany) {
+    if (gameState.companyValues[selectedCompany.id].companyShareValue == 0) {
+      return (
+        <CompanyValueZeroCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      );
+    }
     return (
       <View style={styles.container}>
         <ModalForCard

@@ -23,7 +23,9 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
     <TouchableOpacity
       onPress={() => selectCompany(company)}
       style={styles.container}
-      disabled={gameState.currentSubRound == 4}
+      disabled={
+        gameState.currentSubRound == 4 
+      }
     >
       <Image source={company.photoUrl} style={styles.logo} />
       <LinearGradient

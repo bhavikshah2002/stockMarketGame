@@ -15,6 +15,8 @@ import { useState } from "react";
 import ModalForCard from "./ModalForCard";
 import MySlider from "../Slider";
 import { useSharedValue } from "react-native-reanimated";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import CompanyValueZeroCard from "./CompanyValueZeroCard";
 
 export default function FraudCard({ card }) {
   const { gameState, conn, myUserId, _setSelectedCard } = useGameState();
@@ -40,6 +42,24 @@ export default function FraudCard({ card }) {
   }
 
   if (modalVisible && selectedCompany) {
+    if (
+      Math.floor(
+        Math.floor(
+          (0.7 *
+            gameState.companyValues[selectedCompany.id].companyShareValue) /
+            5
+        )
+      ) *
+        5 ==
+      0
+    ) {
+      return (
+        <CompanyValueZeroCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      );
+    }
     return (
       <View style={styles.container}>
         <ModalForCard

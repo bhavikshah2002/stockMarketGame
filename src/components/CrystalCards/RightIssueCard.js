@@ -12,6 +12,7 @@ import { Companies } from "../../data/cards";
 import { useGameState } from "../../contexts/GameStateContext";
 import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
+import CompanyValueZeroCard from "./CompanyValueZeroCard";
 
 export default function RightIssueCard({ card }) {
   const { gameState, myUserId, conn, _setSelectedCard } = useGameState();
@@ -19,6 +20,14 @@ export default function RightIssueCard({ card }) {
   const [selectedCompany, setSelectedCompany] = useState(null);
 
   if (modalVisible && selectedCompany) {
+    if (gameState.companyValues[selectedCompany.id].companyShareValue == 0) {
+      return (
+        <CompanyValueZeroCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      );
+    }
     return (
       <View style={styles.container}>
         <ModalForCard
@@ -76,21 +85,19 @@ export default function RightIssueCard({ card }) {
 
               <LightText size={12} color={Colors.dim} style={styles.strike}>
                 {Math.floor(
-                  gameState.userState[myUserId].holdings[item.id] / 2
+                  gameState.userState[myUserId].holdings[item.id] / 2 / 1000
                 )}
+                K
               </LightText>
               <LightText color={Colors.dim} size={8}>
                 stocks @
               </LightText>
               <RegularText size={13} color={Colors.green}>
                 ₹
-                {(Math.floor(
-                  gameState.companyValues[item.id].companyShareValue / 2
-                ) *
+                {10 *
                   Math.floor(
-                    gameState.userState[myUserId].holdings[item.id] / 2
-                  )) /
-                  1000}
+                    gameState.userState[myUserId].holdings[item.id] / 2 / 1000
+                  )}
                 K
               </RegularText>
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
