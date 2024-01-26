@@ -5,6 +5,7 @@ import { LogBox, View } from "react-native";
 import * as ScreenOrientation from "expo-screen-orientation";
 import * as NavigationBar from "expo-navigation-bar";
 import GameStateContextProvider from "../src/contexts/GameStateContext";
+import { useKeepAwake } from "expo-keep-awake";
 
 LogBox.ignoreLogs(["new NativeEventEmitter"]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -12,6 +13,7 @@ ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
 NavigationBar.setVisibilityAsync("hidden");
 
 export default function HomeLayout() {
+  useKeepAwake();
   const [fontsLoaded] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins/Poppins-Black.ttf"),
     "Poppins-BlackItalic": require("../assets/fonts/Poppins/Poppins-BlackItalic.ttf"),
