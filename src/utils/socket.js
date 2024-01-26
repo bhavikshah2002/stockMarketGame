@@ -7,6 +7,7 @@ export default class SocketConn {
     this.conn = new WebSocket(this.url);
     this.listeners = [];
     this.errorOccured = false;
+    this.forceClose = false;
 
     this.on("ErrorMessage", (data) => {
       this.errorOccured = true;
@@ -26,7 +27,7 @@ export default class SocketConn {
     this.conn.onclose = (ev) => {
       console.log("OnClose", ev);
 
-      if (this.errorOccured) return;
+      if (this.errorOccured || this.forceClose) return;
 
       setTimeout(() => {
         this.reconnect();
@@ -71,6 +72,7 @@ export default class SocketConn {
   }
 
   close() {
+    this.forceClose = true;
     this.listeners = [];
     this.conn.close();
   }
