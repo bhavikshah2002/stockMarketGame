@@ -20,7 +20,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
-import alertFunction from "../src/utils/alertFunction";
 
 export default function LobbyPage() {
   const { leave, gameId, conn, myUserName, setGameState, setMyUserId } =
@@ -43,10 +42,31 @@ export default function LobbyPage() {
     };
     const onStartGame = (data) => {
       setGameState(data);
-      let userId = 0
-      for(let i=0;i<data.noOfPlayers;i++){
-        if(myUserName==data.userState[i].username){
-          userId=data.userState[i].id
+      let userId = 0;
+      for (let i = 0; i < data.noOfPlayers; i++) {
+        if (myUserName == data.userState[i].username) {
+          userId = data.userState[i].id;
+        }
+      }
+      setMyUserId(userId);
+      setIsRedirecting(true);
+      const isMyTurn = data.playerOrder[0] == userId;
+
+      setTimeout(() => {
+        if (isMyTurn) {
+          router.push("/gameroom/myturn");
+        } else {
+          router.push("/gameroom");
+        }
+      }, 2000);
+    };
+
+    const RejoinMessage = async (data) => {
+      setGameState(data);
+      let userId = 0;
+      for (let i = 0; i < data.noOfPlayers; i++) {
+        if (myUserName == data.userState[i].username) {
+          userId = data.userState[i].id;
         }
       }
       setMyUserId(userId);
@@ -64,10 +84,12 @@ export default function LobbyPage() {
 
     conn.current.on("getRoomDetails", getRoomDetails);
     conn.current.on("onStartGame", onStartGame);
+    conn.current.on("RejoinMessage", RejoinMessage);
 
     return () => {
       conn.current.off("getRoomDetails", getRoomDetails);
       conn.current.off("onStartGame", onStartGame);
+      conn.current.off("RejoinMessage", RejoinMessage);
     };
   }, [conn.current]);
 
