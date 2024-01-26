@@ -1,15 +1,9 @@
 import { TouchableOpacity, View } from "react-native";
 import { Modal } from "react-native";
 import { StyleSheet } from "react-native";
-import { BoldText, RegularText, SemiBoldText } from "../common/Text";
+import { SemiBoldText } from "../common/Text";
 import { Colors } from "../common/styles";
-import {
-  Col,
-  Row,
-  Rows,
-  Table,
-  TableWrapper,
-} from "react-native-table-component";
+import { Row, Rows, Table } from "react-native-table-component";
 import { AntDesign } from "@expo/vector-icons";
 import { useMemo } from "react";
 import { useGameState } from "../contexts/GameStateContext";
@@ -43,7 +37,7 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
     if (gameState["currentMegaRound"] > 10) return priceBook;
     for (let j = 0; j < gameState.currentMegaRound; j++) {
       for (let i = 0; i < 7; i++) {
-        priceBook[j][i] = gameState.priceBook[i+1].at(j);
+        priceBook[j][i] = gameState.priceBook[i + 1].at(j);
       }
     }
     return priceBook;
@@ -144,11 +138,13 @@ const styles = StyleSheet.create({
     height: 20,
   },
   textHeading: {
+    fontFamily: "Poppins-SemiBold",
     textAlign: "center",
     fontWeight: "800",
     color: Colors.white,
   },
   textContent: {
+    fontFamily: "Poppins-Regular",
     textAlign: "center",
     color: Colors.white,
   },
