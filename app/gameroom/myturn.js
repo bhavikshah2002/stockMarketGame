@@ -10,7 +10,7 @@ import { Companies } from "../../src/data/cards";
 import { Colors } from "../../src/common/styles";
 import Animated from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalForCard from "../../src/components/CrystalCards/ModalForCard";
 import { Image } from "expo-image";
 
@@ -18,11 +18,10 @@ export default function MyTurnScreen() {
   const {
     gameState,
     selectedEntityType,
-    selectedEntity:company,
+    selectedEntity: company,
     conn,
     myUserId,
     selectedPlayerId,
-    setSelectedCard,
   } = useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -63,40 +62,37 @@ export default function MyTurnScreen() {
       <View style={styles.center}>
         {modalVisible ? (
           <View style={styles.PassModal}>
-          <ModalForCard
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            transactionInfo={
-              <RegularText color={Colors.dim} align={"center"}>
-                Are you sure, You want to PASS your turn?
-              </RegularText>
-            }
-            operatingFunction={() => {
-              conn.current?.emit("pass", { userId: myUserId });
-            }}
-          />
+            <ModalForCard
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              transactionInfo={
+                <RegularText color={Colors.dim} align={"center"}>
+                  Are you sure, You want to PASS your turn?
+                </RegularText>
+              }
+              operatingFunction={onPass}
+            />
           </View>
         ) : selectedEntityType == "card" ? (
           <CardEntity />
+        ) : company ? (
+          <CompanyEntity />
         ) : (
-          company?
-          <CompanyEntity />:(
-            <View
-              style={[
-                styles.companyContainer,
-                { flexDirection: "column", justifyContent: "center", gap: 15 },
-              ]}
-            >
-              <Image
-                style={styles.logoMain}
-                source={require("../../assets/images/withoutBgLogo1.png")}
-                contentFit="contain"
-              />
-              <RegularText size={13} color={Colors.dim} align="center">
-                Please select a company to proceed a transaction!
-              </RegularText>
-            </View>
-          )
+          <View
+            style={[
+              styles.companyContainer,
+              { flexDirection: "column", justifyContent: "center", gap: 15 },
+            ]}
+          >
+            <Image
+              style={styles.logoMain}
+              source={require("../../assets/images/withoutBgLogo1.png")}
+              contentFit="contain"
+            />
+            <RegularText size={13} color={Colors.dim} align="center">
+              Please select a company to proceed a transaction!
+            </RegularText>
+          </View>
         )}
         <View style={styles.moreOptions}>
           <TouchableOpacity
@@ -213,9 +209,9 @@ const styles = StyleSheet.create({
     shadowRadius: 13.16,
     elevation: 20,
   },
-  PassModal:{
-   flex:1,
-   marginVertical:10
+  PassModal: {
+    flex: 1,
+    marginVertical: 10,
   },
   companyContainer: {
     flex: 1,
