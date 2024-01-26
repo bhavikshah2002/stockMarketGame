@@ -10,7 +10,7 @@ export default function ModalForCard({
       color={Colors.dim}
       style={{ alignItems: "center", justifyContent: "center" }}
     >
-      You want to continue with this tracsaction
+      You want to continue with this transaction
     </RegularText>
   ),
   operatingFunction,

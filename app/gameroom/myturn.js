@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useGameState } from "../../src/contexts/GameStateContext";
-import { LightText, SemiBoldText } from "../../src/common/Text";
+import { LightText, RegularText, SemiBoldText } from "../../src/common/Text";
 import CompanyEntity from "../../src/components/CompanyEntity";
 import HistoryModal from "../../src/components/HistoryModal";
 import CompanyCard from "../../src/components/CompanyCard";
@@ -11,11 +11,19 @@ import { Colors } from "../../src/common/styles";
 import Animated from "react-native-reanimated";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
+import ModalForCard from "../../src/components/CrystalCards/ModalForCard";
 
 export default function MyTurnScreen() {
-  const { gameState, selectedEntityType, conn, myUserId, selectedPlayerId,setSelectedCard} =
-    useGameState();
+  const {
+    gameState,
+    selectedEntityType,
+    conn,
+    myUserId,
+    selectedPlayerId,
+    setSelectedCard,
+  } = useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
 
@@ -26,7 +34,12 @@ export default function MyTurnScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.sides}>
-        <TouchableOpacity style={styles.btn} onPress={onPass}>
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => {
+            setModalVisible(true);
+          }}
+        >
           <LightText align={"center"} size={18}>
             PASS
           </LightText>
@@ -46,7 +59,24 @@ export default function MyTurnScreen() {
         />
       </View>
       <View style={styles.center}>
-        {selectedEntityType == "card" ? <CardEntity /> : <CompanyEntity />}
+        {modalVisible ? (
+          <ModalForCard
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            transactionInfo={
+              <RegularText color={Colors.dim} align={"center"}>
+                Are you sure, You want to PASS your turn?
+              </RegularText>
+            }
+            operatingFunction={() => {
+              conn.current?.emit("pass", { userId: myUserId });
+            }}
+          />
+        ) : selectedEntityType == "card" ? (
+          <CardEntity />
+        ) : (
+          <CompanyEntity />
+        )}
         <View style={styles.moreOptions}>
           <TouchableOpacity
             onPress={() => setIsMenuOpen((p) => !p)}
