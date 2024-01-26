@@ -36,7 +36,7 @@ function ChangeIcon({ netChange, size = 34, ...props }) {
   return (
     <AntDesign
       name={netChange > 0 ? "caretup" : "caretdown"}
-      size={34}
+      size={size}
       color={netChange > 0 ? Colors.green : Colors.red}
       {...props}
     />

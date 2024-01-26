@@ -1,10 +1,4 @@
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import {
   BoldText,
   CustomText,
@@ -25,7 +19,7 @@ export default function CompanyEntity() {
   const { selectedEntity: company, gameState, conn, myUserId } = useGameState();
   const [modalBuyVisible, setModalBuyVisible] = useState(false);
   const [modalSellVisible, setModalSellVisible] = useState(false);
-  
+
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(
     gameState.companyValues[company.id].companyShareValue > 0
       ? Math.min(
@@ -84,7 +78,6 @@ export default function CompanyEntity() {
     });
   };
 
-
   if (modalBuyVisible && company) {
     return (
       <View style={styles.BuySellModal}>
@@ -93,8 +86,8 @@ export default function CompanyEntity() {
           setModalVisible={setModalBuyVisible}
           transactionInfo={
             <RegularText color={Colors.dim} align={"center"}>
-              Are you sure, You want to buy {Math.floor(buyNoOfStocks.value)}K stocks of{" "}
-              {company.name}?
+              Are you sure, You want to buy {Math.floor(buyNoOfStocks.value)}K
+              stocks of {company.name}?
             </RegularText>
           }
           operatingFunction={onBuy}
@@ -110,8 +103,8 @@ export default function CompanyEntity() {
           setModalVisible={setModalSellVisible}
           transactionInfo={
             <RegularText color={Colors.dim} align={"center"}>
-              Are you sure, You want to sell {Math.floor(sellNoOfStocks.value)}K stocks of{" "}
-              {company.name}?
+              Are you sure, You want to sell {Math.floor(sellNoOfStocks.value)}K
+              stocks of {company.name}?
             </RegularText>
           }
           operatingFunction={onSell}
@@ -212,7 +205,9 @@ export default function CompanyEntity() {
         <View style={styles.sliderBox}>
           <TouchableOpacity
             style={[styles.btn, { backgroundColor: Colors.red }]}
-            onPress={()=>{setModalSellVisible(true)}}
+            onPress={() => {
+              setModalSellVisible(true);
+            }}
           >
             <LightText size={18}>SELL</LightText>
           </TouchableOpacity>
