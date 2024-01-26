@@ -15,8 +15,12 @@ export default function GameRoomLayout() {
   const [cards, setCards] = useState(
     gameState?.userState?.[myUserId]?.cardsHeld
   );
+  const [previousCardsCount, setPreviousCardsCount] = useState(10);
   useEffect(() => {
-    setCards(gameState?.userState?.[myUserId]?.cardsHeld);
+    if(previousCardsCount!=gameState?.userState?.[myUserId]?.cardsHeld.length || (gameState?.currentSubRound==1 && gameState?.currentTurn==0)){
+      setCards(gameState?.userState?.[myUserId]?.cardsHeld);
+      setPreviousCardsCount(gameState?.userState?.[myUserId]?.cardsHeld.length)
+    }
   }, [gameState]);
   useEffect(() => {
     const backAction = () => {
@@ -74,6 +78,7 @@ export default function GameRoomLayout() {
             data={cards}
             onDragEnd={({ data }) => setCards(data)}
             horizontal={true}
+            key={cards.length}
             renderItem={({ item, drag, isActive }) => (
               <SmallCard
                 key={item.id}
