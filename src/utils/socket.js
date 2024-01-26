@@ -6,23 +6,33 @@ export default class SocketConn {
     this.url = url;
     this.conn = new WebSocket(this.url);
     this.listeners = [];
+    this.errorOccured = false;
+
+    this.on("ErrorMessage", (data) => {
+      this.errorOccured = true;
+      alertFunction("An error Occured", data.message, "close", () => {
+        router.push("/");
+      });
+    });
+
     this.conn.onerror = (ev) => {
       console.log("Error", ev);
-      alertFunction(
-        "Something went wrong",
-        "Try changing your username or check room id",
-        "close",
-        () => {
-          router.push("/");
-        }
-      );
     };
+
     this.conn.onopen = (ev) => {
       console.log("OnOpen", ev);
     };
+
     this.conn.onclose = (ev) => {
       console.log("OnClose", ev);
+
+      if (this.errorOccured) return;
+
+      setTimeout(() => {
+        this.reconnect();
+      }, 4000);
     };
+
     this.conn.onmessage = (ev) => {
       const data = JSON.parse(ev.data);
       this.listeners
@@ -45,6 +55,19 @@ export default class SocketConn {
 
   emit(type, data) {
     this.conn.send(JSON.stringify({ type, data }));
+  }
+
+  reconnect() {
+    console.log("Reconnecting...");
+    this.errorOccured = false;
+    const newConn = new WebSocket(this.url);
+
+    newConn.onopen = this.conn.onopen;
+    newConn.onmessage = this.conn.onmessage;
+    newConn.onclose = this.conn.onclose;
+    newConn.onerror = this.conn.onerror;
+
+    this.conn = newConn;
   }
 
   close() {
