@@ -12,6 +12,7 @@ import { Companies } from "../../data/cards";
 import { useGameState } from "../../contexts/GameStateContext";
 import { Entypo } from "@expo/vector-icons";
 import ModalForCard from "./ModalForCard";
+import CompanyValueZeroCard from "./CompanyValueZeroCard";
 
 export default function BonusShareCard({ card }) {
   const { gameState, myUserId, conn, _setSelectedCard } = useGameState();
@@ -19,6 +20,14 @@ export default function BonusShareCard({ card }) {
   const [selectedCompany, setSelectedCompany] = useState(null);
 
   if (modalVisible && selectedCompany) {
+    if (gameState.companyValues[selectedCompany.id].companyShareValue == 0) {
+      return (
+        <CompanyValueZeroCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
+      );
+    }
     return (
       <View style={styles.container}>
         <ModalForCard
@@ -67,10 +76,7 @@ export default function BonusShareCard({ card }) {
                 setSelectedCompany(item);
                 setModalVisible(true);
               }}
-              disabled={
-                gameState.userState[myUserId].holdings[item.id] == 0 ||
-                gameState.companyValues[company.id].companyShareValue == 0
-              }
+              disabled={gameState.userState[myUserId].holdings[item.id] == 0}
               style={styles.companyBox}
             >
               <SemiBoldText size={13} style={{ width: 65 }}>
@@ -80,11 +86,15 @@ export default function BonusShareCard({ card }) {
               <RegularText size={10} color={Colors.dim} style={styles.strike}>
                 Get{" "}
                 <BoldText color={Colors.green}>
-                  {Math.floor(
-                    Math.floor(
-                      gameState.userState[myUserId].holdings[item.id] / 5000
-                    ) * 1000
-                  ) / 1000}
+                  {Math.min(
+                        Math.floor(
+                          Math.floor(
+                            gameState.userState[myUserId].holdings[item.id] /
+                              5000
+                          ) * 1000
+                        ) / 1000,
+                        gameState.companyValues[item.id].stocksAvailable
+                      )}
                   K
                 </BoldText>{" "}
                 stocks for Free

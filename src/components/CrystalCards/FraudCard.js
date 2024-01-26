@@ -16,6 +16,7 @@ import ModalForCard from "./ModalForCard";
 import MySlider from "../Slider";
 import { useSharedValue } from "react-native-reanimated";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import CompanyValueZeroCard from "./CompanyValueZeroCard";
 
 export default function FraudCard({ card }) {
   const { gameState, conn, myUserId, _setSelectedCard } = useGameState();
@@ -41,45 +42,22 @@ export default function FraudCard({ card }) {
   }
 
   if (modalVisible && selectedCompany) {
-    if(Math.floor(
+    if (
       Math.floor(
-        (0.7 * gameState.companyValues[selectedCompany.id].companyShareValue) / 5
-      )
-    ) * 5 ==0){
+        Math.floor(
+          (0.7 *
+            gameState.companyValues[selectedCompany.id].companyShareValue) /
+            5
+        )
+      ) *
+        5 ==
+      0
+    ) {
       return (
-        <View style={styles.container}>
-         
-          <View style={styles.bottom2}>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 10,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <MaterialCommunityIcons
-                name="close-box"
-                size={40}
-                color={Colors.red}
-              />
-              <BoldText size={22} style={{paddingTop:3}}>New Share Price Zero!</BoldText>
-            </View>
-            <View>
-              <RegularText color={Colors.dim} style={{paddingHorizontal:20}}>
-                Since company new share value is zero, No transaction can be made!
-              </RegularText>
-            </View>
-            <TouchableOpacity
-            onPress={() => setModalVisible(!modalVisible)}
-            style={{ ...styles.Btn, backgroundColor: Colors.info,marginTop:15 }}
-          >
-            <BoldText size={15} transform="uppercase">
-              Close
-            </BoldText>
-          </TouchableOpacity>
-          </View>
-        </View>
+        <CompanyValueZeroCard
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
       );
     }
     return (
@@ -218,20 +196,5 @@ const styles = StyleSheet.create({
     gap: 8,
     marginVertical: 5,
     width: 220,
-  },
-  bottom2: {
-    width: "100%",
-    alignItems: "center",
-    paddingTop:10,
-    gap:5,
-    flex: 1,
-  },
-  Btn: {
-    flexDirection: "row",
-    borderRadius: 5,
-    height: 40,
-    width: 90,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });
