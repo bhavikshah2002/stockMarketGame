@@ -15,6 +15,7 @@ import {
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSharedValue } from "react-native-reanimated";
 import MySlider from "./Slider";
 import { useEffect, useState } from "react";
@@ -41,35 +42,46 @@ export default function CompanyEntity() {
     );
   }
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(
-    Math.floor(
-      gameState.userState[myUserId].cashInHand /
-        gameState.companyValues[company.id].companyShareValue /
-        1000
-    )
+    gameState.companyValues[company.id].companyShareValue
+      ? Math.min(
+          Math.floor(
+            gameState.userState[myUserId].cashInHand /
+              gameState.companyValues[company.id].companyShareValue /
+              1000
+          ),
+          gameState.companyValues[company.id].stocksAvailable
+        )
+      : 0
   );
   const [maxStocksPossibleToSell, setMaxStocksPossibleToSell] = useState(
-    Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
+    gameState.companyValues[company.id].companyShareValue
+      ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
+      : 0
   );
   const isProfit = true;
 
   useEffect(() => {
-    setMaxStocksPossibleToSell(
-      Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
-      );
     setMaxStocksPossibleToBuy(
-      Math.floor(
-        gameState.userState[myUserId].cashInHand /
-          gameState.companyValues[company.id].companyShareValue /
-          1000
-      )
-      );
-
+      gameState.companyValues[company.id].companyShareValue
+        ? Math.min(
+            Math.floor(
+              gameState.userState[myUserId].cashInHand /
+                gameState.companyValues[company.id].companyShareValue /
+                1000
+            ),
+            gameState.companyValues[company.id].stocksAvailable
+          )
+        : 0
+    );
+    setMaxStocksPossibleToSell(
+      gameState.companyValues[company.id].companyShareValue
+        ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
+        : 0
+    );
   }, [company]);
 
-  const buyNoOfStocks = useSharedValue(Math.floor(maxStocksPossibleToBuy / 2));
-  const sellNoOfStocks = useSharedValue(
-    Math.floor(maxStocksPossibleToSell / 2)
-  );
+  const buyNoOfStocks = useSharedValue(0);
+  const sellNoOfStocks = useSharedValue(0);
 
   const onBuy = () => {
     conn.current?.emit("buy", {
@@ -86,8 +98,50 @@ export default function CompanyEntity() {
       numberOfStocks: Math.floor(sellNoOfStocks.value) * 1000,
     });
   };
-
-
+  if (gameState.companyValues[company.id].companyShareValue == 0) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.top}>
+          <Image source={company.photoUrl} style={styles.logo} />
+          <View style={{ width: "45%" }}>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              <BoldText size={21} style={{ letterSpacing: 1 }}>
+                {company.name}
+              </BoldText>
+            </View>
+            <ItalicText color={Colors.dim}>
+              Current Value{" "}
+              <CustomText color={Colors.dim} family="BoldItalic">
+                ₹{gameState.companyValues[company.id].companyShareValue}
+              </CustomText>
+            </ItalicText>
+          </View>
+        </View>
+        <View style={styles.bottom2}>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 10,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <MaterialCommunityIcons
+              name="close-box"
+              size={40}
+              color={Colors.red}
+            />
+            <BoldText size={22} style={{paddingTop:3}}>Company Bankrupt!</BoldText>
+          </View>
+          <View>
+            <RegularText color={Colors.dim} style={{paddingHorizontal:20}}>
+              Since company share value is zero, No transaction can be made! Wait for the Company share value to rise again.
+            </RegularText>
+          </View>
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -110,7 +164,6 @@ export default function CompanyEntity() {
             </CustomText>
           </ItalicText>
         </View>
-
       </View>
       <View style={styles.bottom}>
         <View style={styles.sliderBox}>
@@ -187,7 +240,13 @@ const styles = StyleSheet.create({
     gap: 20,
     flex: 1,
   },
-
+  bottom2: {
+    width: "100%",
+    alignItems: "center",
+    paddingTop:10,
+    gap:5,
+    flex: 1,
+  },
   sliderBox: {
     paddingHorizontal: 20,
     flexDirection: "row",

@@ -67,7 +67,10 @@ export default function BonusShareCard({ card }) {
                 setSelectedCompany(item);
                 setModalVisible(true);
               }}
-              disabled={gameState.userState[myUserId].holdings[item.id] == 0}
+              disabled={
+                gameState.userState[myUserId].holdings[item.id] == 0 ||
+                gameState.companyValues[company.id].companyShareValue == 0
+              }
               style={styles.companyBox}
             >
               <SemiBoldText size={13} style={{ width: 65 }}>
