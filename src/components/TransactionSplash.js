@@ -1,14 +1,11 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { CustomText, RegularText } from "../common/Text";
-import { useGameState } from "../contexts/GameStateContext";
 import { CompanyInObj } from "../data/cards";
-import { GetCrstalIcon } from "./SmallCard";
 import { Entypo } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
+import GetCrstalIcon from "./GetCrystalIcon";
 
-export default function TransactionSplash({ transaction }) {
-  const { gameState } = useGameState();
-  const userName = gameState.userState[transaction.userId].username;
+export default function TransactionSplash({ transaction, userName = "" }) {
   const numberOfStocks = (transaction.numberOfStocks / 1000).toFixed(0);
   const companyName = CompanyInObj[transaction.companyId]?.name || "";
 

@@ -148,7 +148,12 @@ export default function GameStateContextProvider({ children }) {
       }
 
       if (data.transactions.length > 0 && !shouldDistributeCards) {
-        setLoadingMsg(<TransactionSplash transaction={data.transactions[0]} />);
+        setLoadingMsg(
+          <TransactionSplash
+            transaction={data.transactions[0]}
+            userName={data.userState[data.transactions[0].userId].username}
+          />
+        );
 
         await wait(2000);
       }
@@ -177,7 +182,7 @@ export default function GameStateContextProvider({ children }) {
             <View style={{ gap: 30, alignItems: "center" }}>
               <Image
                 source={require("../../assets/gif/cards.gif")}
-                style={{ width: 200*1.5 , height: 150 *1.5 }}
+                style={{ width: 200 * 1.5, height: 150 * 1.5 }}
               />
               <CustomText family="SemiBoldItalic" size={16}>
                 Cards Are Being Distributed! Please hold on...
