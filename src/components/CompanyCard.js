@@ -23,18 +23,16 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
     <TouchableOpacity
       onPress={() => selectCompany(company)}
       style={styles.container}
-      disabled={
-        gameState.currentSubRound == 4 
-      }
+      disabled={gameState.currentSubRound == 4}
     >
       <Image source={company.photoUrl} style={styles.logo} />
       <LinearGradient
-        style={{ width: 65, height: 40 }}
+        style={{ width: 65, minHeight: 40 }}
         colors={["transparent", "#141414"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0.95, y: 0.5 }}
       />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: 2 }}>
         <SemiBoldText size={13}>{company.name}</SemiBoldText>
         <RegularText size={9} color={Colors.dim}>
           Price
@@ -43,7 +41,7 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
           </CustomText>
         </RegularText>
       </View>
-      <View style={{ marginRight: 6 }}>
+      <View style={{ marginRight: 6, marginTop: 6 }}>
         {yourHoldings != 0 ? (
           <BoldText size={18}>{(yourHoldings / 1000).toFixed(0)}K</BoldText>
         ) : (
@@ -59,7 +57,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     flexDirection: "row",
     gap: 5,
-    alignItems: "center",
+    alignItems: "stretch",
     backgroundColor: "#141414",
     position: "relative",
     borderRadius: 6,
@@ -68,7 +66,7 @@ const styles = StyleSheet.create({
 
   logo: {
     width: 65,
-    height: 40,
+    height: "100%",
     position: "absolute",
     objectFit: "cover",
     left: 0,

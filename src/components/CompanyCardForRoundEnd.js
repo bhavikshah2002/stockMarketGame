@@ -21,12 +21,12 @@ export default function CompanyCardForRoundEnd({
     <View style={styles.container}>
       <Image source={company.photoUrl} style={styles.logo} />
       <LinearGradient
-        style={{ width: 65, height: 40 }}
+        style={{ width: 65 }}
         colors={["transparent", "#141414"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0.99, y: 0 }}
       />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, marginTop: 2 }}>
         <SemiBoldText size={13}>{company.name}</SemiBoldText>
         <RegularText size={9} color={Colors.dim}>
           Last Value
@@ -35,7 +35,7 @@ export default function CompanyCardForRoundEnd({
           </CustomText>
         </RegularText>
       </View>
-      <View style={{ marginRight: 6 }}>
+      <View style={{ marginRight: 6, marginTop: 8 }}>
         <Animated.Text
           style={{ fontFamily: "Poppins-SemiBoldItalic", color }}
           entering={FadeIn.delay(
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     flexDirection: "row",
     gap: 5,
-    alignItems: "center",
+    alignItems: "stretch",
     backgroundColor: "#141414",
     position: "relative",
     borderRadius: 6,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 
   logo: {
     width: 65,
-    height: 40,
+    height: "100%",
     position: "absolute",
     objectFit: "cover",
     left: 0,
