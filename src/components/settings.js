@@ -1,17 +1,17 @@
-import { Modal, Pressable, TouchableOpacity, View } from "react-native";
+import { Modal, TouchableOpacity, View } from "react-native";
 import { StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { BoldText, LightText, RegularText, SemiBoldText } from "../common/Text";
-import { Link, router } from "expo-router";
+import { BoldText, LightText, SemiBoldText } from "../common/Text";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
+
 export default function Settings() {
-  const { gameId, gameState, myUserId, conn,leave } = useGameState();
+  const { gameId, gameState, myUserId, conn, leave } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const onPass = () => {
     conn.current?.emit("pass", {
@@ -22,6 +22,7 @@ export default function Settings() {
   const onResults = () => {
     conn.current?.emit("endGame", {});
   };
+
   return (
     <>
       <View>
@@ -50,23 +51,26 @@ export default function Settings() {
                   </BoldText>
                   <AntDesign name="play" size={35} color="white" />
                 </TouchableOpacity>
-                  <TouchableOpacity
-                    style={{ ...styles.Btn, backgroundColor: Colors.red }}
-                    onPress={() =>{ setModalVisible(!modalVisible);leave();}}
-                  >
-                    <BoldText size={25} transform="uppercase">
-                      Leave
-                    </BoldText>
-                    <MaterialCommunityIcons
-                      name="exit-run"
-                      size={35}
-                      color="white"
-                    />
-                  </TouchableOpacity>
+                <TouchableOpacity
+                  style={{ ...styles.Btn, backgroundColor: Colors.red }}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    leave();
+                  }}
+                >
+                  <BoldText size={25} transform="uppercase">
+                    Leave
+                  </BoldText>
+                  <MaterialCommunityIcons
+                    name="exit-run"
+                    size={35}
+                    color="white"
+                  />
+                </TouchableOpacity>
               </View>
-              {myUserId != gameState.adminId ? (
-                <></>
-              ) : (
+
+              {/* Admin panel */}
+              {myUserId == gameState.adminId && (
                 <View style={styles.AdminPanel}>
                   <SemiBoldText
                     color={Colors.white}
@@ -254,7 +258,6 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   AdminPass: {
-    
     gap: 15,
     alignItems: "center",
     justifyContent: "center",

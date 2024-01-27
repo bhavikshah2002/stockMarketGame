@@ -97,7 +97,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
       <View style={styles.top}>
         <Image source={company.photoUrl} style={styles.logo} />
         <View style={{ width: "45%" }}>
-          <View style={{ flexDirection: "row", gap: 10 }}>
+          <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
             <BoldText size={21} style={{ letterSpacing: 1 }}>
               {company.name}
             </BoldText>
@@ -105,7 +105,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
               key={currentlyRevealingCompanyId}
               entering={FadeIn.delay(gameState.noOfPlayers * 2000)}
             >
-              <ChangeIcon netChange={totalChange} />
+              <ChangeIcon size={25} netChange={totalChange} />
             </Animated.View>
           </View>
 

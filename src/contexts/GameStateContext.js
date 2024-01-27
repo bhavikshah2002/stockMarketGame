@@ -137,94 +137,100 @@ export default function GameStateContextProvider({ children }) {
     if (!conn.current) return;
 
     const roundInfo = async (data) => {
-      setGameState(data);
-      const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
-      const shouldDistributeCards =
-        data.currentSubRound == 1 && data.currentTurn == 0;
+      try {
+        setGameState(data);
+        const isMyTurn = data.playerOrder[data.currentTurn] == myUserId;
+        const shouldDistributeCards =
+          data.currentSubRound == 1 && data.currentTurn == 0;
 
-      if (isMyTurn) {
-        _setSelectedCard(null);
-        setSelectedEntity(null);
-      }
+        if (isMyTurn) {
+          _setSelectedCard(null);
+          setSelectedEntity(null);
+        }
 
-      if (data.transactions.length > 0 && !shouldDistributeCards) {
-        setLoadingMsg(
-          <TransactionSplash
-            transaction={data.transactions[0]}
-            userName={data.userState[data.transactions[0].userId].username}
-          />
-        );
-
-        await wait(2000);
-      }
-
-      if (data.currentSubRound == 4 && data.currentTurn == 0) {
-        _setSelectedCard(null);
-        playSound();
-        await wait(500);
-        setLoadingMsg(
-          <View style={{ gap: 30, alignItems: "center" }}>
-            <Image
-              source={require("../../assets/images/circuit.png")}
-              style={{ width: 200, height: 150 * 1.5 }}
+        if (data.transactions.length > 0 && !shouldDistributeCards) {
+          setLoadingMsg(
+            <TransactionSplash
+              transaction={data.transactions[0]}
+              userName={data.userState[data.transactions[0].userId].username}
             />
-            <CustomText family="SemiBoldItalic" size={20}>
-              Circuit Round Begins!
-            </CustomText>
-          </View>
-        );
-        await wait(5000);
-      }
+          );
 
-      if (shouldDistributeCards) {
-        setLoadingMsg(
-          <>
+          await wait(2000);
+        }
+
+        if (data.currentSubRound == 4 && data.currentTurn == 0) {
+          _setSelectedCard(null);
+          playSound();
+          await wait(500);
+          setLoadingMsg(
             <View style={{ gap: 30, alignItems: "center" }}>
               <Image
-                source={require("../../assets/gif/cards.gif")}
+                source={require("../../assets/images/circuit.png")}
+                style={{ width: 200, height: 150 * 1.5 }}
+              />
+              <CustomText family="SemiBoldItalic" size={20}>
+                Circuit Round Begins!
+              </CustomText>
+            </View>
+          );
+          await wait(5000);
+        }
+
+        if (shouldDistributeCards) {
+          setLoadingMsg(
+            <>
+              <View style={{ gap: 30, alignItems: "center" }}>
+                <Image
+                  source={require("../../assets/gif/cards.gif")}
+                  style={{ width: 200 * 1.5, height: 150 * 1.5 }}
+                />
+                <CustomText family="SemiBoldItalic" size={16}>
+                  Cards Are Being Distributed! Please hold on...
+                </CustomText>
+              </View>
+            </>
+          );
+
+          await wait(2000);
+        }
+
+        if (data.currentSubRound < 5) {
+          setLoadingMsg(
+            <>
+              <ActivityIndicator size="50" color={Colors.white} />
+              <CustomText family="SemiBoldItalic" size={16}>
+                अब `
+                {data.userState[data.playerOrder[data.currentTurn]].username}`
+                की बारी है"
+              </CustomText>
+            </>
+          );
+
+          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+        } else {
+          setLoadingMsg(
+            <View style={{ gap: 30, alignItems: "center" }}>
+              <Image
+                source={require("../../assets/gif/bear-and-bull.gif")}
                 style={{ width: 200 * 1.5, height: 150 * 1.5 }}
               />
               <CustomText family="SemiBoldItalic" size={16}>
-                Cards Are Being Distributed! Please hold on...
+                Calculating results...
               </CustomText>
             </View>
-          </>
-        );
+          );
+          await wait(2000);
 
-        await wait(2000);
+          router.push("/roundend");
+        }
+        await wait(1000);
+
+        setLoadingMsg(null);
+      } catch (error) {
+        console.log("Somthing went wrong in roundInfo", error);
+        setLoadingMsg(null);
       }
-
-      if (data.currentSubRound < 5) {
-        setLoadingMsg(
-          <>
-            <ActivityIndicator size="50" color={Colors.white} />
-            <CustomText family="SemiBoldItalic" size={16}>
-              अब `{data.userState[data.playerOrder[data.currentTurn]].username}`
-              की बारी है"
-            </CustomText>
-          </>
-        );
-
-        router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
-      } else {
-        setLoadingMsg(
-          <View style={{ gap: 30, alignItems: "center" }}>
-            <Image
-              source={require("../../assets/gif/bear-and-bull.gif")}
-              style={{ width: 200 * 1.5, height: 150 * 1.5 }}
-            />
-            <CustomText family="SemiBoldItalic" size={16}>
-              Calculating results...
-            </CustomText>
-          </View>
-        );
-        await wait(2000);
-
-        router.push("/roundend");
-      }
-      await wait(1000);
-
-      setLoadingMsg(null);
     };
 
     conn.current.on("roundInfo", roundInfo);
