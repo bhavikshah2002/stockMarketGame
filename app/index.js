@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -155,6 +155,7 @@ const styles = StyleSheet.create({
   },
   inputText: {},
   inputTextText: {
+    flex: 1,
     color: "black",
     fontWeight: "bold",
   },
