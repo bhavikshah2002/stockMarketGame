@@ -56,7 +56,6 @@ export default function GameStateContextProvider({ children }) {
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useState("username");
-  const [sound, setSound] = useState();
   const players = useMemo(() => {
     if (!gameState) return [];
     return gameState.playerOrder.map((id) => ({
@@ -93,13 +92,14 @@ export default function GameStateContextProvider({ children }) {
     const { sound } = await Audio.Sound.createAsync(
       require("../../assets/audio/circuit.mp3")
     );
-    setSound(sound);
     sound.playAsync();
   }
 
   //########### SOCKET STUFF ###########
   const create = () => {
-    const id = new Date().getTime() % 1000000;
+    if (conn.current) conn.current.close();
+
+    const id = new Date().getTime().toString().slice(-6);
     setGameId(id);
     conn.current = new SocketConn(
       `ws://13.232.187.121/ws/chat/${id}/?create=True&join=False&username=${myUserName}`
@@ -117,6 +117,9 @@ export default function GameStateContextProvider({ children }) {
       ]);
       return false;
     }
+
+    if (conn.current) conn.current.close();
+
     conn.current = new SocketConn(
       `ws://13.232.187.121/ws/chat/${gameId}/?create=False&join=True&username=${myUserName}`
     );

@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
-import { AntDesign } from "@expo/vector-icons";
 import { CompanyInObj } from "../data/cards";
 import { useEffect, useMemo, useState } from "react";
 import Animated, {
@@ -25,23 +24,8 @@ import Animated, {
   FadeOutUp,
 } from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import ChangeIcon from "./ChangeIcon";
 
-function ChangeIcon({ netChange, size = 34, ...props }) {
-  if (netChange == 0)
-    return (
-      <FontAwesome5 name="equals" size={size} color={Colors.info} {...props} />
-    );
-
-  return (
-    <AntDesign
-      name={netChange > 0 ? "caretup" : "caretdown"}
-      size={size}
-      color={netChange > 0 ? Colors.green : Colors.red}
-      {...props}
-    />
-  );
-}
 
 export default function RoundEndReveal({ netChangeInCompanyByUser }) {
   const { gameState, myUserId, conn } = useGameState();

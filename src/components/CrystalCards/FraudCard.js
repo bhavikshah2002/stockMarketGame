@@ -13,17 +13,16 @@ import { useGameState } from "../../contexts/GameStateContext";
 import { Entypo } from "@expo/vector-icons";
 import { useState } from "react";
 import ModalForCard from "./ModalForCard";
-import MySlider from "../Slider";
-import { useSharedValue } from "react-native-reanimated";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CompanyValueZeroCard from "./CompanyValueZeroCard";
+import SimpleSlider from "../../common/SimpleSlider";
 
 export default function FraudCard({ card }) {
   const { gameState, conn, myUserId, _setSelectedCard } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [maxStocksPossibleToBuy, setMaxStocksPossibleToBuy] = useState(0);
-  const noOfStocks = useSharedValue(0);
+  const [noOfStocks, setNoOfStocks] = useState(0);
+
   function getMaxSliderValue(company) {
     var newShareValue =
       Math.floor(
@@ -70,13 +69,13 @@ export default function FraudCard({ card }) {
               <RegularText color={Colors.dim} align="center">
                 Select how much stock you want to buy of {selectedCompany.name}
               </RegularText>
-              <View style={styles.slider}>
-                <MySlider
-                  value={noOfStocks}
-                  max={maxStocksPossibleToBuy}
-                  min={0}
-                />
-              </View>
+              <SimpleSlider
+                value={noOfStocks}
+                setValue={setNoOfStocks}
+                max={maxStocksPossibleToBuy}
+                width={150}
+                bubbleText={(p) => p + "K"}
+              />
             </View>
           }
           operatingFunction={() => {
@@ -84,7 +83,7 @@ export default function FraudCard({ card }) {
               userId: myUserId,
               crystalType: card.crystalType,
               companyId: selectedCompany.id,
-              numberOfStocks: Math.floor(noOfStocks.value) * 1000,
+              numberOfStocks: noOfStocks * 1000,
             });
             _setSelectedCard(null);
           }}

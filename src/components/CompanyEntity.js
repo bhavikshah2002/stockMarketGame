@@ -8,12 +8,11 @@ import {
 } from "../common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
-import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useSharedValue } from "react-native-reanimated";
-import MySlider from "./Slider";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ModalForCard from "./CrystalCards/ModalForCard";
+import SimpleSlider from "../common/SimpleSlider";
+import ChangeIcon from "./ChangeIcon";
 
 export default function CompanyEntity() {
   const { selectedEntity: company, gameState, conn, myUserId } = useGameState();
@@ -37,7 +36,15 @@ export default function CompanyEntity() {
       ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
       : 0
   );
-  const isProfit = true;
+
+  const [buyNoOfStocks, setBuyNoOfStocks] = useState(0);
+  const [sellNoOfStocks, setSellNoOfStocks] = useState(0);
+
+  const isProfit = useMemo(() => {
+    return gameState.userState[myUserId].cardsHeld
+      .filter((card) => card.type == "NORMAL" && card.companyId == company.id)
+      .reduce((acc, cur) => acc + cur.netChange, 0);
+  }, [gameState, company]);
 
   useEffect(() => {
     setMaxStocksPossibleToBuy(
@@ -57,16 +64,15 @@ export default function CompanyEntity() {
         ? Math.floor(gameState.userState[myUserId].holdings[company.id] / 1000)
         : 0
     );
+    setBuyNoOfStocks(0);
+    setSellNoOfStocks(0);
   }, [company]);
-
-  const buyNoOfStocks = useSharedValue(0);
-  const sellNoOfStocks = useSharedValue(0);
 
   const onBuy = () => {
     conn.current?.emit("buy", {
       userId: myUserId,
       companyId: company.id,
-      numberOfStocks: Math.floor(buyNoOfStocks.value) * 1000,
+      numberOfStocks: buyNoOfStocks * 1000,
     });
   };
 
@@ -74,7 +80,7 @@ export default function CompanyEntity() {
     conn.current?.emit("sell", {
       userId: myUserId,
       companyId: company.id,
-      numberOfStocks: Math.floor(sellNoOfStocks.value) * 1000,
+      numberOfStocks: sellNoOfStocks * 1000,
     });
   };
 
@@ -86,8 +92,8 @@ export default function CompanyEntity() {
           setModalVisible={setModalBuyVisible}
           transactionInfo={
             <RegularText color={Colors.dim} align={"center"}>
-              Are you sure, You want to buy {Math.floor(buyNoOfStocks.value)}K
-              stocks of {company.name}?
+              Are you sure, You want to buy {buyNoOfStocks}K stocks of{" "}
+              {company.name}?
             </RegularText>
           }
           operatingFunction={onBuy}
@@ -95,6 +101,7 @@ export default function CompanyEntity() {
       </View>
     );
   }
+
   if (modalSellVisible && company) {
     return (
       <View style={styles.BuySellModal}>
@@ -103,8 +110,8 @@ export default function CompanyEntity() {
           setModalVisible={setModalSellVisible}
           transactionInfo={
             <RegularText color={Colors.dim} align={"center"}>
-              Are you sure, You want to sell {Math.floor(sellNoOfStocks.value)}K
-              stocks of {company.name}?
+              Are you sure, You want to sell {sellNoOfStocks}K stocks of{" "}
+              {company.name}?
             </RegularText>
           }
           operatingFunction={onSell}
@@ -112,6 +119,7 @@ export default function CompanyEntity() {
       </View>
     );
   }
+
   if (gameState.companyValues[company.id].companyShareValue == 0) {
     return (
       <View style={styles.container}>
@@ -159,6 +167,7 @@ export default function CompanyEntity() {
       </View>
     );
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -168,11 +177,7 @@ export default function CompanyEntity() {
             <BoldText size={21} style={{ letterSpacing: 1 }}>
               {company.name}
             </BoldText>
-            <AntDesign
-              name={isProfit ? "caretup" : "caretdown"}
-              size={34}
-              color={isProfit ? Colors.green : Colors.red}
-            />
+            <ChangeIcon netChange={isProfit} size={30} />
           </View>
           <ItalicText color={Colors.dim}>
             Current Value{" "}
@@ -186,24 +191,27 @@ export default function CompanyEntity() {
       <View style={styles.bottom}>
         <View style={styles.sliderBox}>
           <TouchableOpacity
+            disabled={buyNoOfStocks == 0}
             style={[styles.btn, { backgroundColor: Colors.green }]}
             onPress={() => setModalBuyVisible(true)}
           >
             <LightText size={18}>BUY</LightText>
           </TouchableOpacity>
-          <MySlider
+          <SimpleSlider
             key={
               company.name +
               `${maxStocksPossibleToBuy}` +
               `${maxStocksPossibleToSell}`
             }
             value={buyNoOfStocks}
+            setValue={setBuyNoOfStocks}
             max={maxStocksPossibleToBuy}
-            min={0}
+            bubbleText={(p) => p + "K"}
           />
         </View>
         <View style={styles.sliderBox}>
           <TouchableOpacity
+            disabled={sellNoOfStocks == 0}
             style={[styles.btn, { backgroundColor: Colors.red }]}
             onPress={() => {
               setModalSellVisible(true);
@@ -211,15 +219,16 @@ export default function CompanyEntity() {
           >
             <LightText size={18}>SELL</LightText>
           </TouchableOpacity>
-          <MySlider
+          <SimpleSlider
             key={
               company.name +
               `${maxStocksPossibleToBuy}` +
               `${maxStocksPossibleToSell}`
             }
             value={sellNoOfStocks}
+            setValue={setSellNoOfStocks}
             max={maxStocksPossibleToSell}
-            min={0}
+            bubbleText={(p) => p + "K"}
           />
         </View>
       </View>
