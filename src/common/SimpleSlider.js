@@ -42,7 +42,7 @@ export default function SimpleSlider({
       >
         <AntDesign name="pluscircle" size={20} color={dimCol} />
       </TouchableOpacity>
-      <RegularText style={{ width: 30 }}>{bubbleText(value)}</RegularText>
+      <RegularText style={{ width: 35 }}>{bubbleText(value)}</RegularText>
     </View>
   );
 }

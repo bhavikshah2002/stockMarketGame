@@ -27,7 +27,7 @@ export default function CompanyEntity() {
               gameState.companyValues[company.id].companyShareValue /
               1000
           ),
-          gameState.companyValues[company.id].stocksAvailable
+          Math.floor(gameState.companyValues[company.id].stocksAvailable / 1000)
         )
       : 0
   );
@@ -55,7 +55,9 @@ export default function CompanyEntity() {
                 gameState.companyValues[company.id].companyShareValue /
                 1000
             ),
-            gameState.companyValues[company.id].stocksAvailable
+            Math.floor(
+              gameState.companyValues[company.id].stocksAvailable / 1000
+            )
           )
         : 0
     );
@@ -198,11 +200,7 @@ export default function CompanyEntity() {
             <LightText size={18}>BUY</LightText>
           </TouchableOpacity>
           <SimpleSlider
-            key={
-              company.name +
-              `${maxStocksPossibleToBuy}` +
-              `${maxStocksPossibleToSell}`
-            }
+            key={`${company.name}-${maxStocksPossibleToBuy}-${maxStocksPossibleToSell}`}
             value={buyNoOfStocks}
             setValue={setBuyNoOfStocks}
             max={maxStocksPossibleToBuy}
@@ -220,11 +218,7 @@ export default function CompanyEntity() {
             <LightText size={18}>SELL</LightText>
           </TouchableOpacity>
           <SimpleSlider
-            key={
-              company.name +
-              `${maxStocksPossibleToBuy}` +
-              `${maxStocksPossibleToSell}`
-            }
+            key={`${company.name}-${maxStocksPossibleToBuy}-${maxStocksPossibleToSell}`}
             value={sellNoOfStocks}
             setValue={setSellNoOfStocks}
             max={maxStocksPossibleToSell}
