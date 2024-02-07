@@ -12,8 +12,10 @@ import {
   Alert,
   Image,
   StyleSheet,
+  Vibration,
   View,
 } from "react-native";
+
 import { router } from "expo-router";
 import { CustomText } from "../common/Text";
 import { Colors } from "../common/styles";
@@ -178,7 +180,7 @@ export default function GameStateContextProvider({ children }) {
             </View>
           );
           // Changed from 2000 to 1500 for Buddy Version
-          await wait(1500);
+          await wait(2000);
         }
 
         if (shouldDistributeCards) {
@@ -201,6 +203,9 @@ export default function GameStateContextProvider({ children }) {
 
         if (data.currentSubRound < 5) {
           // Commented this code for Buddy Version
+
+
+          
 
           // setLoadingMsg(
           //   <>
@@ -231,7 +236,7 @@ export default function GameStateContextProvider({ children }) {
           router.push("/roundend");
         }
         // await wait(1000);
-
+        isMyTurn ? Vibration.vibrate(400):null
         setLoadingMsg(null);
       } catch (error) {
         console.log("Somthing went wrong in roundInfo", error);
