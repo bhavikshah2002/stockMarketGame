@@ -178,7 +178,7 @@ export default function GameStateContextProvider({ children }) {
             </View>
           );
           // Changed from 2000 to 1500 for Buddy Version
-          await wait(5000);
+          await wait(1500);
         }
 
         if (shouldDistributeCards) {
@@ -202,16 +202,16 @@ export default function GameStateContextProvider({ children }) {
         if (data.currentSubRound < 5) {
           // Commented this code for Buddy Version
 
-          // setLoadingMsg(
-          //   <>
-          //     <ActivityIndicator size="50" color={Colors.white} />
-          //     <CustomText family="SemiBoldItalic" size={16}>
-          //       अब `
-          //       {data.userState[data.playerOrder[data.currentTurn]].username}`
-          //       की बारी है"
-          //     </CustomText>
-          //   </>
-          // );
+          setLoadingMsg(
+            <>
+              <ActivityIndicator size="50" color={Colors.white} />
+              <CustomText family="SemiBoldItalic" size={16}>
+                अब `
+                {data.userState[data.playerOrder[data.currentTurn]].username}`
+                की बारी है"
+              </CustomText>
+            </>
+          );
 
           router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         } else {
