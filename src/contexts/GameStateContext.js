@@ -159,7 +159,7 @@ export default function GameStateContextProvider({ children }) {
             />
           );
 
-          await wait(2000);
+          await wait(1500);
         }
 
         if (data.currentSubRound == 4 && data.currentTurn == 0) {
@@ -177,6 +177,7 @@ export default function GameStateContextProvider({ children }) {
               </CustomText>
             </View>
           );
+          // Changed from 2000 to 1500 for Buddy Version
           await wait(5000);
         }
 
@@ -199,16 +200,18 @@ export default function GameStateContextProvider({ children }) {
         }
 
         if (data.currentSubRound < 5) {
-          setLoadingMsg(
-            <>
-              <ActivityIndicator size="50" color={Colors.white} />
-              <CustomText family="SemiBoldItalic" size={16}>
-                अब `
-                {data.userState[data.playerOrder[data.currentTurn]].username}`
-                की बारी है"
-              </CustomText>
-            </>
-          );
+          // Commented this code for Buddy Version
+
+          // setLoadingMsg(
+          //   <>
+          //     <ActivityIndicator size="50" color={Colors.white} />
+          //     <CustomText family="SemiBoldItalic" size={16}>
+          //       अब `
+          //       {data.userState[data.playerOrder[data.currentTurn]].username}`
+          //       की बारी है"
+          //     </CustomText>
+          //   </>
+          // );
 
           router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         } else {
@@ -227,7 +230,7 @@ export default function GameStateContextProvider({ children }) {
 
           router.push("/roundend");
         }
-        await wait(1000);
+        // await wait(1000);
 
         setLoadingMsg(null);
       } catch (error) {
