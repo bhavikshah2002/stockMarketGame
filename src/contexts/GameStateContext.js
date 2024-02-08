@@ -156,96 +156,93 @@ export default function GameStateContextProvider({ children }) {
         if (data.transactions.length > 0 && !shouldDistributeCards) {
           // Buddy Version Commented
 
-          // setLoadingMsg(
-          //   <TransactionSplash
-          //     transaction={data.transactions[0]}
-          //     userName={data.userState[data.transactions[0].userId].username}
-          //   />
-          // );
+          setLoadingMsg(
+            <TransactionSplash
+              transaction={data.transactions[0]}
+              userName={data.userState[data.transactions[0].userId].username}
+            />
+          );
 
-          // await wait(1500);
+          await wait(1500);
         }
 
         if (data.currentSubRound == 4 && data.currentTurn == 0) {
           _setSelectedCard(null);
           // Buddy Version Commented
 
-          // playSound();
-          // await wait(500);
-          // setLoadingMsg(
-          //   <View style={{ gap: 30, alignItems: "center" }}>
-          //     <Image
-          //       source={require("../../assets/images/circuit.png")}
-          //       style={{ width: 200, height: 150 * 1.5 }}
-          //     />
-          //     <CustomText family="SemiBoldItalic" size={20}>
-          //       Circuit Round Begins!
-          //     </CustomText>
-          //   </View>
-          // );
-
-          // Changed from 2000 to 1500 for Buddy Version
-
-          // await wait(2000);
+          playSound();
+          await wait(500);
+          setLoadingMsg(
+            <View style={{ gap: 30, alignItems: "center" }}>
+              <Image
+                source={require("../../assets/images/circuit.png")}
+                style={{ width: 200, height: 150 * 1.5 }}
+              />
+              <CustomText family="SemiBoldItalic" size={20}>
+                Circuit Round Begins!
+              </CustomText>
+            </View>
+          );
+          await wait(2000);
         }
 
         if (shouldDistributeCards) {
           // Buddy Version Commented
 
-          // setLoadingMsg(
-          //   <>
-          //     <View style={{ gap: 30, alignItems: "center" }}>
-          //       <Image
-          //         source={require("../../assets/gif/cards.gif")}
-          //         style={{ width: 200 * 1.5, height: 150 * 1.5 }}
-          //       />
-          //       <CustomText family="SemiBoldItalic" size={16}>
-          //         Cards Are Being Distributed! Please hold on...
-          //       </CustomText>
-          //     </View>
-          //   </>
-          // );
+          setLoadingMsg(
+            <>
+              <View style={{ gap: 30, alignItems: "center" }}>
+                <Image
+                  source={require("../../assets/gif/cards.gif")}
+                  style={{ width: 200 * 1.5, height: 150 * 1.5 }}
+                />
+                <CustomText family="SemiBoldItalic" size={16}>
+                  Cards Are Being Distributed! Please hold on...
+                </CustomText>
+              </View>
+            </>
+          );
 
-          // await wait(2000);
+          await wait(2000);
         }
 
         if (data.currentSubRound < 5) {
           // Commented this code for Buddy Version
 
-
-          
-
-          // setLoadingMsg(
-          //   <>
-          //     <ActivityIndicator size="50" color={Colors.white} />
-          //     <CustomText family="SemiBoldItalic" size={16}>
-          //       अब `
-          //       {data.userState[data.playerOrder[data.currentTurn]].username}`
-          //       की बारी है"
-          //     </CustomText>
-          //   </>
-          // );
+          setLoadingMsg(
+            <>
+              <ActivityIndicator size="50" color={Colors.white} />
+              <CustomText family="SemiBoldItalic" size={16}>
+                अब `
+                {data.userState[data.playerOrder[data.currentTurn]].username}`
+                की बारी है"
+              </CustomText>
+            </>
+          );
 
           router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         } else {
           // Buddy Version Commented
 
-          // setLoadingMsg(
-          //   <View style={{ gap: 30, alignItems: "center" }}>
-          //     <Image
-          //       source={require("../../assets/gif/bear-and-bull.gif")}
-          //       style={{ width: 200 * 1.5, height: 150 * 1.5 }}
-          //     />
-          //     <CustomText family="SemiBoldItalic" size={16}>
-          //       Calculating results...
-          //     </CustomText>
-          //   </View>
-          // );
-          // await wait(2000);
+          setLoadingMsg(
+            <View style={{ gap: 30, alignItems: "center" }}>
+              <Image
+                source={require("../../assets/gif/bear-and-bull.gif")}
+                style={{ width: 200 * 1.5, height: 150 * 1.5 }}
+              />
+              <CustomText family="SemiBoldItalic" size={16}>
+                Calculating results...
+              </CustomText>
+            </View>
+          );
+          await wait(2000);
 
           router.push("/roundend");
         }
-        // await wait(1000);
+        
+        // Buddy Version Commented
+        await wait(1000);
+
         isMyTurn ? Vibration.vibrate(400):null
         setLoadingMsg(null);
       } catch (error) {
