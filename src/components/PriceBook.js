@@ -7,6 +7,7 @@ import { Row, Rows, Table } from "react-native-table-component";
 import { AntDesign } from "@expo/vector-icons";
 import { useMemo } from "react";
 import { useGameState } from "../contexts/GameStateContext";
+import { Companies } from "../data/cards";
 
 export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
   const { gameState } = useGameState();
@@ -43,6 +44,11 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
     return priceBook;
   }, [gameState]);
 
+  const stockAvailableRow = Companies.map(
+    (com) =>
+      Math.floor(gameState.companyValues[com.id].stocksAvailable / 1000) + "K"
+  );
+
   return (
     <Modal
       animationType="slide"
@@ -77,6 +83,11 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
                 data={header}
                 style={styles.head}
                 textStyle={styles.textHeading}
+              />
+              <Row
+                data={stockAvailableRow}
+                style={styles.row}
+                textStyle={styles.stockAvailableText}
               />
               <Rows
                 data={data}
@@ -127,7 +138,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   TableConatiner: {
-    marginTop: 20,
+    marginTop: 12,
     width: 450,
   },
   head: {
@@ -147,5 +158,11 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
     textAlign: "center",
     color: Colors.white,
+  },
+  stockAvailableText: {
+    fontFamily: "Poppins-Italic",
+    textAlign: "center",
+    color: Colors.dim,
+    fontSize: 12,
   },
 });
