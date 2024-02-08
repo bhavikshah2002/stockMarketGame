@@ -154,51 +154,59 @@ export default function GameStateContextProvider({ children }) {
         }
 
         if (data.transactions.length > 0 && !shouldDistributeCards) {
-          setLoadingMsg(
-            <TransactionSplash
-              transaction={data.transactions[0]}
-              userName={data.userState[data.transactions[0].userId].username}
-            />
-          );
+          // Buddy Version Commented
 
-          await wait(1500);
+          // setLoadingMsg(
+          //   <TransactionSplash
+          //     transaction={data.transactions[0]}
+          //     userName={data.userState[data.transactions[0].userId].username}
+          //   />
+          // );
+
+          // await wait(1500);
         }
 
         if (data.currentSubRound == 4 && data.currentTurn == 0) {
           _setSelectedCard(null);
-          playSound();
-          await wait(500);
-          setLoadingMsg(
-            <View style={{ gap: 30, alignItems: "center" }}>
-              <Image
-                source={require("../../assets/images/circuit.png")}
-                style={{ width: 200, height: 150 * 1.5 }}
-              />
-              <CustomText family="SemiBoldItalic" size={20}>
-                Circuit Round Begins!
-              </CustomText>
-            </View>
-          );
+          // Buddy Version Commented
+
+          // playSound();
+          // await wait(500);
+          // setLoadingMsg(
+          //   <View style={{ gap: 30, alignItems: "center" }}>
+          //     <Image
+          //       source={require("../../assets/images/circuit.png")}
+          //       style={{ width: 200, height: 150 * 1.5 }}
+          //     />
+          //     <CustomText family="SemiBoldItalic" size={20}>
+          //       Circuit Round Begins!
+          //     </CustomText>
+          //   </View>
+          // );
+
           // Changed from 2000 to 1500 for Buddy Version
-          await wait(2000);
+
+          // await wait(2000);
         }
 
         if (shouldDistributeCards) {
-          setLoadingMsg(
-            <>
-              <View style={{ gap: 30, alignItems: "center" }}>
-                <Image
-                  source={require("../../assets/gif/cards.gif")}
-                  style={{ width: 200 * 1.5, height: 150 * 1.5 }}
-                />
-                <CustomText family="SemiBoldItalic" size={16}>
-                  Cards Are Being Distributed! Please hold on...
-                </CustomText>
-              </View>
-            </>
-          );
+          // Buddy Version Commented
 
-          await wait(2000);
+          // setLoadingMsg(
+          //   <>
+          //     <View style={{ gap: 30, alignItems: "center" }}>
+          //       <Image
+          //         source={require("../../assets/gif/cards.gif")}
+          //         style={{ width: 200 * 1.5, height: 150 * 1.5 }}
+          //       />
+          //       <CustomText family="SemiBoldItalic" size={16}>
+          //         Cards Are Being Distributed! Please hold on...
+          //       </CustomText>
+          //     </View>
+          //   </>
+          // );
+
+          // await wait(2000);
         }
 
         if (data.currentSubRound < 5) {
@@ -220,18 +228,20 @@ export default function GameStateContextProvider({ children }) {
 
           router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         } else {
-          setLoadingMsg(
-            <View style={{ gap: 30, alignItems: "center" }}>
-              <Image
-                source={require("../../assets/gif/bear-and-bull.gif")}
-                style={{ width: 200 * 1.5, height: 150 * 1.5 }}
-              />
-              <CustomText family="SemiBoldItalic" size={16}>
-                Calculating results...
-              </CustomText>
-            </View>
-          );
-          await wait(2000);
+          // Buddy Version Commented
+
+          // setLoadingMsg(
+          //   <View style={{ gap: 30, alignItems: "center" }}>
+          //     <Image
+          //       source={require("../../assets/gif/bear-and-bull.gif")}
+          //       style={{ width: 200 * 1.5, height: 150 * 1.5 }}
+          //     />
+          //     <CustomText family="SemiBoldItalic" size={16}>
+          //       Calculating results...
+          //     </CustomText>
+          //   </View>
+          // );
+          // await wait(2000);
 
           router.push("/roundend");
         }

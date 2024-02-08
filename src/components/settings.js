@@ -32,6 +32,7 @@ export default function Settings() {
           onRequestClose={() => {
             setModalVisible(!modalVisible);
           }}
+          statusBarTranslucent={true}
         >
           <View style={styles.Container}>
             <View style={{ marginTop: 20 }}>
@@ -196,6 +197,7 @@ export default function Settings() {
 
 const styles = StyleSheet.create({
   Container: {
+    top: 0,
     flex: 1,
     backgroundColor: "#262525",
     justifyContent: "space-between",
