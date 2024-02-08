@@ -13,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import ModalForCard from "../../src/components/CrystalCards/ModalForCard";
 import { Image } from "expo-image";
+import MiniCalculator from "../../src/components/MiniCalculator";
 
 export default function MyTurnScreen() {
   const {
@@ -27,6 +28,7 @@ export default function MyTurnScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
+  const [calcVisible, setCalcVisible] = useState(false);
 
   const onPass = () => {
     conn.current?.emit("pass", { userId: myUserId });
@@ -110,6 +112,10 @@ export default function MyTurnScreen() {
             priceBookVisible={priceBookVisible}
             setPriceBookVisible={setPriceBookVisible}
           />
+          <MiniCalculator
+            modalVisible={calcVisible}
+            setModalVisible={setCalcVisible}
+          />
 
           {isMenuOpen && (
             <Animated.View style={styles.menu}>
@@ -138,6 +144,23 @@ export default function MyTurnScreen() {
               >
                 <SemiBoldText size={12} color={Colors.white}>
                   PriceBook
+                </SemiBoldText>
+              </TouchableOpacity>
+              <View
+                style={{
+                  height: 1,
+                  width: "100%",
+                  backgroundColor: Colors.white,
+                }}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  setIsMenuOpen(false);
+                  setCalcVisible(true);
+                }}
+              >
+                <SemiBoldText size={12} color={Colors.white}>
+                  Calculator
                 </SemiBoldText>
               </TouchableOpacity>
             </Animated.View>
