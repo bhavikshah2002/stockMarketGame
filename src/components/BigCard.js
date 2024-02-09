@@ -2,7 +2,7 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import { Image, StyleSheet, View } from "react-native";
 import { BoldText, CustomText, SemiBoldText } from "../common/Text";
 import { Colors } from "../common/styles";
-import { CompanyInObj } from "../data/cards";
+import { CardMessages, CompanyInObj } from "../data/cards";
 import { useGameState } from "../contexts/GameStateContext";
 import CrystalContent from "./CrystalContent";
 
@@ -11,12 +11,22 @@ export default function BigCard() {
 
   if (!card)
     return (
-      <View style={[styles.container, { justifyContent:"center",alignItems:"center",paddingLeft:3,gap:15}]}>
+      <View
+        style={[
+          styles.container,
+          {
+            justifyContent: "center",
+            alignItems: "center",
+            paddingLeft: 3,
+            gap: 15,
+          },
+        ]}
+      >
         <Image
-            style={styles.logo}
-            source={require("../../assets/images/withoutBgLogo1.png")}
-            contentFit="contain"
-          />
+          style={styles.logo}
+          source={require("../../assets/images/withoutBgLogo1.png")}
+          contentFit="contain"
+        />
         <SemiBoldText size={15} align="center" color={Colors.dim}>
           Please select a card!
         </SemiBoldText>
@@ -37,8 +47,13 @@ export default function BigCard() {
           <BoldText size={20}>
             {isProfit ? "+" : "-"} ₹{Math.abs(card.netChange)}
           </BoldText>
-          <CustomText size={12} align="center" family="BoldItalic">
-            Something very {isProfit ? "good" : "bad"} {"\n"} happened
+          <CustomText
+            style={{ maxWidth: "94%" }}
+            size={11}
+            align="center"
+            family="BoldItalic"
+          >
+            {CardMessages[isProfit ? "up" : "low"][card.id % 30]}
           </CustomText>
           <Image
             source={CompanyInObj[card.companyId].photoUrl}
@@ -115,7 +130,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#141414",
     gap: 6,
-    marginVertical: 10,
+    marginVertical: 8,
     borderRadius: 6,
     overflow: "hidden",
     borderColor: Colors.green + "22",
