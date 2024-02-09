@@ -133,7 +133,7 @@ export default function MyTurnScreen() {
                 style={{
                   height: 1,
                   width: "100%",
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.dim,
                 }}
               />
               <TouchableOpacity
@@ -150,7 +150,7 @@ export default function MyTurnScreen() {
                 style={{
                   height: 1,
                   width: "100%",
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.dim,
                 }}
               />
               <TouchableOpacity
