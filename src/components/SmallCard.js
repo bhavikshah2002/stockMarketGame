@@ -75,7 +75,6 @@ export default function SmallCard({ card, drag, isActive }) {
                   <BoldText size={9} style={{ marginTop: 5 }}>
                     Circuit{" "}
                   </BoldText>
-                  <BoldText size={9}>{card.circuitType}</BoldText>
                 </View>
                 <Entypo
                   name="bar-graph"
@@ -113,13 +112,13 @@ export default function SmallCard({ card, drag, isActive }) {
                   }}
                 >
                   <BoldText size={9} style={{ marginTop: 2 }}>
-                    STOCK
+                    Crystal
                   </BoldText>
-                  <BoldText size={9}>BAZAR</BoldText>
+                  {/* <BoldText size={9}>BAZAR</BoldText> */}
                 </View>
 
                 <GetCrstalIcon type={current_card} />
-                <SemiBoldText size={10}>{current_card}</SemiBoldText>
+                <SemiBoldText size={9}>{current_card}</SemiBoldText>
               </View>
             </TouchableOpacity>
           </ScaleDecorator>
