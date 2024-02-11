@@ -1,4 +1,10 @@
-import { Alert, BackHandler, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  BackHandler,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Colors } from "../src/common/styles";
 import { FlatList } from "react-native-gesture-handler";
 import { Companies } from "../src/data/cards";
@@ -7,11 +13,14 @@ import RoundEndReveal from "../src/components/RoundEndReveal";
 import CompanyCardForRoundEnd from "../src/components/CompanyCardForRoundEnd";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
+import { Entypo } from "@expo/vector-icons";
+import { BoldText } from "../src/common/Text";
 
 export default function RoundEnd() {
-  const { gameState, leave, conn } = useGameState();
+  const { gameState, leave, conn, myUserId } = useGameState();
   const [data, setData] = useState(null);
-
+  const isAdmin = myUserId == gameState.adminId;
+  const isLastRound = gameState.totalMegaRounds == gameState.currentMegaRound;
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
@@ -57,6 +66,13 @@ export default function RoundEnd() {
     };
   }, [conn.current]);
 
+  const onNextRound = () => {
+    conn.current?.emit("startMegaRound", {});
+  };
+  const onResults = () => {
+    conn.current?.emit("endGame", {});
+  };
+
   return (
     <View style={styles.Conatiner}>
       <View style={styles.Left}>
@@ -75,8 +91,28 @@ export default function RoundEnd() {
           />
         )}
       </View>
-      <View style={styles.Right}>
+      {/* <View style={styles.Right}>
         {data && <RoundEndReveal netChangeInCompanyByUser={data.netChange} />}
+      </View> */}
+
+      {/* Buddy Version Code */}
+      <View style={styles.Right}>
+        {isAdmin && (
+          <View style={styles.nextRound}>
+            {
+            isLastRound ? (
+            <TouchableOpacity onPress={onResults} style={styles.nextRoundBtn}>
+              <BoldText>Results</BoldText>
+              <Entypo name="chevron-right" size={24} color={Colors.white} />
+            </TouchableOpacity>
+            ) : (
+            <TouchableOpacity onPress={onNextRound} style={styles.nextRoundBtn}>
+              <BoldText>NEXT ROUND</BoldText>
+              <Entypo name="chevron-right" size={24} color={Colors.white} />
+            </TouchableOpacity>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );
@@ -103,5 +139,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     paddingLeft: 10,
+  },
+  nextRound: {
+    position: "absolute",
+    right: 15,
+    bottom: 15,
+    padding: 10,
+    paddingHorizontal: 15,
+    backgroundColor: Colors.darkPink,
+    borderRadius: 5,
+    zIndex: 9999,
+    flexDirection: "row",
+  },
+  nextRoundBtn: {
+    flexDirection: "row",
+    gap: 2,
+    alignItems: "center",
   },
 });
