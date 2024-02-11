@@ -91,12 +91,13 @@ export default function RoundEnd() {
           />
         )}
       </View>
-      {/* <View style={styles.Right}>
+      {/* Comment this for Buddy Version! */}
+      <View style={styles.Right}>
         {data && <RoundEndReveal netChangeInCompanyByUser={data.netChange} />}
-      </View> */}
+      </View>
 
       {/* Buddy Version Code */}
-      <View style={styles.Right}>
+      {/* <View style={styles.Right}>
         {isAdmin && (
           <View style={styles.nextRound}>
             {
@@ -113,7 +114,7 @@ export default function RoundEnd() {
             )}
           </View>
         )}
-      </View>
+      </View> */}
     </View>
   );
 }
