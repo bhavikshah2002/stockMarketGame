@@ -20,6 +20,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
+import GameSettingsModal from "../src/components/GameSettingsModal";
 
 export default function LobbyPage() {
   const { leave, gameId, conn, myUserName, setGameState, setMyUserId } =
@@ -30,6 +31,7 @@ export default function LobbyPage() {
   );
   const [playersWaiting, setPlayersWaiting] = useState([]);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [gameSettingModalVisible, setGameSettingModalVisible] = useState(false);
   const isAdmin = useMemo(() => {
     return playersWaiting[0]?.name == myUserName;
   }, [playersWaiting]);
@@ -136,7 +138,7 @@ export default function LobbyPage() {
               {gameId}
             </BoldText>
           </View>
-          <View style={{ height: isAdmin ? 150 : 250 }} />
+          <View style={{ height: isAdmin ? 120 : 250 }} />
           {isAdmin && (
             <>
               <ItalicText>No of rounds</ItalicText>
@@ -156,6 +158,20 @@ export default function LobbyPage() {
                   <AntDesign name="plus" size={16} color="white" />
                 </TouchableOpacity>
               </View>
+              <TouchableOpacity
+                onPress={() => setGameSettingModalVisible(true)}
+              >
+                <RegularText
+                  style={{ textDecorationLine: "underline" }}
+                  color={Colors.white + "bb"}
+                >
+                  More option
+                </RegularText>
+              </TouchableOpacity>
+              <GameSettingsModal
+                modalVisible={gameSettingModalVisible}
+                setModalVisible={setGameSettingModalVisible}
+              />
               <TouchableOpacity
                 onPress={handleStartGame}
                 style={styles.startBtn}
