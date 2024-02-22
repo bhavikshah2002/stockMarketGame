@@ -23,6 +23,7 @@ import wait from "../utils/wait";
 import TransactionSplash from "../components/TransactionSplash";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { Audio } from "expo-av";
+import useAsyncStorage from "../hooks/useAsyncStorage";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -57,7 +58,7 @@ export default function GameStateContextProvider({ children }) {
   const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
-  const [myUserName, setMyUserName] = useState("username");
+  const [myUserName, setMyUserName] = useAsyncStorage("username", "username");
   const players = useMemo(() => {
     if (!gameState) return [];
     return gameState.playerOrder.map((id) => ({
@@ -239,11 +240,11 @@ export default function GameStateContextProvider({ children }) {
 
           router.push("/roundend");
         }
-        
+
         // Buddy Version Commented
         await wait(1000);
 
-        isMyTurn ? Vibration.vibrate(400):null
+        isMyTurn ? Vibration.vibrate(400) : null;
         setLoadingMsg(null);
       } catch (error) {
         console.log("Somthing went wrong in roundInfo", error);
