@@ -35,7 +35,7 @@ export default function MiniCalculator({ modalVisible, setModalVisible }) {
 
           <SemiBoldText size={25}>Calculator</SemiBoldText>
 
-          <View style={{ width: 28 * 4 + 4 * 3 }}>
+          <View style={{ width: 70 * 4 + 4 * 3 }}>
             <View style={styles.result}>
               <LightText
                 numberOfLines={1}
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.black,
     padding: 15,
     width: "60%",
-    height: "80%",
+    height: "85%",
     borderRadius: 4,
     alignItems: "center",
     shadowColor: Colors.dim,
@@ -221,8 +221,8 @@ const styles = StyleSheet.create({
   },
 
   cell: {
-    height: 28,
-    width: 28,
+    height: 35,
+    width: 70,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.dim + "44",

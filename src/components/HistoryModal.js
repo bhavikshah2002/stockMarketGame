@@ -149,6 +149,7 @@ export default function HistoryModal({
       onRequestClose={() => {
         setHistoryModalVisble(false);
       }}
+      statusBarTranslucent={true}
     >
       <View style={styles.container}>
         <View style={styles.innerBox}>

@@ -9,11 +9,13 @@ import { Companies } from "../../src/data/cards";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
+import MiniCalculator from "../../src/components/MiniCalculator";
 
 export default function CommonRound() {
   const { gameState, selectedPlayerId } = useGameState();
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
+  const [calculatorVisible, setCalculatorVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -72,12 +74,28 @@ export default function CommonRound() {
             setPriceBookVisible={setPriceBookVisible}
           />
           <TouchableOpacity
-            style={styles.ModalButton}
+            style={{...styles.ModalButton,
+              borderBottomWidth: 1,
+              borderColor: Colors.dim}}
             onPress={() => {
               setPriceBookVisible(true);
             }}
           >
             <SemiBoldText size={11}>View Price Book</SemiBoldText>
+            <AntDesign name="arrowright" size={16} color={Colors.dim} />
+          </TouchableOpacity>
+
+          <MiniCalculator
+            modalVisible={calculatorVisible}
+            setModalVisible={setCalculatorVisible}
+          />
+          <TouchableOpacity
+            style={styles.ModalButton}
+            onPress={() => {
+              setCalculatorVisible(true);
+            }}
+          >
+            <SemiBoldText size={11}>Open Calculator</SemiBoldText>
             <AntDesign name="arrowright" size={16} color={Colors.dim} />
           </TouchableOpacity>
         </View>
@@ -111,7 +129,7 @@ const styles = StyleSheet.create({
     position: "relative",
     borderRadius: 3,
     overflow: "hidden",
-    marginBottom: 10,
+    
   },
   ModalButton: {
     flexDirection: "row",

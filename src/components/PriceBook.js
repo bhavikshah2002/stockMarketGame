@@ -57,6 +57,7 @@ export default function PriceBook({ priceBookVisible, setPriceBookVisible }) {
       onRequestClose={() => {
         setPriceBookVisible(!priceBookVisible);
       }}
+      statusBarTranslucent={true}
     >
       <View style={styles.Container}>
         <View style={styles.InnerConatiner}>
