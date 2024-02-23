@@ -49,7 +49,7 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
         )}
       </View>
 
-      {/* <RegularText style={styles.sideBadge}>Chairman</RegularText> */}
+      <RegularText style={styles.sideBadge}>Director</RegularText>
     </TouchableOpacity>
   );
 }
@@ -83,6 +83,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     backgroundColor: Colors.darkGreen,
     right: -10,
-    transform: [{ rotateZ: "30deg" }],
+    transform: [{ translateX: 10 }, { translateY: 8 }, { rotateZ: "30deg" }],
   },
 });
