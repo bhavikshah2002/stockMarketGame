@@ -17,11 +17,16 @@ export default function GameRoomLayout() {
   );
   const [previousCardsCount, setPreviousCardsCount] = useState(10);
   useEffect(() => {
-    if(previousCardsCount!=gameState?.userState?.[myUserId]?.cardsHeld.length || (gameState?.currentSubRound==1 && gameState?.currentTurn==0)){
+    if (
+      previousCardsCount !=
+        gameState?.userState?.[myUserId]?.cardsHeld.length ||
+      (gameState?.currentSubRound == 1 && gameState?.currentTurn == 0)
+    ) {
       setCards(gameState?.userState?.[myUserId]?.cardsHeld);
-      setPreviousCardsCount(gameState?.userState?.[myUserId]?.cardsHeld.length)
+      setPreviousCardsCount(gameState?.userState?.[myUserId]?.cardsHeld.length);
     }
   }, [gameState]);
+
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [

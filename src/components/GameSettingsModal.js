@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { BoldText, ItalicText, SemiBoldText } from "../common/Text";
+import { ItalicText, SemiBoldText } from "../common/Text";
 import { Colors } from "../common/styles";
 import { useState } from "react";
 import CheckBox from "../common/CheckBox";
@@ -49,7 +49,16 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
                 setConfig((p) => ({ ...p, includeCrystalCards: val }))
               }
             />
-            <ItalicText>Include Crystal Cards</ItalicText>
+            <TouchableOpacity
+              onPress={() =>
+                setConfig((p) => ({
+                  ...p,
+                  includeCrystalCards: !p.includeCrystalCards,
+                }))
+              }
+            >
+              <ItalicText>Include Crystal Cards</ItalicText>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.hr} />
@@ -60,16 +69,16 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
               onPress={() => setNoOfRounds((p) => p - 1)}
               disabled={noOfRounds == 2}
             >
-              <AntDesign name="minuscircle" size={15} color="white" />
+              <AntDesign name="minuscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
-            <BoldText align="center" width={40} size={15}>
+            <SemiBoldText align="center" width={40} size={15}>
               {noOfRounds}
-            </BoldText>
+            </SemiBoldText>
             <TouchableOpacity
               onPress={() => setNoOfRounds((p) => p + 1)}
               disabled={noOfRounds == 10}
             >
-              <AntDesign name="pluscircle" size={15} color="white" />
+              <AntDesign name="pluscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
           </View>
 
@@ -86,11 +95,11 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
               }
               disabled={config.initialCashInHand == 700000}
             >
-              <AntDesign name="minuscircle" size={15} color="white" />
+              <AntDesign name="minuscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
-            <BoldText align="center" style={{ width: 40 }} size={15}>
+            <SemiBoldText align="center" style={{ width: 40 }} size={15}>
               {config.initialCashInHand / 100000}L
-            </BoldText>
+            </SemiBoldText>
             <TouchableOpacity
               onPress={() =>
                 setConfig((p) => ({
@@ -100,7 +109,7 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
               }
               disabled={config.initialCashInHand == 900000}
             >
-              <AntDesign name="pluscircle" size={15} color="white" />
+              <AntDesign name="pluscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
           </View>
 
@@ -117,11 +126,11 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
               }
               disabled={config.totalStock == 150000}
             >
-              <AntDesign name="minuscircle" size={15} color="white" />
+              <AntDesign name="minuscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
-            <BoldText align="center" style={{ width: 40 }} size={15}>
+            <SemiBoldText align="center" style={{ width: 40 }} size={15}>
               {config.totalStock / 1000}K
-            </BoldText>
+            </SemiBoldText>
             <TouchableOpacity
               onPress={() =>
                 setConfig((p) => ({
@@ -131,7 +140,7 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
               }
               disabled={config.totalStock == 250000}
             >
-              <AntDesign name="pluscircle" size={15} color="white" />
+              <AntDesign name="pluscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
           </View>
 
@@ -178,12 +187,12 @@ const styles = StyleSheet.create({
   inputBox: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 15,
+    gap: 10,
   },
 
   hr: {
     height: 1.5,
-    backgroundColor: Colors.dim + "44",
+    backgroundColor: Colors.dim + "33",
     width: "100%",
     borderRadius: 100,
     marginVertical: 10,
