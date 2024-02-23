@@ -10,7 +10,7 @@ import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 
 export default function CompanyCard({ company, currentWorth, yourHoldings }) {
-  const { selectCompany, gameState } = useGameState();
+  const { selectCompany, gameState, selectedPlayerId } = useGameState();
   let color =
     currentWorth > gameState.priceBook[company.id].at(-2)
       ? Colors.green
@@ -49,7 +49,9 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
         )}
       </View>
 
-      <RegularText style={styles.sideBadge}>Director</RegularText>
+      {gameState?.chairman[company.id] == selectedPlayerId && (
+        <RegularText style={styles.sideBadge}>Chairman</RegularText>
+      )}
     </TouchableOpacity>
   );
 }
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 8,
     position: "absolute",
     backgroundColor: Colors.darkGreen,
-    right: -10,
-    transform: [{ translateX: 10 }, { translateY: 8 }, { rotateZ: "30deg" }],
+    left: -10,
+    transform: [{ translateX: -10 }, { translateY: 8 }, { rotateZ: "-30deg" }],
   },
 });
