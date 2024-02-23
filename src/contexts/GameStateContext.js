@@ -15,13 +15,11 @@ import {
   Vibration,
   View,
 } from "react-native";
-
 import { router } from "expo-router";
 import { CustomText } from "../common/Text";
 import { Colors } from "../common/styles";
 import wait from "../utils/wait";
 import TransactionSplash from "../components/TransactionSplash";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { Audio } from "expo-av";
 import useAsyncStorage from "../hooks/useAsyncStorage";
 
@@ -331,13 +329,13 @@ export default function GameStateContextProvider({ children }) {
       {children}
 
       {loadingMsg && (
-        <Animated.View
-          entering={FadeIn}
-          exiting={FadeOut}
+        <View
+          // entering={FadeIn}
+          // exiting={FadeOut}
           style={styles.redirectingModal}
         >
           {loadingMsg}
-        </Animated.View>
+        </View>
       )}
     </GameStateContext.Provider>
   );

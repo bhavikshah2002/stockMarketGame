@@ -108,7 +108,9 @@ function GetCircuitCard({ card }) {
           Companies
         </SemiBoldText>
         <FlatList
-          data={Companies}
+          data={Companies.filter(
+            (com) => !gameState?.circuitValues?.[com.id]?.[card.circuitType]
+          )}
           style={{ marginBottom: 5 }}
           renderItem={({ item }) => (
             <TouchableOpacity
@@ -122,7 +124,6 @@ function GetCircuitCard({ card }) {
                 {item.name}
               </SemiBoldText>
 
-              
               <Entypo name="chevron-right" size={24} color={Colors.dim} />
             </TouchableOpacity>
           )}
@@ -137,12 +138,17 @@ export default function CardEntity() {
   const { selectedEntity: card } = useGameState();
   if (!card || card?.type == "NORMAL") {
     return (
-      <View style={[styles.container, { flexDirection: "column",justifyContent:"center",gap:15 }]}>
+      <View
+        style={[
+          styles.container,
+          { flexDirection: "column", justifyContent: "center", gap: 15 },
+        ]}
+      >
         <Image
-            style={styles.logo}
-            source={require("../../assets/images/withoutBgLogo1.png")}
-            contentFit="contain"
-          />
+          style={styles.logo}
+          source={require("../../assets/images/withoutBgLogo1.png")}
+          contentFit="contain"
+        />
         <RegularText size={13} color={Colors.dim} align="center">
           Please select a company to proceed a transaction!
         </RegularText>
