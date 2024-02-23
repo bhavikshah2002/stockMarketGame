@@ -29,6 +29,8 @@ export default function MyTurnScreen() {
     conn,
     myUserId,
     selectedPlayerId,
+    isHide,
+    setIsHide,
   } = useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);

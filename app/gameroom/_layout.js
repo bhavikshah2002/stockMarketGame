@@ -1,17 +1,26 @@
 import SelfInfoBarComponent from "../../src/components/SelfInfoBar";
 import { useGameState } from "../../src/contexts/GameStateContext";
 import DraggableFlatList from "react-native-draggable-flatlist";
-import { Alert, BackHandler, FlatList, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  BackHandler,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import SmallCard from "../../src/components/SmallCard";
 import UserBadge from "../../src/components/UserBadge";
-import { SemiBoldText } from "../../src/common/Text";
+import { LightText, RegularText, SemiBoldText } from "../../src/common/Text";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { Slot, router } from "expo-router";
 import { useEffect } from "react";
+import { Entypo } from '@expo/vector-icons';
 
 export default function GameRoomLayout() {
-  const { players, gameState, leave, cards, setCards } = useGameState();
+  const { players, gameState, leave, cards, setCards, isHide, setIsHide } =
+    useGameState();
 
   useEffect(() => {
     const backAction = () => {
@@ -65,20 +74,39 @@ export default function GameRoomLayout() {
           <Slot />
         </View>
         <View style={styles.BottomLeft}>
-          <DraggableFlatList
-            data={cards}
-            onDragEnd={({ data }) => setCards(data)}
-            horizontal={true}
-            renderItem={({ item, drag, isActive }) => (
-              <SmallCard
-                key={item.id}
-                card={item}
-                drag={drag}
-                isActive={isActive}
-              />
-            )}
-            keyExtractor={(item) => item.id}
-          />
+          <View style={styles.showCards}>
+            <TouchableOpacity
+              onPress={() => {
+                setIsHide(!isHide);
+              }}
+              style={{flexDirection:"row",justifyContent:"center",alignItems:"center",transform: [{ rotate: '-90deg'}]}}
+            >
+              <LightText size={13} color={Colors.white}>
+                {isHide ? " Show" : " Hide "}
+              </LightText>
+              {isHide?
+              <Entypo name="chevron-up" size={15} color="white" />:
+              <Entypo name="chevron-down" size={15} color="white" />
+}
+            </TouchableOpacity>
+          </View>
+          <View style={styles.cards}>
+            <DraggableFlatList
+              data={cards}
+              onDragEnd={({ data }) => setCards(data)}
+              horizontal={true}
+              renderItem={({ item, drag, isActive }) => (
+                <SmallCard
+                  key={item.id}
+                  card={item}
+                  drag={drag}
+                  isActive={isActive}
+                  isHide={isHide}
+                />
+              )}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
         </View>
       </View>
       <View style={styles.Right}>
@@ -125,6 +153,8 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "20%",
     alignSelf: "center",
+    flexDirection: "row",
+    justifyContent:"center"
   },
   SelfInfoBar: {
     flex: 1,
@@ -143,4 +173,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
   },
+  showCards: {
+    left:5,
+    width:"auto",
+    justifyContent:"center",
+    alignItems:"center"
+  },
+  cards:{
+    flex: 1,
+    height:"100%",
+    alignSelf: "center",
+    flexDirection: "row",
+  }
 });
