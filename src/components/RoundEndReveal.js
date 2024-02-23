@@ -123,7 +123,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
                   currentlyRevealingCompanyId
                 }
                 entering={FadeInDown.duration(400).delay((index + 1) * 2000)}
-                exiting={FadeOutDown.duration(400)}
+                // exiting={FadeOutDown.duration(400)}
                 style={styles.row}
               >
                 <LightText style={styles.index} size={10} color={Colors.dim}>
