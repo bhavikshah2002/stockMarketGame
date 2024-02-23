@@ -9,13 +9,11 @@ import { Companies } from "../../src/data/cards";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
-import MiniCalculator from "../../src/components/MiniCalculator";
 
 export default function CommonRound() {
-  const { gameState, selectedPlayerId,isHide,setIsHide } = useGameState();
+  const { gameState, selectedPlayerId, isHide, setIsHide } = useGameState();
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
-  const [calculatorVisible, setCalculatorVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -60,10 +58,7 @@ export default function CommonRound() {
             priceBookVisible={priceBookVisible}
             setPriceBookVisible={setPriceBookVisible}
           />
-          <MiniCalculator
-            modalVisible={calculatorVisible}
-            setModalVisible={setCalculatorVisible}
-          />
+
           <TouchableOpacity
             style={{
               ...styles.ModalButton,
@@ -88,16 +83,6 @@ export default function CommonRound() {
             <SemiBoldText size={11}>View Price Book</SemiBoldText>
             <AntDesign name="arrowright" size={16} color={Colors.dim} />
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            style={styles.ModalButton}
-            onPress={() => {
-              setCalculatorVisible(true);
-            }}
-          >
-            <SemiBoldText size={11}>Open Calculator</SemiBoldText>
-            <AntDesign name="arrowright" size={16} color={Colors.dim} />
-          </TouchableOpacity> */}
         </View>
       </View>
     </View>
