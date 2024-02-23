@@ -47,6 +47,8 @@ const GameStateContext = createContext({
   leave() {},
   myUserId: null,
   setMyUserId(p) {},
+  cards: [],
+  setCards(p) {},
 });
 
 export default function GameStateContextProvider({ children }) {
@@ -70,6 +72,7 @@ export default function GameStateContextProvider({ children }) {
     }));
   }, [gameState]);
   const [gameId, setGameId] = useState(null);
+  const [cards, setCards] = useState([]);
   const [loadingMsg, setLoadingMsg] = useState(null);
 
   const selectEntity = (entity, type) => {
@@ -273,6 +276,22 @@ export default function GameStateContextProvider({ children }) {
     };
   }, [conn.current]);
 
+  useEffect(() => {
+    if (!gameState || myUserId == null) {
+      return;
+    }
+
+    setCards((prev) => {
+      if (gameState.currentSubRound == 1 && gameState.currentTurn == 0) {
+        return gameState?.userState?.[myUserId]?.cardsHeld;
+      }
+      if (prev.length != gameState?.userState?.[myUserId]?.cardsHeld.length) {
+        return gameState?.userState?.[myUserId]?.cardsHeld;
+      }
+      return prev;
+    });
+  }, [gameState, myUserId]);
+
   return (
     <GameStateContext.Provider
       value={{
@@ -300,6 +319,8 @@ export default function GameStateContextProvider({ children }) {
         leave,
         myUserId,
         setMyUserId,
+        cards,
+        setCards,
       }}
     >
       {children}

@@ -8,24 +8,10 @@ import { SemiBoldText } from "../../src/common/Text";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { Slot, router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function GameRoomLayout() {
-  const { players, gameState, myUserId, leave } = useGameState();
-  const [cards, setCards] = useState(
-    gameState?.userState?.[myUserId]?.cardsHeld
-  );
-  const [previousCardsCount, setPreviousCardsCount] = useState(10);
-  useEffect(() => {
-    if (
-      previousCardsCount !=
-        gameState?.userState?.[myUserId]?.cardsHeld.length ||
-      (gameState?.currentSubRound == 1 && gameState?.currentTurn == 0)
-    ) {
-      setCards(gameState?.userState?.[myUserId]?.cardsHeld);
-      setPreviousCardsCount(gameState?.userState?.[myUserId]?.cardsHeld.length);
-    }
-  }, [gameState]);
+  const { players, gameState, leave, cards, setCards } = useGameState();
 
   useEffect(() => {
     const backAction = () => {
@@ -83,7 +69,6 @@ export default function GameRoomLayout() {
             data={cards}
             onDragEnd={({ data }) => setCards(data)}
             horizontal={true}
-            key={cards.length}
             renderItem={({ item, drag, isActive }) => (
               <SmallCard
                 key={item.id}
