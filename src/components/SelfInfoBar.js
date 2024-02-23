@@ -77,9 +77,19 @@ export default function SelfInfoBarComponent() {
         <View style={styles.RoundInfo}>
           <View style={styles.roundInfoSec}>
             <SemiBoldText size={10}>Sub Round</SemiBoldText>
-            <BoldText style={{ marginBottom: -2 }} size={13}>
-              {gameState.currentSubRound}
-            </BoldText>
+            {gameState.currentSubRound == 4 ? (
+              <BoldText
+                style={{ marginBottom: -2 }}
+                size={13}
+                color={Colors.green}
+              >
+                C
+              </BoldText>
+            ) : (
+              <BoldText style={{ marginBottom: -2 }} size={13}>
+                {gameState.currentSubRound}
+              </BoldText>
+            )}
           </View>
           <View style={styles.roundInfoSec}>
             <SemiBoldText size={10}>Mega Round</SemiBoldText>

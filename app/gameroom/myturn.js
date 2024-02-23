@@ -1,4 +1,10 @@
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useGameState } from "../../src/contexts/GameStateContext";
 import { LightText, RegularText, SemiBoldText } from "../../src/common/Text";
 import CompanyEntity from "../../src/components/CompanyEntity";
@@ -125,43 +131,33 @@ export default function MyTurnScreen() {
                   setHistoryModalVisible(true);
                 }}
               >
-                <SemiBoldText size={12} color={Colors.white}>
+                <RegularText size={12} color={Colors.white}>
                   Transactions
-                </SemiBoldText>
+                </RegularText>
               </TouchableOpacity>
-              <View
-                style={{
-                  height: 1,
-                  width: "100%",
-                  backgroundColor: Colors.dim,
-                }}
-              />
+              <View style={styles.hr} />
+
               <TouchableOpacity
                 onPress={() => {
                   setIsMenuOpen(false);
                   setPriceBookVisible(true);
                 }}
               >
-                <SemiBoldText size={12} color={Colors.white}>
+                <RegularText size={12} color={Colors.white}>
                   PriceBook
-                </SemiBoldText>
+                </RegularText>
               </TouchableOpacity>
-              <View
-                style={{
-                  height: 1,
-                  width: "100%",
-                  backgroundColor: Colors.dim,
-                }}
-              />
+              <View style={styles.hr} />
+
               <TouchableOpacity
                 onPress={() => {
                   setIsMenuOpen(false);
                   setCalcVisible(true);
                 }}
               >
-                <SemiBoldText size={12} color={Colors.white}>
+                <RegularText size={12} color={Colors.white}>
                   Calculator
-                </SemiBoldText>
+                </RegularText>
               </TouchableOpacity>
             </Animated.View>
           )}
@@ -217,13 +213,14 @@ const styles = StyleSheet.create({
   menu: {
     backgroundColor: "#141414",
     width: 130,
-    padding: 2,
-    paddingLeft: 5,
-    marginTop: 8,
-    borderRadius: 4,
-    borderColor: Colors.dim,
+    padding: 3,
+    paddingHorizontal: 5,
+    marginTop: 6,
+    borderRadius: 2,
+    gap: 1,
+    borderColor: Colors.dim + "77",
     borderWidth: 0.3,
-    shadowColor: Colors.dim,
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 10,
@@ -250,5 +247,10 @@ const styles = StyleSheet.create({
   logoMain: {
     width: 100,
     height: 80,
+  },
+  hr: {
+    height: 0.7,
+    width: "100%",
+    backgroundColor: Colors.dim + "88",
   },
 });
