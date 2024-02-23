@@ -12,7 +12,7 @@ import { useState } from "react";
 import MiniCalculator from "../../src/components/MiniCalculator";
 
 export default function CommonRound() {
-  const { gameState, selectedPlayerId } = useGameState();
+  const { gameState, selectedPlayerId,isHide,setIsHide } = useGameState();
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
   const [calculatorVisible, setCalculatorVisible] = useState(false);
@@ -56,6 +56,14 @@ export default function CommonRound() {
             historyModalVisible={historyModalVisible}
             setHistoryModalVisble={setHistoryModalVisible}
           />
+          <PriceBook
+            priceBookVisible={priceBookVisible}
+            setPriceBookVisible={setPriceBookVisible}
+          />
+          <MiniCalculator
+            modalVisible={calculatorVisible}
+            setModalVisible={setCalculatorVisible}
+          />
           <TouchableOpacity
             style={{
               ...styles.ModalButton,
@@ -69,14 +77,10 @@ export default function CommonRound() {
             <SemiBoldText size={11}>Transaction History</SemiBoldText>
             <AntDesign name="arrowright" size={16} color={Colors.dim} />
           </TouchableOpacity>
-          <PriceBook
-            priceBookVisible={priceBookVisible}
-            setPriceBookVisible={setPriceBookVisible}
-          />
           <TouchableOpacity
-            style={{...styles.ModalButton,
-              borderBottomWidth: 1,
-              borderColor: Colors.dim}}
+            style={{
+              ...styles.ModalButton,
+            }}
             onPress={() => {
               setPriceBookVisible(true);
             }}
@@ -85,11 +89,7 @@ export default function CommonRound() {
             <AntDesign name="arrowright" size={16} color={Colors.dim} />
           </TouchableOpacity>
 
-          <MiniCalculator
-            modalVisible={calculatorVisible}
-            setModalVisible={setCalculatorVisible}
-          />
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.ModalButton}
             onPress={() => {
               setCalculatorVisible(true);
@@ -97,7 +97,7 @@ export default function CommonRound() {
           >
             <SemiBoldText size={11}>Open Calculator</SemiBoldText>
             <AntDesign name="arrowright" size={16} color={Colors.dim} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </View>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     position: "relative",
     borderRadius: 3,
     overflow: "hidden",
-    
+    marginBottom: 10,
   },
   ModalButton: {
     flexDirection: "row",

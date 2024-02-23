@@ -9,10 +9,46 @@ import { ScaleDecorator } from "react-native-draggable-flatlist";
 import { useGameState } from "../contexts/GameStateContext";
 import GetCrstalIcon from "./GetCrystalIcon";
 
-export default function SmallCard({ card, drag, isActive }) {
+export default function SmallCard({ card, drag, isActive, isHide = false }) {
   const { setSelectedCard } = useGameState();
 
   const onPress = () => setSelectedCard(card);
+
+  if (isHide) {
+    return (
+      <>
+        <ScaleDecorator>
+          <TouchableOpacity
+            onPress={onPress}
+            onLongPress={drag}
+            disabled={isActive}
+          >
+            <View style={styles.Card}>
+              <SemiBoldText
+                size={9}
+                style={{ marginTop: 2 }}
+                color={Colors.logoGreen}
+              >
+                STOCK
+              </SemiBoldText>
+              <Image
+                  source={require("../../assets/images/withoutBgLogo2.png")}
+                  style={{
+                    width: 50,
+                    height: 30,
+                    objectFit:"scale-down"
+                  }}
+                  
+                />
+              <SemiBoldText size={9} color={Colors.logoGreen}>
+                BAZAR
+              </SemiBoldText>
+            </View>
+          </TouchableOpacity>
+        </ScaleDecorator>
+      </>
+    );
+  }
 
   switch (card.type) {
     case "NORMAL": {
@@ -137,6 +173,8 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     marginHorizontal: 8,
     backgroundColor: "#262525",
+    opacity:0.8,
+    // backgroundColor: "#141414",
     justifyContent: "center",
     alignItems: "center",
     gap: 2,
