@@ -11,10 +11,13 @@ import { Octicons } from "@expo/vector-icons";
 import Settings from "./settings";
 import { useMemo } from "react";
 import { Colors } from "../common/styles";
+import MiniCalculator from "./MiniCalculator";
+import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function SelfInfoBarComponent() {
   const { myUserName, gameState, myUserId } = useGameState();
-
+  const [calculatorVisible, setCalculatorVisible] = useState(false);
   const selfInfo = useMemo(() => {
     if (!gameState) {
       return {
@@ -99,6 +102,22 @@ export default function SelfInfoBarComponent() {
           </View>
         </View>
       </View>
+      <MiniCalculator
+        modalVisible={calculatorVisible}
+        setModalVisible={setCalculatorVisible}
+      />
+      <TouchableOpacity
+        onPress={() => {
+          setCalculatorVisible(true);
+        }}
+      >
+        <Ionicons
+          name="calculator"
+          size={25}
+          color="white"
+          style={{ marginRight: 20 }}
+        />
+      </TouchableOpacity>
     </>
   );
 }
