@@ -48,6 +48,8 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
           <BoldText size={18}></BoldText>
         )}
       </View>
+
+      {/* <RegularText style={styles.sideBadge}>Chairman</RegularText> */}
     </TouchableOpacity>
   );
 }
@@ -71,5 +73,16 @@ const styles = StyleSheet.create({
     objectFit: "cover",
     left: 0,
     top: 0,
+  },
+
+  sideBadge: {
+    textTransform: "uppercase",
+    textAlign: "center",
+    width: 80,
+    fontSize: 8,
+    position: "absolute",
+    backgroundColor: Colors.darkGreen,
+    right: -10,
+    transform: [{ rotateZ: "30deg" }],
   },
 });

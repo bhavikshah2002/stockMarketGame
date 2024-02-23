@@ -22,13 +22,14 @@ import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 import GameSettingsModal from "../src/components/GameSettingsModal";
 
+const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
+  () => Math.random() - 0.5
+);
+
 export default function LobbyPage() {
   const { leave, gameId, conn, myUserName, setGameState, setMyUserId } =
     useGameState();
   const [noOfRounds, setNoOfRounds] = useState(10);
-  const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
-    () => Math.random() - 0.5
-  );
   const [playersWaiting, setPlayersWaiting] = useState([]);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [gameSettingModalVisible, setGameSettingModalVisible] = useState(false);
@@ -158,16 +159,7 @@ export default function LobbyPage() {
                   <AntDesign name="plus" size={16} color="white" />
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={() => setGameSettingModalVisible(true)}
-              >
-                <RegularText
-                  style={{ textDecorationLine: "underline" }}
-                  color={Colors.white + "bb"}
-                >
-                  More option
-                </RegularText>
-              </TouchableOpacity>
+
               <GameSettingsModal
                 modalVisible={gameSettingModalVisible}
                 setModalVisible={setGameSettingModalVisible}
@@ -187,6 +179,15 @@ export default function LobbyPage() {
             <BoldText size={20} transform="uppercase">
               Leave Lobby
             </BoldText>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => setGameSettingModalVisible(true)}>
+            <RegularText
+              style={{ textDecorationLine: "underline", marginTop: 8 }}
+              color={Colors.white}
+            >
+              Custom Rules
+            </RegularText>
           </TouchableOpacity>
         </LinearGradient>
       </View>

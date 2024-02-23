@@ -15,8 +15,11 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
   const [noOfRounds, setNoOfRounds] = useState(10);
   const [config, setConfig] = useState({
     includeCrystalCards: true,
+    limitTransactionValue: false,
     initialCashInHand: 800000,
     totalStock: 200000,
+    allowChairman: true,
+    allowDirector: true,
   });
 
   return (
@@ -63,6 +66,27 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
 
           <View style={styles.hr} />
 
+          <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+            <CheckBox
+              value={config.limitTransactionValue}
+              onChange={(val) =>
+                setConfig((p) => ({ ...p, limitTransactionValue: val }))
+              }
+            />
+            <TouchableOpacity
+              onPress={() =>
+                setConfig((p) => ({
+                  ...p,
+                  limitTransactionValue: !p.limitTransactionValue,
+                }))
+              }
+            >
+              <ItalicText>Limit Transaction Value</ItalicText>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.hr} />
+
           <View style={styles.inputBox}>
             <ItalicText style={{ width: 150 }}>No of rounds</ItalicText>
             <TouchableOpacity
@@ -93,7 +117,7 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
                   initialCashInHand: p.initialCashInHand - 50000,
                 }))
               }
-              disabled={config.initialCashInHand == 700000}
+              disabled={config.initialCashInHand == 600000}
             >
               <AntDesign name="minuscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
@@ -107,7 +131,7 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
                   initialCashInHand: p.initialCashInHand + 50000,
                 }))
               }
-              disabled={config.initialCashInHand == 900000}
+              disabled={config.initialCashInHand == 1000000}
             >
               <AntDesign name="pluscircle" size={15} color={Colors.dim} />
             </TouchableOpacity>
@@ -141,6 +165,48 @@ export default function GameSettingsModal({ modalVisible, setModalVisible }) {
               disabled={config.totalStock == 250000}
             >
               <AntDesign name="pluscircle" size={15} color={Colors.dim} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.hr} />
+
+          <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+            <CheckBox
+              value={config.allowChairman}
+              onChange={(val) =>
+                setConfig((p) => ({ ...p, allowChairman: val }))
+              }
+            />
+            <TouchableOpacity
+              onPress={() =>
+                setConfig((p) => ({
+                  ...p,
+                  allowChairman: !p.allowChairman,
+                }))
+              }
+            >
+              <ItalicText>Allow Chairman</ItalicText>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.hr} />
+
+          <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+            <CheckBox
+              value={config.allowDirector}
+              onChange={(val) =>
+                setConfig((p) => ({ ...p, allowDirector: val }))
+              }
+            />
+            <TouchableOpacity
+              onPress={() =>
+                setConfig((p) => ({
+                  ...p,
+                  allowDirector: !p.allowDirector,
+                }))
+              }
+            >
+              <ItalicText>Allow Director</ItalicText>
             </TouchableOpacity>
           </View>
 
