@@ -284,7 +284,10 @@ export default function GameStateContextProvider({ children }) {
         return gameState?.userState?.[myUserId]?.cardsHeld;
       }
       if (prev.length != gameState?.userState?.[myUserId]?.cardsHeld.length) {
-        return gameState?.userState?.[myUserId]?.cardsHeld;
+        const ids = gameState?.userState?.[myUserId]?.cardsHeld.map(
+          (card) => card.id
+        );
+        return prev.filter((c) => ids.includes(c.id));
       }
       return prev;
     });
