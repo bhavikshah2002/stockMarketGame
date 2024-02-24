@@ -32,7 +32,7 @@ export default function FraudCard({ card }) {
       ) * 5;
     setMaxStocksPossibleToBuy(
       Math.min(
-        gameState.companyValues[company.id].stocksAvailable,
+        Math.floor(gameState.companyValues[company.id].stocksAvailable / 1000),
         Math.floor(
           gameState.userState[myUserId].cashInHand / newShareValue / 1000
         )
@@ -48,9 +48,7 @@ export default function FraudCard({ card }) {
             gameState.companyValues[selectedCompany.id].companyShareValue) /
             5
         )
-      ) *
-        5 ==
-      0
+      ) == 0
     ) {
       return (
         <CompanyValueZeroCard

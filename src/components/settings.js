@@ -106,7 +106,7 @@ export default function Settings() {
                         <LightText size={15}>PASS</LightText>
                         <FontAwesome5
                           name="hand-peace"
-                          size={19}
+                          size={16}
                           color={Colors.white}
                         />
                       </TouchableOpacity>
@@ -120,7 +120,7 @@ export default function Settings() {
                         <LightText size={15}>RESULTS</LightText>
                         <AntDesign
                           name="calculator"
-                          size={19}
+                          size={18}
                           color={Colors.white}
                         />
                       </TouchableOpacity>
@@ -248,15 +248,12 @@ const styles = StyleSheet.create({
   AdminText: {
     paddingTop: 3,
     paddingHorizontal: 2,
-    borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: "white",
   },
   AdminWork: {
     marginTop: 20,
     flexDirection: "row",
-    // borderWidth:1,
-    // borderColor:"white"
     gap: 20,
   },
   AdminPass: {
@@ -265,9 +262,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   btnAdmin: {
-    paddingTop: 3,
     width: 100,
-    paddingBottom: 1,
+    paddingTop: 5,
+    paddingBottom: 3,
     borderRadius: 5,
     flexDirection: "row",
     gap: 5,

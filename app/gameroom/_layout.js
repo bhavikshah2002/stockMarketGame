@@ -11,16 +11,16 @@ import {
 } from "react-native";
 import SmallCard from "../../src/components/SmallCard";
 import UserBadge from "../../src/components/UserBadge";
-import { LightText, RegularText, SemiBoldText } from "../../src/common/Text";
+import { LightText, SemiBoldText } from "../../src/common/Text";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { Slot, router } from "expo-router";
-import { useEffect } from "react";
-import { Entypo } from '@expo/vector-icons';
+import { useEffect, useState } from "react";
+import { Entypo } from "@expo/vector-icons";
 
 export default function GameRoomLayout() {
-  const { players, gameState, leave, cards, setCards, isHide, setIsHide } =
-    useGameState();
+  const [isHide, setIsHide] = useState(false);
+  const { players, gameState, leave, cards, setCards } = useGameState();
 
   useEffect(() => {
     const backAction = () => {
@@ -79,15 +79,21 @@ export default function GameRoomLayout() {
               onPress={() => {
                 setIsHide(!isHide);
               }}
-              style={{flexDirection:"row",justifyContent:"center",alignItems:"center",transform: [{ rotate: '-90deg'}]}}
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                transform: [{ rotate: "-90deg" }],
+              }}
             >
               <LightText size={13} color={Colors.white}>
-                {isHide ? " Show" : " Hide "}
+                {isHide ? " SHOW" : " HIDE "}
               </LightText>
-              {isHide?
-              <Entypo name="chevron-up" size={15} color="white" />:
-              <Entypo name="chevron-down" size={15} color="white" />
-}
+              {isHide ? (
+                <Entypo name="chevron-up" size={15} color="white" />
+              ) : (
+                <Entypo name="chevron-down" size={15} color="white" />
+              )}
             </TouchableOpacity>
           </View>
           <View style={styles.cards}>
@@ -154,7 +160,7 @@ const styles = StyleSheet.create({
     height: "20%",
     alignSelf: "center",
     flexDirection: "row",
-    justifyContent:"center"
+    justifyContent: "center",
   },
   SelfInfoBar: {
     flex: 1,
@@ -174,15 +180,15 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   showCards: {
-    left:5,
-    width:"auto",
-    justifyContent:"center",
-    alignItems:"center"
+    left: 5,
+    width: "auto",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  cards:{
+  cards: {
     flex: 1,
-    height:"100%",
+    height: "100%",
     alignSelf: "center",
     flexDirection: "row",
-  }
+  },
 });

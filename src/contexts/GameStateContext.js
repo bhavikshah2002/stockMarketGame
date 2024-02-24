@@ -47,8 +47,6 @@ const GameStateContext = createContext({
   setMyUserId(p) {},
   cards: [],
   setCards(p) {},
-  isHide: false,
-  setIsHide:(p) => {},
 });
 
 export default function GameStateContextProvider({ children }) {
@@ -57,7 +55,6 @@ export default function GameStateContextProvider({ children }) {
   const [myUserId, setMyUserId] = useState(null);
   const [selectedCard, _setSelectedCard] = useState(null);
   const [results, setResults] = useState([]);
-  const [isHide, setIsHide] = useState(false);
   const [selectedPlayerId, setSelectedPlayerId] = useState(0);
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
@@ -322,21 +319,11 @@ export default function GameStateContextProvider({ children }) {
         setMyUserId,
         cards,
         setCards,
-        isHide,
-        setIsHide
       }}
     >
       {children}
 
-      {loadingMsg && (
-        <View
-          // entering={FadeIn}
-          // exiting={FadeOut}
-          style={styles.redirectingModal}
-        >
-          {loadingMsg}
-        </View>
-      )}
+      {loadingMsg && <View style={styles.redirectingModal}>{loadingMsg}</View>}
     </GameStateContext.Provider>
   );
 }

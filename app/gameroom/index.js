@@ -11,7 +11,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 
 export default function CommonRound() {
-  const { gameState, selectedPlayerId, isHide, setIsHide } = useGameState();
+  const { gameState, selectedPlayerId } = useGameState();
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
 

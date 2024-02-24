@@ -52,6 +52,13 @@ export default function CompanyCard({ company, currentWorth, yourHoldings }) {
       {gameState?.chairman[company.id] == selectedPlayerId && (
         <RegularText style={styles.sideBadge}>Chairman</RegularText>
       )}
+      {gameState?.director[company.id].includes(selectedPlayerId) && (
+        <RegularText
+          style={{ ...styles.sideBadge, backgroundColor: Colors.purple }}
+        >
+          Director
+        </RegularText>
+      )}
     </TouchableOpacity>
   );
 }

@@ -29,14 +29,11 @@ export default function MyTurnScreen() {
     conn,
     myUserId,
     selectedPlayerId,
-    isHide,
-    setIsHide,
   } = useGameState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [historyModalVisible, setHistoryModalVisible] = useState(false);
   const [priceBookVisible, setPriceBookVisible] = useState(false);
-  const [calcVisible, setCalcVisible] = useState(false);
 
   const onPass = () => {
     conn.current?.emit("pass", { userId: myUserId });
@@ -120,10 +117,6 @@ export default function MyTurnScreen() {
             priceBookVisible={priceBookVisible}
             setPriceBookVisible={setPriceBookVisible}
           />
-          <MiniCalculator
-            modalVisible={calcVisible}
-            setModalVisible={setCalcVisible}
-          />
 
           {isMenuOpen && (
             <Animated.View style={styles.menu}>
@@ -147,18 +140,6 @@ export default function MyTurnScreen() {
               >
                 <RegularText size={12} color={Colors.white}>
                   PriceBook
-                </RegularText>
-              </TouchableOpacity>
-              <View style={styles.hr} />
-
-              <TouchableOpacity
-                onPress={() => {
-                  setIsMenuOpen(false);
-                  setCalcVisible(true);
-                }}
-              >
-                <RegularText size={12} color={Colors.white}>
-                  Calculator
                 </RegularText>
               </TouchableOpacity>
             </Animated.View>

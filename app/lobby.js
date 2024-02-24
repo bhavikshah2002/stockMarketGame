@@ -181,14 +181,16 @@ export default function LobbyPage() {
             </BoldText>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => setGameSettingModalVisible(true)}>
-            <RegularText
-              style={{ textDecorationLine: "underline", marginTop: 8 }}
-              color={Colors.white}
-            >
-              Custom Rules
-            </RegularText>
-          </TouchableOpacity>
+          {isAdmin && (
+            <TouchableOpacity onPress={() => setGameSettingModalVisible(true)}>
+              <RegularText
+                style={{ textDecorationLine: "underline", marginTop: 8 }}
+                color={Colors.white}
+              >
+                Custom Rules
+              </RegularText>
+            </TouchableOpacity>
+          )}
         </LinearGradient>
       </View>
 
