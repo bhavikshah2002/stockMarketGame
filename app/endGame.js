@@ -1,4 +1,4 @@
-import { Alert, BackHandler, Button, StyleSheet, View } from "react-native";
+import { Alert, BackHandler, StyleSheet, View } from "react-native";
 import { useEffect, useState } from "react";
 import {
   BoldText,
@@ -14,11 +14,50 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { Row, Rows, Table } from "react-native-table-component";
 import { useGameState } from "../src/contexts/GameStateContext";
+import { formatCash } from "../src/utils/format";
+
+const TropyColors = ["#d67400", "#c0c0c0", "#964B00"];
+
+function GetWinners({ results }) {
+  if (!results) return null;
+
+  return (
+    <View style={styles.AllWinners}>
+      {results.slice(0, 3).map((user, i) => (
+        <View key={i} style={styles.WinnerName}>
+          <FontAwesome5 name="trophy" size={24} color={TropyColors[i]} />
+          <RegularText size={24}>{user.username}</RegularText>
+        </View>
+      ))}
+    </View>
+  );
+}
 
 export default function EndGame() {
   const [sound, setSound] = useState();
   const [data, setData] = useState([[0, 0, 0, 0, 0]]);
   const { leave, results } = useGameState();
+  const header = ["Rank", "Player", "Cash", "Stocks", "Total"];
+
+  const onExit = () => {
+    leave();
+    stopSound();
+    router.push("/");
+  };
+
+  async function stopSound() {
+    await sound.stopAsync();
+    await sound.unloadAsync();
+  }
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(
+      require("../assets/audio/makemoney.mp3")
+    );
+    setSound(sound);
+    await sound.playAsync();
+  }
+
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
@@ -47,73 +86,21 @@ export default function EndGame() {
 
     return () => backHandler.remove();
   }, []);
-  function getData(results) {
-    if (!results) {
-      setData([]);
-      return;
-    }
-    let l = [];
-    for (let i = 0; i < results.length; i++) {
-      l.push([
-        i + 1,
-        results[i].username,
-        results[i].cashInHand,
-        results[i].cashInStocks,
-        results[i].cashInHand + results[i].cashInStocks,
-      ]);
-    }
-    setData(l);
-  }
-  async function stopSound() {
-    await sound.stopAsync();
-    await sound.unloadAsync();
-  }
-  async function playSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require("../assets/audio/makemoney.mp3")
-    );
-    setSound(sound);
-    await sound.playAsync();
-  }
 
   useEffect(() => {
-    playSound();
-    getData(results)
-  }, [results]);
+    if (!results) return;
 
-  function GetWinners({ results }) {
-    if (!results) return <></>;
-    return (
-      <View style={styles.AllWinners}>
-        <View style={styles.WinnerName}>
-          <FontAwesome5 name="trophy" size={24} color="#d67400" />
-          <RegularText size={24}>{results[0]?.username}</RegularText>
-        </View>
-        {!(results.length > 1) ? (
-          <></>
-        ) : (
-          <View style={styles.WinnerName}>
-            <FontAwesome5 name="trophy" size={24} color="#c0c0c0" />
-            <RegularText size={24}>{results[1].username}</RegularText>
-          </View>
-        )}
-        {!(results.length > 2) ? (
-          <></>
-        ) : (
-          <View style={styles.WinnerName}>
-            <FontAwesome5 name="trophy" size={24} color="#964B00" />
-            <RegularText size={24}>{results[2].username}</RegularText>
-          </View>
-        )}
-      </View>
+    playSound();
+    setData(
+      results.map((elm, i) => [
+        i + 1,
+        elm.username,
+        formatCash(elm.cashInHand),
+        formatCash(elm.cashInStocks),
+        formatCash(elm.cashInHand + elm.cashInStocks),
+      ])
     );
-  }
-  const header = ["Rank", "Player", "Cash", "Stocks", "Total"];
-  const onExit = () => {
-    leave();
-    stopSound();
-    router.push("/");
-  };
+  }, [results]);
 
   return (
     <View style={styles.container}>
@@ -223,20 +210,20 @@ const styles = StyleSheet.create({
   head: {
     height: 30,
     backgroundColor: "#262525",
-    // backgroundColor: Colors.dim,
     justifyContent: "center",
+    borderRadius: 4,
   },
   row: {
     height: 30,
   },
   textHeading: {
     textAlign: "center",
-    fontWeight: "800",
     color: Colors.white,
-    // textDecorationLine:"underline",
+    fontFamily: "Poppins-SemiBold",
   },
   textContent: {
     textAlign: "center",
     color: Colors.white,
+    fontFamily: "Poppins-Regular",
   },
 });
