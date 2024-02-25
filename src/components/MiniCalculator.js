@@ -194,10 +194,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.black,
     padding: 15,
     width: "60%",
-    height: "85%",
+    height: "88%",
     borderRadius: 4,
     alignItems: "center",
-    shadowColor: Colors.dim,
+    shadowColor: Colors.darkGreen,
     shadowOffset: {
       width: 0,
       height: 10,

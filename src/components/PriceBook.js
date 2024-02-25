@@ -145,14 +145,15 @@ const styles = StyleSheet.create({
   head: {
     height: 30,
     backgroundColor: "#262525",
+    borderRadius: 4,
   },
   row: {
     height: 20,
   },
   textHeading: {
+    marginTop: 2,
     fontFamily: "Poppins-SemiBold",
     textAlign: "center",
-    fontWeight: "800",
     color: Colors.white,
   },
   textContent: {
@@ -164,6 +165,6 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Italic",
     textAlign: "center",
     color: Colors.dim,
-    fontSize: 12,
+    fontSize: 10,
   },
 });

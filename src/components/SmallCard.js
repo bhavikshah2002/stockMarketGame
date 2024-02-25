@@ -32,14 +32,13 @@ export default function SmallCard({ card, drag, isActive, isHide = false }) {
                 STOCK
               </SemiBoldText>
               <Image
-                  source={require("../../assets/images/withoutBgLogo2.png")}
-                  style={{
-                    width: 50,
-                    height: 30,
-                    objectFit:"scale-down"
-                  }}
-                  
-                />
+                source={require("../../assets/images/withoutBgLogo2.png")}
+                style={{
+                  width: 50,
+                  height: 30,
+                  objectFit: "scale-down",
+                }}
+              />
               <SemiBoldText size={9} color={Colors.logoGreen}>
                 BAZAR
               </SemiBoldText>
@@ -151,7 +150,6 @@ export default function SmallCard({ card, drag, isActive, isHide = false }) {
                   <SemiBoldText size={9} style={{ marginTop: 2 }}>
                     CRYSTAL
                   </SemiBoldText>
-                  <SemiBoldText size={9}>CARD</SemiBoldText>
                 </View>
 
                 <GetCrstalIcon type={current_card} />
@@ -173,8 +171,7 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     marginHorizontal: 8,
     backgroundColor: "#262525",
-    opacity:0.8,
-    // backgroundColor: "#141414",
+    opacity: 0.8,
     justifyContent: "center",
     alignItems: "center",
     gap: 2,
