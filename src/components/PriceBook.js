@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
   head: {
     height: 30,
     backgroundColor: "#262525",
-    borderRadius: 4,
   },
   row: {
     height: 20,

@@ -150,6 +150,7 @@ export default function SmallCard({ card, drag, isActive, isHide = false }) {
                   <SemiBoldText size={9} style={{ marginTop: 2 }}>
                     CRYSTAL
                   </SemiBoldText>
+                  <SemiBoldText size={9}>CARD</SemiBoldText>
                 </View>
 
                 <GetCrstalIcon type={current_card} />
