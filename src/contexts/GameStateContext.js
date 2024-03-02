@@ -22,6 +22,7 @@ import wait from "../utils/wait";
 import TransactionSplash from "../components/TransactionSplash";
 import { Audio } from "expo-av";
 import useAsyncStorage from "../hooks/useAsyncStorage";
+import { FadeInView } from "../common/animations";
 
 const GameStateContext = createContext({
   gameState: null,
@@ -326,7 +327,9 @@ export default function GameStateContextProvider({ children }) {
     >
       {children}
 
-      {loadingMsg && <View style={styles.redirectingModal}>{loadingMsg}</View>}
+      {loadingMsg && (
+        <FadeInView style={styles.redirectingModal}>{loadingMsg}</FadeInView>
+      )}
     </GameStateContext.Provider>
   );
 }

@@ -16,16 +16,9 @@ import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import { CompanyInObj } from "../data/cards";
 import { useEffect, useMemo, useState } from "react";
-import Animated, {
-  FadeIn,
-  FadeInDown,
-  FadeInUp,
-  FadeOutDown,
-  FadeOutUp,
-} from "react-native-reanimated";
 import { Entypo } from "@expo/vector-icons";
 import ChangeIcon from "./ChangeIcon";
-
+import { FadeInView, SlideInView } from "../common/animations";
 
 export default function RoundEndReveal({ netChangeInCompanyByUser }) {
   const { gameState, myUserId, conn } = useGameState();
@@ -50,9 +43,6 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
     () => CompanyInObj[currentlyRevealingCompanyId],
     [currentlyRevealingCompanyId]
   );
-  const isProfit =
-    gameState.companyValues[currentlyRevealingCompanyId].companyShareValue >=
-    company.startingPrice;
   const totalChange = revealedCards.reduce(
     (acc, cur) => acc + cur.netChange,
     0
@@ -85,17 +75,19 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
             <BoldText size={21} style={{ letterSpacing: 1 }}>
               {company.name}
             </BoldText>
-            <Animated.View
+            <FadeInView
               key={currentlyRevealingCompanyId}
-              entering={FadeIn.delay(gameState.noOfPlayers * 2000)}
+              duration={400}
+              delay={gameState.noOfPlayers * 2000}
             >
               <ChangeIcon size={25} netChange={totalChange} />
-            </Animated.View>
+            </FadeInView>
           </View>
 
-          <Animated.View
+          <FadeInView
             key={currentlyRevealingCompanyId}
-            entering={FadeIn.delay(gameState.noOfPlayers * 2000)}
+            duration={400}
+            delay={gameState.noOfPlayers * 2000}
           >
             <ItalicText color={Colors.dim}>
               Current Value{" "}
@@ -103,7 +95,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
                 ₹{gameState.companyValues[company.id].companyShareValue}
               </CustomText>
             </ItalicText>
-          </Animated.View>
+          </FadeInView>
         </View>
       </View>
 
@@ -115,16 +107,15 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
           renderItem={({ item, index }) => {
             const up = item.netChange >= 0;
             return (
-              <Animated.View
+              <SlideInView
                 key={
                   "tableRow" +
                   item.id +
                   "-company" +
                   currentlyRevealingCompanyId
                 }
-                entering={FadeInDown.duration(400).delay((index + 1) * 2000)}
-                // exiting={FadeOutDown.duration(400)}
                 style={styles.row}
+                delay={(index + 1) * 2000}
               >
                 <LightText style={styles.index} size={10} color={Colors.dim}>
                   {index + 1}.
@@ -134,7 +125,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
                 <CustomText family="BoldItalic" color={Colors.dim}>
                   {up ? "+" : "-"}₹{Math.abs(item.netChange)}
                 </CustomText>
-              </Animated.View>
+              </SlideInView>
             );
           }}
         />
@@ -142,32 +133,29 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
           <SemiBoldText size={17} style={{ width: 145 }}>
             Total
           </SemiBoldText>
-          <Animated.View
+          <SlideInView
+            delay={2000 * noOfPlayers}
             key={"tableArrow" + currentlyRevealingCompanyId}
-            entering={FadeInUp.duration(400).delay(2000 * noOfPlayers)}
-            exiting={FadeOutDown.duration(400)}
           >
             <ChangeIcon netChange={totalChange} width={30} size={20} />
-          </Animated.View>
-          <Animated.Text
-            style={{
-              fontSize: 17,
-              color: Colors.dim,
-              fontFamily: "Poppins-BoldItalic",
-            }}
+          </SlideInView>
+
+          <SlideInView
             key={"tableRowLast" + currentlyRevealingCompanyId}
-            entering={FadeInDown.duration(400).delay(2000 * noOfPlayers)}
-            exiting={FadeOutUp.duration(400)}
+            delay={2000 * noOfPlayers}
           >
-            {totalUp ? "+" : "-"}₹{Math.abs(totalChange)}
-          </Animated.Text>
+            <CustomText size={17} color={Colors.dim} family="BoldItalic">
+              {totalUp ? "+" : "-"}₹{Math.abs(totalChange)}
+            </CustomText>
+          </SlideInView>
         </View>
       </View>
 
       {currentlyRevealingCompanyId == noOfCompanies && isAdmin && (
-        <Animated.View
+        <FadeInView
           style={styles.nextRound}
-          entering={FadeIn.duration(1000).delay(gameState.noOfPlayers * 2000)}
+          duration={1000}
+          delay={gameState.noOfPlayers * 2000}
         >
           {isLastRound ? (
             <TouchableOpacity onPress={onResults} style={styles.nextRoundBtn}>
@@ -180,7 +168,7 @@ export default function RoundEndReveal({ netChangeInCompanyByUser }) {
               <Entypo name="chevron-right" size={24} color={Colors.white} />
             </TouchableOpacity>
           )}
-        </Animated.View>
+        </FadeInView>
       )}
     </View>
   );
