@@ -53,7 +53,6 @@ export default function UserBadge({ player }) {
     <TouchableOpacity
       style={isCurrentTurn && styles.shadow}
       onPress={() => {
-        onReceive("😀");
         setSelectedPlayerId(player.id);
       }}
     >
