@@ -17,6 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Slot, router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
+import EmoticonsButton from "../../src/components/EmoticonsButton";
 
 export default function GameRoomLayout() {
   const [isHide, setIsHide] = useState(false);
@@ -126,6 +127,8 @@ export default function GameRoomLayout() {
             flexGrow: 1,
           }}
         />
+
+        <EmoticonsButton />
       </View>
     </View>
   );

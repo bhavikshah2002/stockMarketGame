@@ -1,7 +1,9 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { BoldText, CustomText } from "../../src/common/Text";
+import { BoldText, CustomText, RegularText } from "../../src/common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
+import { useState } from "react";
+import FloatingEmoji from "./FloatingEmoji";
 
 const colorsArray = [
   Colors.info,
@@ -15,18 +17,36 @@ const colorsArray = [
 
 export default function UserBadge({ player }) {
   const { selectedPlayerId, setSelectedPlayerId, gameState } = useGameState();
+  const [received, setReceived] = useState([]);
   const backgroundColor = colorsArray[player.id % 6];
   const isSelected = selectedPlayerId == player.id;
   const isCurrentTurn =
     gameState.playerOrder[gameState.currentTurn] == player.id;
 
+  const onReceive = (emoji) => {
+    const id = Math.random();
+    setReceived((prev) => [...prev, { id, emoji }]);
+
+    setTimeout(() => {
+      setReceived((prev) => prev.filter((e) => e.id != id));
+    }, 1100);
+  };
+
   return (
     <TouchableOpacity
       style={isCurrentTurn && styles.shadow}
-      onPress={() => setSelectedPlayerId(player.id)}
+      onPress={() => {
+        onReceive("😀");
+        setSelectedPlayerId(player.id);
+      }}
     >
       <View style={styles.container}>
         <View style={[styles.innerBox, { backgroundColor }]}>
+          {received.map(({ id, emoji }) => (
+            <FloatingEmoji id={id} key={id}>
+              {emoji}
+            </FloatingEmoji>
+          ))}
           {isCurrentTurn && (
             <View style={[styles.whiteDot, { left: isSelected ? 15 : 25 }]} />
           )}
@@ -34,7 +54,9 @@ export default function UserBadge({ player }) {
             <CustomText family="SemiBoldItalic" size={10}>
               {player.playerName}
             </CustomText>
-            <BoldText size={12}>₹{(+player.playerInHandCash).toFixed(2)}L</BoldText>
+            <BoldText size={12}>
+              ₹{(+player.playerInHandCash).toFixed(2)}L
+            </BoldText>
           </View>
         </View>
         <View
@@ -72,7 +94,7 @@ const styles = StyleSheet.create({
     width: 110,
     height: 40,
     flexDirection: "row",
-    overflow: "hidden",
+    // overflow: "hidden",
     position: "relative",
   },
 
