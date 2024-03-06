@@ -43,7 +43,9 @@ export default function UserBadge({ player }) {
       <View style={styles.container}>
         <View style={[styles.innerBox, { backgroundColor }]}>
           {received.map(({ id, emoji }) => (
-            <FloatingEmoji key={id}>{emoji}</FloatingEmoji>
+            <FloatingEmoji id={id} key={id}>
+              {emoji}
+            </FloatingEmoji>
           ))}
           {isCurrentTurn && (
             <View style={[styles.whiteDot, { left: isSelected ? 15 : 25 }]} />

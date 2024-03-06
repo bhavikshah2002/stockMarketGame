@@ -1,8 +1,8 @@
-import { Animated, StyleSheet, View } from "react-native";
+import { Animated, StyleSheet } from "react-native";
 import { RegularText } from "../common/Text";
 import { useEffect, useRef } from "react";
 
-export default function FloatingEmoji({ children }) {
+export default function FloatingEmoji({ children, id }) {
   const translateY = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(1)).current;
 
@@ -20,11 +20,15 @@ export default function FloatingEmoji({ children }) {
       delay: 100,
       useNativeDriver: true,
     }).start();
-  }, [translateY]);
+  }, []);
 
   return (
     <Animated.View
-      style={[{ transform: [{ translateY }], opacity }, styles.floating]}
+      style={[
+        { transform: [{ translateY }], opacity },
+        styles.floating,
+        { right: id * 50 + 25 },
+      ]}
     >
       <RegularText size={15}>{children}</RegularText>
     </Animated.View>
