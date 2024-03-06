@@ -21,6 +21,7 @@ import { router } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 import GameSettingsModal from "../src/components/GameSettingsModal";
+import LobbyModal from "../src/components/LobbyModal";
 
 const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
   () => Math.random() - 0.5
@@ -33,6 +34,7 @@ export default function LobbyPage() {
   const [playersWaiting, setPlayersWaiting] = useState([]);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [gameSettingModalVisible, setGameSettingModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(true);
   const isAdmin = useMemo(() => {
     return playersWaiting[0]?.name == myUserName;
   }, [playersWaiting]);
@@ -122,6 +124,7 @@ export default function LobbyPage() {
 
   return (
     <View style={styles.container}>
+      <LobbyModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleLeave={handleLeave}/>
       <View style={styles.left}>
         <Image
           source={require("../assets/images/lobbyBackground.png")}
