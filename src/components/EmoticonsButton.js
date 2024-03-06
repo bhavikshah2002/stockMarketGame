@@ -80,9 +80,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     paddingVertical: 3,
     marginBottom: 25,
-
     borderRadius: 5,
-    backgroundColor: Colors.dim,
+    backgroundColor: "#222",
   },
 
   menuRow: {
@@ -97,7 +96,7 @@ const styles = StyleSheet.create({
     bottom: -5,
     right: 10,
 
-    backgroundColor: Colors.dim,
+    backgroundColor: "#222",
     transform: [{ rotateZ: "45deg" }],
   },
 });
