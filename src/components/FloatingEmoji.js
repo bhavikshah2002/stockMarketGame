@@ -9,7 +9,7 @@ export default function FloatingEmoji({ children, id }) {
   useEffect(() => {
     Animated.timing(translateY, {
       toValue: -50,
-      duration: 900,
+      duration: 700,
       delay: 100,
       useNativeDriver: true,
     }).start();
@@ -23,15 +23,23 @@ export default function FloatingEmoji({ children, id }) {
   }, []);
 
   return (
-    <Animated.View
-      style={[
-        { transform: [{ translateY }], opacity },
-        styles.floating,
-        { right: id * 50 + 25 },
-      ]}
-    >
-      <RegularText size={15}>{children}</RegularText>
-    </Animated.View>
+    <>
+      {[1, 2, 3, 4].map((elm) => (
+        <Animated.View
+          key={elm}
+          style={[
+            { transform: [{ translateY }], opacity },
+            styles.floating,
+            {
+              right: 25 * id + 15 * elm,
+              top: ((id * elm * 671934) % 20) - 10,
+            },
+          ]}
+        >
+          <RegularText size={8}>{children}</RegularText>
+        </Animated.View>
+      ))}
+    </>
   );
 }
 

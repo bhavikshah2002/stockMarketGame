@@ -11,7 +11,7 @@ export default function EmoticonsButton() {
   const { conn } = useGameState();
 
   const handleSend = (emoji) => {
-    // conn.current?.send("emoticon", { emoji });
+    conn.current?.emit("emoticon", emoji);
     setMenuOpen(false);
   };
 

@@ -2,7 +2,7 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { BoldText, CustomText, RegularText } from "../../src/common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FloatingEmoji from "./FloatingEmoji";
 
 const colorsArray = [
@@ -16,7 +16,8 @@ const colorsArray = [
 ];
 
 export default function UserBadge({ player }) {
-  const { selectedPlayerId, setSelectedPlayerId, gameState } = useGameState();
+  const { selectedPlayerId, setSelectedPlayerId, gameState, conn } =
+    useGameState();
   const [received, setReceived] = useState([]);
   const backgroundColor = colorsArray[player.id % 6];
   const isSelected = selectedPlayerId == player.id;
@@ -32,11 +33,26 @@ export default function UserBadge({ player }) {
     }, 1100);
   };
 
+  useEffect(() => {
+    if (!conn.current) return;
+
+    const handleMessage = (data) => {
+      if (data.username == player.playerName) {
+        onReceive(data.emoji);
+      }
+    };
+
+    conn.current.on("emoticon", handleMessage);
+
+    return () => {
+      conn.current.off("emoticon", handleMessage);
+    };
+  }, [conn.current]);
+
   return (
     <TouchableOpacity
       style={isCurrentTurn && styles.shadow}
       onPress={() => {
-        onReceive("😀");
         setSelectedPlayerId(player.id);
       }}
     >
