@@ -227,21 +227,20 @@ const styles = StyleSheet.create({
   },
 
   innerBox: {
-    position: "relative",
     backgroundColor: Colors.black,
     marginVertical: 20,
     padding: 15,
     paddingHorizontal: 20,
     width: "60%",
     borderRadius: 4,
-    shadowColor: Colors.dim,
+    shadowColor: Colors.white,
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 18,
     },
-    shadowOpacity: 0.53,
-    shadowRadius: 13.97,
-    elevation: 21,
+    shadowOpacity: 0.25,
+    shadowRadius: 20.0,
+    elevation: 24,
   },
 
   closeBtn: {

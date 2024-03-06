@@ -17,11 +17,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useMemo, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 import GameSettingsModal from "../src/components/GameSettingsModal";
 import LobbyModal from "../src/components/LobbyModal";
+import CustomRulesModal from "../src/components/CustomRulesModal";
 
 const emojiArray = ["😎", "😍", "😉", "🤩", "🧐", "😁", "🥳"].sort(
   () => Math.random() - 0.5
@@ -33,8 +34,8 @@ export default function LobbyPage() {
   const [noOfRounds, setNoOfRounds] = useState(10);
   const [playersWaiting, setPlayersWaiting] = useState([]);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const [gameSettingModalVisible, setGameSettingModalVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalRulesVisible, setModalRulesVisible] = useState(false);
   const isAdmin = useMemo(() => {
     return playersWaiting[0]?.name == myUserName;
   }, [playersWaiting]);
@@ -65,7 +66,6 @@ export default function LobbyPage() {
         }
       }, 2000);
     };
-
     const RejoinMessage = async (data) => {
       setGameState(data);
       let userId = 0;
@@ -113,6 +113,9 @@ export default function LobbyPage() {
     return () => backHandler.remove();
   }, []);
 
+  useEffect(()=>{
+    isAdmin && setModalVisible(true)
+  },[isAdmin])
   const handleStartGame = () => {
     conn.current?.emit("onStartGame", { totalMegaRounds: noOfRounds });
   };
@@ -124,7 +127,7 @@ export default function LobbyPage() {
 
   return (
     <View style={styles.container}>
-      <LobbyModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleLeave={handleLeave}/>
+      <LobbyModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleLeave={handleLeave} setModalRulesVisible={setModalRulesVisible}/>
       <View style={styles.left}>
         <Image
           source={require("../assets/images/lobbyBackground.png")}
@@ -163,10 +166,7 @@ export default function LobbyPage() {
                 </TouchableOpacity>
               </View>
 
-              <GameSettingsModal
-                modalVisible={gameSettingModalVisible}
-                setModalVisible={setGameSettingModalVisible}
-              />
+              <CustomRulesModal modalRulesVisible={modalRulesVisible} setModalRulesVisible={ setModalRulesVisible} setModalVisible={setModalVisible}/>
               <TouchableOpacity
                 onPress={handleStartGame}
                 style={styles.startBtn}
@@ -183,17 +183,6 @@ export default function LobbyPage() {
               Leave Lobby
             </BoldText>
           </TouchableOpacity>
-
-          {isAdmin && (
-            <TouchableOpacity onPress={() => setGameSettingModalVisible(true)}>
-              <RegularText
-                style={{ textDecorationLine: "underline", marginTop: 8 }}
-                color={Colors.white}
-              >
-                Custom Rules
-              </RegularText>
-            </TouchableOpacity>
-          )}
         </LinearGradient>
       </View>
 

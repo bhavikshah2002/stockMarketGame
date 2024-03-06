@@ -5,12 +5,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 
-function LobbyModal({ modalVisible, setModalVisible, handleLeave }) {
+function LobbyModal({ modalVisible, setModalVisible, handleLeave,setModalRulesVisible }) {
   return (
     <>
       <View>
         <Modal
-          animationType="fade"
+          animationType="slide"
           visible={modalVisible}
           onRequestClose={() => {
             setModalVisible(!modalVisible);
@@ -32,7 +32,8 @@ function LobbyModal({ modalVisible, setModalVisible, handleLeave }) {
                 <View style={styles.customDiv}>
                   <View style={styles.InsideBox}>
                     <View style={styles.iconsBox}>
-                      <Foundation name="graph-trend" size={60} color="black" />
+                      {/* <Foundation name="graph-trend" size={60} color="black" /> */}
+                      <FontAwesome name="handshake-o" size={45} color="black" />
                     </View>
                     <View style={styles.textBox}>
                       <BoldText size={30} color={Colors.black}>
@@ -50,7 +51,10 @@ function LobbyModal({ modalVisible, setModalVisible, handleLeave }) {
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>{
+                setModalRulesVisible(true)
+                setModalVisible(false)
+              }}>
                 <View style={styles.customDiv}>
                   <View style={styles.InsideBox}>
                     <View style={styles.iconsBox}>
