@@ -3,6 +3,7 @@ import { BoldText, RegularText, SemiBoldText } from "../common/Text";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { useState } from "react";
+import { MaterialCommunityIcons, Fontisto } from "@expo/vector-icons";
 
 function CustomRulesModal({
   modalRulesVisible,
@@ -21,7 +22,7 @@ function CustomRulesModal({
   const [isDirector, setIsDirector] = useState(false);
   const [isLimit, setIsLimit] = useState(false);
   const [isCrystalCard, setIsCrystalCard] = useState(false);
-
+  const contentColor = Colors.dim;
   return (
     <>
       <View>
@@ -60,24 +61,100 @@ function CustomRulesModal({
             </View>
             <View style={styles.mainBox}>
               <View style={styles.TileBox}>
-                <TouchableOpacity onPress={()=>setIsChairman(!isChairman)}>
+                <TouchableOpacity onPress={() => setIsChairman(!isChairman)}>
                   <View style={[styles.Tile, isChairman && styles.border]}>
-                    
+                    <View style={styles.iconBox}>
+                      <MaterialCommunityIcons
+                        name="chair-rolling"
+                        size={40}
+                        color={contentColor}
+                      />
+                    </View>
+                    <View style={styles.headingBox}>
+                      <BoldText color={contentColor}>CHAIRMAN</BoldText>
+                    </View>
+                    <View style={styles.contentBox}>
+                      <RegularText
+                        color={contentColor}
+                        style={{ textAlign: "center" }}
+                        size={10}
+                      >
+                        Removes 1 card from any player's card stack
+                      </RegularText>
+                    </View>
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>setIsCrystalCard(!isCrystalCard)}>
-                  <View style={[styles.Tile, isCrystalCard && styles.border]}></View>
+                <TouchableOpacity
+                  onPress={() => setIsCrystalCard(!isCrystalCard)}
+                >
+                  <View style={[styles.Tile, isCrystalCard && styles.border]}>
+                    <View style={styles.iconBox}>
+                      <MaterialCommunityIcons
+                        name="diamond-stone"
+                        size={30}
+                        color={contentColor}
+                      />
+                    </View>
+                    <View style={styles.headingBox}>
+                      <BoldText color={contentColor}>CRYSTAL CARDS</BoldText>
+                    </View>
+                    <View style={styles.contentBox}>
+                      <RegularText
+                        color={contentColor}
+                        style={{ textAlign: "center" }}
+                        size={10}
+                      >
+                        Specail power cards which make game interesting!
+                      </RegularText>
+                    </View>
+                  </View>
                 </TouchableOpacity>
 
                 <View style={styles.Tile}></View>
               </View>
 
               <View style={styles.TileBox}>
-                <TouchableOpacity onPress={()=>{setIsDirector(!isDirector)}}>
-                  <View style={[styles.Tile, isDirector && styles.border]}></View>
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsDirector(!isDirector);
+                  }}
+                >
+                  <View style={[styles.Tile, isDirector && styles.border]}>
+                    <View style={styles.iconBox}>
+                      <Fontisto name="person" size={35} color={contentColor} />
+                    </View>
+                    <View style={styles.headingBox}>
+                      <BoldText color={contentColor}>DIRECTOR</BoldText>
+                    </View>
+                    <View style={styles.contentBox}>
+                      <RegularText
+                        color={contentColor}
+                        style={{ textAlign: "center" }}
+                        size={10}
+                      >
+                        Removes 1 card from his own card stack
+                      </RegularText>
+                    </View>
+                  </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>setIsLimit(!isLimit)}>
-                  <View style={[styles.Tile, isLimit && styles.border]}></View>
+                <TouchableOpacity onPress={() => setIsLimit(!isLimit)}>
+                  <View style={[styles.Tile, isLimit && styles.border]}>
+                  <View style={styles.iconBox}>
+                  <MaterialCommunityIcons name="bank-transfer" size={47} color={contentColor} />
+                    </View>
+                    <View style={styles.headingBox}>
+                      <BoldText color={contentColor}>LIMIT TRANSACTION</BoldText>
+                    </View>
+                    <View style={styles.contentBox}>
+                      <RegularText
+                        color={contentColor}
+                        style={{ textAlign: "center" }}
+                        size={10}
+                      >
+                        Maximum 1L stocks can be purchased in a round
+                      </RegularText>
+                    </View>
+                  </View>
                 </TouchableOpacity>
 
                 <View style={styles.Tile}></View>
@@ -127,11 +204,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.21,
     shadowRadius: 6.65,
     elevation: 9,
+    gap: 5,
   },
-  border:{
+  border: {
     borderWidth: 3,
-    borderColor: Colors.white+"66",
-  }
+    borderColor: Colors.white + "66",
+  },
+
+  iconBox: {
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 2,
+  },
+  headingBox: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  contentBox: {
+    paddingHorizontal: 10,
+    marginTop: -5,
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+  },
 });
 
 export default CustomRulesModal;
