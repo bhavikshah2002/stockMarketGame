@@ -1,9 +1,10 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { BoldText, CustomText, RegularText } from "../../src/common/Text";
+import { BoldText, CustomText, SemiBoldText } from "../../src/common/Text";
 import { Colors } from "../common/styles";
 import { useGameState } from "../contexts/GameStateContext";
 import { useEffect, useState } from "react";
 import FloatingEmoji from "./FloatingEmoji";
+import { AntDesign } from "@expo/vector-icons";
 
 const colorsArray = [
   Colors.info,
@@ -19,6 +20,7 @@ export default function UserBadge({ player }) {
   const { selectedPlayerId, setSelectedPlayerId, gameState, conn } =
     useGameState();
   const [received, setReceived] = useState([]);
+  const [isKicking, setIsKicking] = useState(false);
   const backgroundColor = colorsArray[player.id % 6];
   const isSelected = selectedPlayerId == player.id;
   const isCurrentTurn =
@@ -31,6 +33,10 @@ export default function UserBadge({ player }) {
     setTimeout(() => {
       setReceived((prev) => prev.filter((e) => e.id != id));
     }, 1100);
+  };
+
+  const kickUser = () => {
+    console.log("Kick user:", player.playerName);
   };
 
   useEffect(() => {
@@ -52,29 +58,44 @@ export default function UserBadge({ player }) {
   return (
     <TouchableOpacity
       style={isCurrentTurn && styles.shadow}
+      on
+      onLongPress={() => setIsKicking(true)}
       onPress={() => {
         setSelectedPlayerId(player.id);
       }}
     >
       <View style={styles.container}>
-        <View style={[styles.innerBox, { backgroundColor }]}>
-          {received.map(({ id, emoji }) => (
-            <FloatingEmoji id={id} key={id}>
-              {emoji}
-            </FloatingEmoji>
-          ))}
-          {isCurrentTurn && (
-            <View style={[styles.whiteDot, { left: isSelected ? 15 : 25 }]} />
-          )}
-          <View>
-            <CustomText family="SemiBoldItalic" size={10}>
-              {player.playerName}
-            </CustomText>
-            <BoldText size={12}>
-              ₹{(+player.playerInHandCash).toFixed(2)}L
-            </BoldText>
+        {!isKicking ? (
+          <View style={[styles.innerBox, { backgroundColor }]}>
+            {received.map(({ id, emoji }) => (
+              <FloatingEmoji id={id} key={id}>
+                {emoji}
+              </FloatingEmoji>
+            ))}
+            {isCurrentTurn && (
+              <View style={[styles.whiteDot, { left: isSelected ? 15 : 25 }]} />
+            )}
+            <View>
+              <CustomText family="SemiBoldItalic" size={10}>
+                {player.playerName}
+              </CustomText>
+              <BoldText size={12}>
+                ₹{(+player.playerInHandCash).toFixed(2)}L
+              </BoldText>
+            </View>
           </View>
-        </View>
+        ) : (
+          <View style={styles.kickPanel}>
+            <TouchableOpacity onPress={kickUser}>
+              <SemiBoldText size={16} transform="uppercase">
+                Kick
+              </SemiBoldText>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsKicking(false)}>
+              <AntDesign name="close" size={20} color={Colors.white} />
+            </TouchableOpacity>
+          </View>
+        )}
         <View
           style={[
             styles.diagonal,
@@ -153,5 +174,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 30,
     elevation: 16,
+  },
+
+  kickPanel: {
+    backgroundColor: Colors.red,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 20,
+    paddingRight: 3,
   },
 });
