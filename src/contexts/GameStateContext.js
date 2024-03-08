@@ -294,6 +294,9 @@ export default function GameStateContextProvider({ children }) {
       if (gameState.currentSubRound == 1 && gameState.currentTurn == 0) {
         return gameState?.userState?.[myUserId]?.cardsHeld;
       }
+      if (prev.length == 0) {
+        return gameState?.userState?.[myUserId]?.cardsHeld || [];
+      }
       if (prev.length != gameState?.userState?.[myUserId]?.cardsHeld.length) {
         const ids = gameState?.userState?.[myUserId]?.cardsHeld.map(
           (card) => card.id
