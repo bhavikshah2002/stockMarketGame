@@ -2,26 +2,37 @@ import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import { BoldText, RegularText, SemiBoldText } from "../common/Text";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
-import { useState } from "react";
-import { MaterialCommunityIcons, Fontisto } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import {
+  MaterialCommunityIcons,
+  Fontisto,
+  FontAwesome,
+  AntDesign,
+} from "@expo/vector-icons";
 
 function CustomRulesModal({
   modalRulesVisible,
   setModalRulesVisible,
   setModalVisible,
+  config,setConfig
 }) {
-  const [config, setConfig] = useState({
-    includeCrystalCards: true,
-    limitTransactionValue: false,
-    initialCashInHand: 800000,
-    totalStock: 200000,
-    allowChairman: true,
-    allowDirector: true,
-  });
+  
   const [isChairman, setIsChairman] = useState(false);
   const [isDirector, setIsDirector] = useState(false);
   const [isLimit, setIsLimit] = useState(false);
   const [isCrystalCard, setIsCrystalCard] = useState(false);
+
+  useEffect(()=>{
+    modalRulesVisible &&
+    setConfig((p) => ({
+      ...p,
+      excludeCrystalCards: !isCrystalCard,
+      limitTransactionValue:isLimit,
+      allowChairman:isChairman,
+      allowDirector:isDirector
+    }))
+  },[isChairman,isDirector,isLimit,isCrystalCard,modalRulesVisible])
+
   const contentColor = Colors.dim;
   return (
     <>
@@ -51,13 +62,18 @@ function CustomRulesModal({
               <SemiBoldText align="center" size={30} color={Colors.dim}>
                 CUSTOM RULES
               </SemiBoldText>
-              <SemiBoldText>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalRulesVisible(false);
+                }}
+              >
+                {/* <AntDesign name="checkcircle" size={39} color={Colors.dim} /> */}
                 <Ionicons
-                  name="arrow-back-circle-sharp"
+                  name="arrow-forward-circle-sharp"
                   size={50}
-                  color={Colors.black}
+                  color={Colors.dim}
                 />
-              </SemiBoldText>
+              </TouchableOpacity>
             </View>
             <View style={styles.mainBox}>
               <View style={styles.TileBox}>
@@ -104,13 +120,60 @@ function CustomRulesModal({
                         style={{ textAlign: "center" }}
                         size={10}
                       >
-                        Specail power cards which make game interesting!
+                        Special power cards which make game interesting!
                       </RegularText>
                     </View>
                   </View>
                 </TouchableOpacity>
 
-                <View style={styles.Tile}></View>
+                <View style={styles.Tile}>
+                  <View style={styles.iconBox}>
+                    <FontAwesome name="rupee" size={30} color={contentColor} />
+                  </View>
+                  <View style={styles.headingBox}>
+                    <BoldText color={contentColor}>STARTING CASH</BoldText>
+                  </View>
+                  <View style={styles.contentBox}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        setConfig((p) => ({
+                          ...p,
+                          initialCashInHand: p.initialCashInHand - 50000,
+                        }))
+                      }
+                      disabled={config.initialCashInHand == 600000}
+                    >
+                      <AntDesign
+                        name="minuscircle"
+                        size={17}
+                        color={contentColor}
+                      />
+                    </TouchableOpacity>
+                    <SemiBoldText
+                      align="center"
+                      style={{ width: 40 }}
+                      size={17}
+                      color={contentColor}
+                    >
+                      {config.initialCashInHand / 100000}L
+                    </SemiBoldText>
+                    <TouchableOpacity
+                      onPress={() =>
+                        setConfig((p) => ({
+                          ...p,
+                          initialCashInHand: p.initialCashInHand + 50000,
+                        }))
+                      }
+                      disabled={config.initialCashInHand == 1000000}
+                    >
+                      <AntDesign
+                        name="pluscircle"
+                        size={17}
+                        color={contentColor}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
 
               <View style={styles.TileBox}>
@@ -139,11 +202,17 @@ function CustomRulesModal({
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setIsLimit(!isLimit)}>
                   <View style={[styles.Tile, isLimit && styles.border]}>
-                  <View style={styles.iconBox}>
-                  <MaterialCommunityIcons name="bank-transfer" size={47} color={contentColor} />
+                    <View style={styles.iconBox}>
+                      <MaterialCommunityIcons
+                        name="bank-transfer"
+                        size={47}
+                        color={contentColor}
+                      />
                     </View>
                     <View style={styles.headingBox}>
-                      <BoldText color={contentColor}>LIMIT TRANSACTION</BoldText>
+                      <BoldText color={contentColor}>
+                        LIMIT TRANSACTION
+                      </BoldText>
                     </View>
                     <View style={styles.contentBox}>
                       <RegularText
@@ -157,7 +226,58 @@ function CustomRulesModal({
                   </View>
                 </TouchableOpacity>
 
-                <View style={styles.Tile}></View>
+                <View style={styles.Tile}>
+                  <View style={styles.iconBox}>
+                    <AntDesign
+                      name="shoppingcart"
+                      size={34}
+                      color={contentColor}
+                    />
+                  </View>
+                  <View style={styles.headingBox}>
+                    <BoldText color={contentColor}>MAXIMUM STOCKS</BoldText>
+                  </View>
+                  <View style={styles.contentBox}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        setConfig((p) => ({
+                          ...p,
+                          totalStock: p.totalStock - 25000,
+                        }))
+                      }
+                      disabled={config.totalStock == 150000}
+                    >
+                      <AntDesign
+                        name="minuscircle"
+                        size={17}
+                        color={contentColor}
+                      />
+                    </TouchableOpacity>
+                    <SemiBoldText
+                      align="center"
+                      style={{ width: 40 }}
+                      size={15}
+                      color={contentColor}
+                    >
+                      {config.totalStock / 1000}K
+                    </SemiBoldText>
+                    <TouchableOpacity
+                      onPress={() =>
+                        setConfig((p) => ({
+                          ...p,
+                          totalStock: p.totalStock + 25000,
+                        }))
+                      }
+                      disabled={config.totalStock == 250000}
+                    >
+                      <AntDesign
+                        name="pluscircle"
+                        size={17}
+                        color={contentColor}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </View>
             </View>
           </View>
@@ -227,6 +347,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "center",
+    flexDirection: "row",
+    gap: 10,
   },
 });
 

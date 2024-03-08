@@ -5,7 +5,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
 
-function LobbyModal({ modalVisible, setModalVisible, handleLeave,setModalRulesVisible }) {
+function LobbyModal({
+  modalVisible,
+  setModalVisible,
+  handleLeave,
+  setModalRulesVisible,
+  setConfig,
+}) {
   return (
     <>
       <View>
@@ -28,7 +34,20 @@ function LobbyModal({ modalVisible, setModalVisible, handleLeave,setModalRulesVi
               </TouchableOpacity>
             </View>
             <View style={styles.mainBox}>
-              <TouchableOpacity onPress={()=>{setModalVisible(false)}} >
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(false),
+                    setConfig((p) => ({
+                      ...p,
+                      excludeCrystalCards: false,
+                      limitTransactionValue: false,
+                      initialCashInHand: 800000,
+                      totalStock: 200000,
+                      allowChairman: true,
+                      allowDirector: true,
+                    }));
+                }}
+              >
                 <View style={styles.customDiv}>
                   <View style={styles.InsideBox}>
                     <View style={styles.iconsBox}>
@@ -51,10 +70,12 @@ function LobbyModal({ modalVisible, setModalVisible, handleLeave,setModalRulesVi
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={()=>{
-                setModalRulesVisible(true)
-                setModalVisible(false)
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalRulesVisible(true);
+                  setModalVisible(false);
+                }}
+              >
                 <View style={styles.customDiv}>
                   <View style={styles.InsideBox}>
                     <View style={styles.iconsBox}>

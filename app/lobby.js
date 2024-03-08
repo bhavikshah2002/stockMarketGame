@@ -36,6 +36,14 @@ export default function LobbyPage() {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalRulesVisible, setModalRulesVisible] = useState(false);
+  const [config, setConfig] = useState({
+    excludeCrystalCards: false,
+    limitTransactionValue: false,
+    initialCashInHand: 800000,
+    totalStock: 200000,
+    allowChairman: true,
+    allowDirector: true,
+  });
   const isAdmin = useMemo(() => {
     return playersWaiting[0]?.name == myUserName;
   }, [playersWaiting]);
@@ -117,7 +125,8 @@ export default function LobbyPage() {
     isAdmin && setModalVisible(true)
   },[isAdmin])
   const handleStartGame = () => {
-    conn.current?.emit("onStartGame", { totalMegaRounds: noOfRounds });
+    console.log(config)
+    conn.current?.emit("onStartGame", { totalMegaRounds: noOfRounds,configs:config });
   };
 
   const handleLeave = () => {
@@ -127,7 +136,7 @@ export default function LobbyPage() {
 
   return (
     <View style={styles.container}>
-      <LobbyModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleLeave={handleLeave} setModalRulesVisible={setModalRulesVisible}/>
+      <LobbyModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleLeave={handleLeave} setModalRulesVisible={setModalRulesVisible} setConfig={setConfig}/>
       <View style={styles.left}>
         <Image
           source={require("../assets/images/lobbyBackground.png")}
@@ -166,7 +175,7 @@ export default function LobbyPage() {
                 </TouchableOpacity>
               </View>
 
-              <CustomRulesModal modalRulesVisible={modalRulesVisible} setModalRulesVisible={ setModalRulesVisible} setModalVisible={setModalVisible}/>
+              <CustomRulesModal modalRulesVisible={modalRulesVisible} setModalRulesVisible={ setModalRulesVisible} setModalVisible={setModalVisible} config={config} setConfig={setConfig}/>
               <TouchableOpacity
                 onPress={handleStartGame}
                 style={styles.startBtn}
@@ -213,6 +222,7 @@ export default function LobbyPage() {
           </CustomText>
         </View>
       )}
+      
     </View>
   );
 }
