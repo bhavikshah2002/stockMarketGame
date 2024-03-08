@@ -24,7 +24,7 @@ export default function FloatingEmoji({ children, id }) {
 
   return (
     <>
-      {[1, 2, 3, 4].map((elm) => (
+      {[1].map((elm) => (
         <Animated.View
           key={elm}
           style={[
@@ -36,7 +36,7 @@ export default function FloatingEmoji({ children, id }) {
             },
           ]}
         >
-          <RegularText size={8}>{children}</RegularText>
+          <RegularText size={20}>{children}</RegularText>
         </Animated.View>
       ))}
     </>

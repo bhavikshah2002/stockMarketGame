@@ -21,15 +21,15 @@ export default function EmoticonsButton() {
         <>
           <FadeInView style={styles.menu}>
             <View style={styles.menuRow}>
-              {["😡", "😭", "💔", "🤣"].map((emoji) => (
-                <TouchableOpacity onPress={() => handleSend(emoji)} key={emoji}>
+              {["😎", "😭", "😂", "👍🏻"].map((emoji) => (
+                <TouchableOpacity onPress={() =>{ handleSend(emoji)}} key={emoji}>
                   <RegularText size={20}>{emoji}</RegularText>
                 </TouchableOpacity>
               ))}
             </View>
 
             <View style={styles.menuRow}>
-              {["😮", "🤐", "😎", "😘"].map((emoji) => (
+              {["😮", "🤐", "😡", "😘"].map((emoji) => (
                 <TouchableOpacity onPress={() => handleSend(emoji)} key={emoji}>
                   <RegularText size={20}>{emoji}</RegularText>
                 </TouchableOpacity>
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     borderColor: Colors.darkGreen + "55",
+    marginRight:15
   },
 
   emoticonBtn: {},
