@@ -15,13 +15,20 @@ import { LightText, SemiBoldText } from "../../src/common/Text";
 import { Colors } from "../../src/common/styles";
 import { AntDesign } from "@expo/vector-icons";
 import { Slot, router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Entypo } from "@expo/vector-icons";
 import EmoticonsButton from "../../src/components/EmoticonsButton";
 
 export default function GameRoomLayout() {
-  const [isHide, setIsHide] = useState(false);
-  const { players, gameState, leave, cards, setCards } = useGameState();
+  const {
+    players,
+    gameState,
+    leave,
+    cards,
+    setCards,
+    hideCards,
+    setHideCards,
+  } = useGameState();
 
   useEffect(() => {
     const backAction = () => {
@@ -78,7 +85,7 @@ export default function GameRoomLayout() {
           <View style={styles.showCards}>
             <TouchableOpacity
               onPress={() => {
-                setIsHide(!isHide);
+                setHideCards((p) => !p);
               }}
               style={{
                 flexDirection: "row",
@@ -88,9 +95,9 @@ export default function GameRoomLayout() {
               }}
             >
               <LightText size={13} color={Colors.white}>
-                {isHide ? " SHOW" : " HIDE "}
+                {hideCards ? " SHOW" : " HIDE "}
               </LightText>
-              {isHide ? (
+              {hideCards ? (
                 <Entypo name="chevron-up" size={15} color="white" />
               ) : (
                 <Entypo name="chevron-down" size={15} color="white" />
@@ -108,7 +115,7 @@ export default function GameRoomLayout() {
                   card={item}
                   drag={drag}
                   isActive={isActive}
-                  isHide={isHide}
+                  isHide={hideCards}
                 />
               )}
               keyExtractor={(item) => item.id}

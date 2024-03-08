@@ -1,14 +1,9 @@
 import { Image, StyleSheet, View } from "react-native";
-import {
-  BoldText,
-  CustomText,
-  RegularText,
-  SemiBoldText,
-} from "../common/Text";
+import { CustomText, RegularText, SemiBoldText } from "../common/Text";
 import { LinearGradient } from "expo-linear-gradient";
 import { Colors } from "../common/styles";
-import Animated, { FadeIn } from "react-native-reanimated";
 import { useGameState } from "../contexts/GameStateContext";
+import { FadeInView } from "../common/animations";
 
 export default function CompanyCardForRoundEnd({
   company,
@@ -41,21 +36,11 @@ export default function CompanyCardForRoundEnd({
         </RegularText>
       </View>
       <View style={{ marginRight: 6, marginTop: 8 }}>
-        {/* Comment This for Buddy Version */}
-        <Animated.Text
-          style={{ fontFamily: "Poppins-SemiBoldItalic", color }}
-          entering={FadeIn.delay(
-            (gameState.noOfPlayers + 1) * company.id * 2000
-          )}
-        >
-          {"  "}₹{newValue}
-
-          {/* Buddy Version Only Regular Text*/}
-          {/* <RegularText style={{ fontFamily: "Poppins-SemiBoldItalic", color }}>
+        <FadeInView delay={(gameState.noOfPlayers + 1) * company.id * 2000}>
+          <CustomText family="SemiBoldItalic" color={color}>
             {"  "}₹{newValue}
-          </RegularText> */}
-          
-        </Animated.Text>
+          </CustomText>
+        </FadeInView>
       </View>
     </View>
   );

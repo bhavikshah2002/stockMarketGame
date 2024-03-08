@@ -48,6 +48,8 @@ const GameStateContext = createContext({
   setMyUserId(p) {},
   cards: [],
   setCards(p) {},
+  hideCards: false,
+  setHideCards(p) {},
 });
 
 export default function GameStateContextProvider({ children }) {
@@ -60,6 +62,7 @@ export default function GameStateContextProvider({ children }) {
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useAsyncStorage("username", "username");
+  const [hideCards, setHideCards] = useState(false);
   const currentPathName = usePathname();
   const players = useMemo(() => {
     if (!gameState) return [];
@@ -230,7 +233,7 @@ export default function GameStateContextProvider({ children }) {
             </>
           );
 
-          redirect(isMyTurn ? "/gameroom/myturn" : "/gameroom")
+          redirect(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         } else {
           // Buddy Version Commented
 
@@ -330,6 +333,8 @@ export default function GameStateContextProvider({ children }) {
         setMyUserId,
         cards,
         setCards,
+        hideCards,
+        setHideCards,
       }}
     >
       {children}

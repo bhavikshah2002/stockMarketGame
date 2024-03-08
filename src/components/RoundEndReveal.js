@@ -256,15 +256,15 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 15,
     bottom: 15,
-    padding: 10,
-    paddingHorizontal: 15,
-    backgroundColor: Colors.darkPink,
-    borderRadius: 5,
     zIndex: 9999,
     flexDirection: "row",
   },
-
+  
   nextRoundBtn: {
+    borderRadius: 5,
+    backgroundColor: Colors.darkPink,
+    padding: 10,
+    paddingHorizontal: 15,
     flexDirection: "row",
     gap: 2,
     alignItems: "center",
