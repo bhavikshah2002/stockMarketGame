@@ -15,7 +15,7 @@ import {
   Vibration,
   View,
 } from "react-native";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { CustomText } from "../common/Text";
 import { Colors } from "../common/styles";
 import wait from "../utils/wait";
@@ -60,6 +60,7 @@ export default function GameStateContextProvider({ children }) {
   const [selectedEntity, setSelectedEntity] = useState(selectedCard);
   const [selectedEntityType, setSelectedEntityType] = useState("card");
   const [myUserName, setMyUserName] = useAsyncStorage("username", "username");
+  const currentPathName = usePathname();
   const players = useMemo(() => {
     if (!gameState) return [];
     return gameState.playerOrder.map((id) => ({
@@ -73,6 +74,12 @@ export default function GameStateContextProvider({ children }) {
   const [gameId, setGameId] = useState(null);
   const [cards, setCards] = useState([]);
   const [loadingMsg, setLoadingMsg] = useState(null);
+
+  const redirect = (route) => {
+    if (currentPathName != route) {
+      router.replace(route);
+    }
+  };
 
   const selectEntity = (entity, type) => {
     setSelectedEntityType(type);
@@ -223,7 +230,7 @@ export default function GameStateContextProvider({ children }) {
             </>
           );
 
-          router.replace(isMyTurn ? "/gameroom/myturn" : "/gameroom");
+          redirect(isMyTurn ? "/gameroom/myturn" : "/gameroom")
         } else {
           // Buddy Version Commented
 

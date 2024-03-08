@@ -5,5 +5,5 @@ export const formatCash = (amount) => {
 
   if (amount < 10000000) return (amount / 100000).toFixed(2) + "L";
 
-  return (amount / 10000000).toFixed(2) + "C";
+  return (amount / 10000000).toFixed(2) + "Cr";
 };
