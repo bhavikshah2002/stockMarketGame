@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "14%",
     // alignItems: "center",
-    alignItems:"flex-end"
+    alignItems: "flex-end",
   },
   TopLeft: {
     flex: 1,

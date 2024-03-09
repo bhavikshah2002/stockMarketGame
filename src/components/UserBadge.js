@@ -112,7 +112,7 @@ export default function UserBadge({ player }) {
               top: 0,
               transform: [
                 { rotateZ: "35deg" },
-                { translateX: isSelected ? -105 : -95 },
+                { translateX: isSelected ? -45 : -35 },
               ],
             },
           ]}
@@ -124,7 +124,7 @@ export default function UserBadge({ player }) {
               bottom: 0,
               transform: [
                 { rotateZ: "-35deg" },
-                { translateX: isSelected ? -105 : -95 },
+                { translateX: isSelected ? -45 : -35 },
               ],
             },
           ]}
@@ -153,6 +153,8 @@ const styles = StyleSheet.create({
     width: 120,
     gap: -5,
     position: "relative",
+
+    // zIndex:9999,
   },
 
   whiteDot: {
@@ -168,8 +170,8 @@ const styles = StyleSheet.create({
   diagonal: {
     position: "absolute",
     left: 0,
-    width: 100,
-    height: 100,
+    width: 50,
+    height: 50,
     backgroundColor: Colors.black,
   },
 
