@@ -58,7 +58,6 @@ export default function UserBadge({ player }) {
   return (
     <TouchableOpacity
       style={isCurrentTurn && styles.shadow}
-      on
       onLongPress={() => setIsKicking(true)}
       onPress={() => {
         setSelectedPlayerId(player.id);
