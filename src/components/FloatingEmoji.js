@@ -23,31 +23,19 @@ export default function FloatingEmoji({ children, id }) {
   }, []);
 
   return (
-    <>
-      {[1].map((elm) => (
-        <Animated.View
-          key={elm}
-          style={[
-            { transform: [{ translateY }], opacity },
-            styles.floating,
-            {
-              right: 25 * id + 15 * elm,
-              top: ((id * elm * 671934) % 20) - 10,
-            },
-          ]}
-        >
-          <RegularText size={20}>{children}</RegularText>
-        </Animated.View>
-      ))}
-    </>
+    <Animated.View
+      style={[{ transform: [{ translateY }], opacity }, styles.floating]}
+    >
+      <RegularText size={20}>{children}</RegularText>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   floating: {
     position: "absolute",
-    right: 25,
-    top: 0,
+    right: 20,
+    top: -10,
     zIndex: 999,
   },
 });
