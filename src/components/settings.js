@@ -9,10 +9,12 @@ import { Colors } from "../common/styles";
 import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
+import ConfigPanel from "./ConfigPanel";
 
 export default function Settings() {
   const { gameId, gameState, myUserId, conn, leave } = useGameState();
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPanel, setSelectedPanel] = useState("admin");
   const onPass = () => {
     conn.current?.emit("pass", {
       userId: gameState.playerOrder[gameState.currentTurn],
@@ -72,63 +74,88 @@ export default function Settings() {
 
               {/* Admin panel */}
               {myUserId == gameState.adminId && (
-                <View style={styles.AdminPanel}>
-                  <SemiBoldText
-                    color={Colors.white}
-                    style={styles.AdminText}
-                    size={22}
-                  >
-                    ADMIN PANNEL
-                  </SemiBoldText>
-                  <View style={styles.AdminWork}>
-                    <View style={styles.AdminPass}>
-                      <SemiBoldText size={15} style={{ marginTop: 3 }}>
-                        Pass{" "}
-                        {
-                          gameState.userState[
-                            gameState.playerOrder[gameState.currentTurn]
-                          ].username
-                        }
-                        {"'s "}turn
-                      </SemiBoldText>
-                      <SemiBoldText size={15} style={{ marginTop: 3 }}>
-                        Calculate Results
-                      </SemiBoldText>
-                    </View>
-                    <View style={styles.AdminPass}>
-                      <TouchableOpacity
-                        style={[
-                          styles.btnAdmin,
-                          { backgroundColor: Colors.info },
-                        ]}
-                        onPress={onPass}
-                      >
-                        <LightText size={15}>PASS</LightText>
-                        <FontAwesome5
-                          name="hand-peace"
-                          size={16}
-                          color={Colors.white}
-                        />
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={[
-                          styles.btnAdmin,
-                          { backgroundColor: Colors.darkGreen },
-                        ]}
-                        onPress={onResults}
-                      >
-                        <LightText size={15}>RESULTS</LightText>
-                        <AntDesign
-                          name="calculator"
-                          size={18}
-                          color={Colors.white}
-                        />
-                      </TouchableOpacity>
-                    </View>
+                <View
+                  style={{
+                    width: "50%",
+                    paddingHorizontal: 10,
+                  }}
+                >
+                  <View style={{ flexDirection: "row", gap: 8 }}>
+                    <TouchableOpacity
+                      style={[
+                        styles.tab,
+                        selectedPanel == "admin" && styles.tabSelected,
+                      ]}
+                      onPress={() => setSelectedPanel("admin")}
+                    >
+                      <LightText>Admin Panel</LightText>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.tab,
+                        selectedPanel == "config" && styles.tabSelected,
+                      ]}
+                      onPress={() => setSelectedPanel("config")}
+                    >
+                      <LightText>Config</LightText>
+                    </TouchableOpacity>
                   </View>
+                  {selectedPanel == "admin" && (
+                    <View style={styles.AdminPanel}>
+                      <View style={styles.AdminWork}>
+                        <View style={styles.AdminPass}>
+                          <SemiBoldText size={15} style={{ marginTop: 3 }}>
+                            Pass{" "}
+                            {
+                              gameState.userState[
+                                gameState.playerOrder[gameState.currentTurn]
+                              ].username
+                            }
+                            {"'s "}turn
+                          </SemiBoldText>
+                          <SemiBoldText size={15} style={{ marginTop: 3 }}>
+                            Calculate Results
+                          </SemiBoldText>
+                        </View>
+                        <View style={styles.AdminPass}>
+                          <TouchableOpacity
+                            style={[
+                              styles.btnAdmin,
+                              { backgroundColor: Colors.info },
+                            ]}
+                            onPress={onPass}
+                          >
+                            <LightText size={15}>PASS</LightText>
+                            <FontAwesome5
+                              name="hand-peace"
+                              size={16}
+                              color={Colors.white}
+                            />
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={[
+                              styles.btnAdmin,
+                              { backgroundColor: Colors.darkGreen },
+                            ]}
+                            onPress={onResults}
+                          >
+                            <LightText size={15}>RESULTS</LightText>
+                            <AntDesign
+                              name="calculator"
+                              size={18}
+                              color={Colors.white}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                  )}
+
+                  {selectedPanel == "config" && <ConfigPanel />}
                 </View>
               )}
             </View>
+
             <View style={{ paddingTop: 20, flexDirection: "row", gap: 5 }}>
               <BoldText size={15} color={Colors.info}>
                 ROOM ID :
@@ -239,7 +266,6 @@ const styles = StyleSheet.create({
     height: 40,
   },
   AdminPanel: {
-    width: "50%",
     alignItems: "center",
     borderLeftWidth: 2,
     borderColor: Colors.dim,
@@ -270,4 +296,8 @@ const styles = StyleSheet.create({
     gap: 5,
     justifyContent: "center",
   },
+
+  tab: {},
+
+  tabSelected: {},
 });
