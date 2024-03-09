@@ -34,6 +34,7 @@ export default function LobbyPage() {
   const [noOfRounds, setNoOfRounds] = useState(10);
   const [playersWaiting, setPlayersWaiting] = useState([]);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalRulesVisible, setModalRulesVisible] = useState(false);
   const [config, setConfig] = useState({
@@ -121,12 +122,19 @@ export default function LobbyPage() {
     return () => backHandler.remove();
   }, []);
 
-  useEffect(()=>{
-    isAdmin && setModalVisible(true)
-  },[isAdmin])
+  useEffect(() => {
+    isAdmin && setModalVisible(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [isAdmin]);
+
   const handleStartGame = () => {
-    console.log(config)
-    conn.current?.emit("onStartGame", { totalMegaRounds: noOfRounds,configs:config });
+    console.log(config);
+    conn.current?.emit("onStartGame", {
+      totalMegaRounds: noOfRounds,
+      configs: config,
+    });
   };
 
   const handleLeave = () => {
@@ -135,7 +143,13 @@ export default function LobbyPage() {
   };
   return (
     <View style={styles.container}>
-      <LobbyModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleLeave={handleLeave} setModalRulesVisible={setModalRulesVisible} setConfig={setConfig}/>
+      <LobbyModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        handleLeave={handleLeave}
+        setModalRulesVisible={setModalRulesVisible}
+        setConfig={setConfig}
+      />
       <View style={styles.left}>
         <Image
           source={require("../assets/images/lobbyBackground.png")}
@@ -174,7 +188,13 @@ export default function LobbyPage() {
                 </TouchableOpacity>
               </View>
 
-              <CustomRulesModal modalRulesVisible={modalRulesVisible} setModalRulesVisible={ setModalRulesVisible} setModalVisible={setModalVisible} config={config} setConfig={setConfig}/>
+              <CustomRulesModal
+                modalRulesVisible={modalRulesVisible}
+                setModalRulesVisible={setModalRulesVisible}
+                setModalVisible={setModalVisible}
+                config={config}
+                setConfig={setConfig}
+              />
               <TouchableOpacity
                 onPress={handleStartGame}
                 style={styles.startBtn}
@@ -221,7 +241,15 @@ export default function LobbyPage() {
           </CustomText>
         </View>
       )}
-      
+
+      {isLoading && (
+        <View style={styles.redirectingModal}>
+          <ActivityIndicator size="50" color={Colors.white} />
+          <CustomText family="SemiBoldItalic" size={16}>
+            Loading...
+          </CustomText>
+        </View>
+      )}
     </View>
   );
 }
