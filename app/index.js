@@ -9,6 +9,7 @@ import { useRef, useState } from "react";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 import alertFunction from "../src/utils/alertFunction";
+import RulesModal from "../src/components/rulesModal";
 
 export default function HomePage() {
   const inputRef = useRef();
@@ -47,6 +48,9 @@ export default function HomePage() {
         paddingBottom: 10,
       }}
     >
+      <View style={styles.rulesModal}>
+        <RulesModal />
+      </View>
       <View style={styles.container}>
         <View style={styles.left}>
           <Image
@@ -76,6 +80,7 @@ export default function HomePage() {
             </TouchableOpacity>
           </View>
         </View>
+
         <View style={styles.right}>
           <TouchableOpacity
             style={{ ...styles.center, ...styles.Btn }}
@@ -220,4 +225,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "25%",
   },
+  rulesModal:{
+    justifyContent:"center",
+    alignItems:"center"
+  }
 });
