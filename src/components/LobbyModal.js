@@ -12,6 +12,15 @@ function LobbyModal({
   setModalRulesVisible,
   setConfig,
 }) {
+  let shuffledStartingCash = [600000,650000,700000,750000,800000,850000,900000,950000,1000000]
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+
+  let shuffledStocksLimit = [150000,175000,200000,225000,250000]
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
   return (
     <>
       <View>
@@ -97,7 +106,20 @@ function LobbyModal({
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(false),
+                    setConfig((p) => ({
+                      ...p,
+                      excludeCrystalCards: Math.random() < 0.5,
+                      limitTransactionValue: Math.random() < 0.5,
+                      initialCashInHand: shuffledStartingCash[0],
+                      totalStock: shuffledStocksLimit[0],
+                      allowChairman: Math.random() < 0.5,
+                      allowDirector: Math.random() < 0.5,
+                    }));
+                }}
+              >
                 <View style={styles.customDiv}>
                   <View style={styles.InsideBox}>
                     <View style={styles.iconsBox}>

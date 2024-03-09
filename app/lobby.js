@@ -133,7 +133,6 @@ export default function LobbyPage() {
     leave();
     router.push("/");
   };
-
   return (
     <View style={styles.container}>
       <LobbyModal modalVisible={modalVisible} setModalVisible={setModalVisible} handleLeave={handleLeave} setModalRulesVisible={setModalRulesVisible} setConfig={setConfig}/>
