@@ -8,6 +8,7 @@ import { Colors } from "../common/styles";
 import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
+import RulesModal from "./RulesModal";
 
 export default function Settings() {
   const { gameId, gameState, myUserId, conn, leave } = useGameState();
@@ -34,8 +35,10 @@ export default function Settings() {
           statusBarTranslucent={true}
         >
           <View style={styles.Container}>
-            <View >
+            <View style={styles.topBar}>
+              <RulesModal />
               <BoldText size={40}>Settings</BoldText>
+              <RulesModal />
             </View>
 
             <View style={styles.MiddleContainer}>
@@ -184,6 +187,14 @@ const styles = StyleSheet.create({
   },
   SettingButton: {
     marginLeft: 20,
+  },
+
+  topBar: {
+    flexDirection: "row",
+    paddingHorizontal: 15,
+    justifyContent: "space-between",
+    alignItems: "center",
+    alignSelf: "stretch",
   },
 
   Btn: {

@@ -36,7 +36,7 @@ export default function UserBadge({ player }) {
   };
 
   const kickUser = () => {
-    console.log("Kick user:", player.playerName);
+    conn.current.emit("kickUser", player.id);
   };
 
   useEffect(() => {
@@ -59,8 +59,7 @@ export default function UserBadge({ player }) {
     <TouchableOpacity
       style={isCurrentTurn && styles.shadow}
       onLongPress={() => {
-        
-        if (gameState.adminid == myUserId && myUserId != player.id) {
+        if (gameState.adminId == myUserId && myUserId != player.id) {
           setIsKicking(true);
         }
       }}

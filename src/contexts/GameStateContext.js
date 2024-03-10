@@ -151,6 +151,7 @@ export default function GameStateContextProvider({ children }) {
     router.push("/");
   };
 
+  // Handle socket events
   useEffect(() => {
     if (!conn.current) return;
 
@@ -264,27 +265,31 @@ export default function GameStateContextProvider({ children }) {
       }
     };
 
-    conn.current.on("roundInfo", roundInfo);
-
-    return () => {
-      conn.current.off("roundInfo", roundInfo);
+    const onUserKicked = (data) => {
+      if (data.username == myUserName) {
+        leave();
+      } else {
+        setGameState(data.gameState);
+      }
     };
-  }, [conn.current, myUserId]);
 
-  useEffect(() => {
-    if (!conn.current) return;
     const endGame = (data) => {
       setResults(data.results);
       router.push("/endGame");
     };
 
+    conn.current.on("roundInfo", roundInfo);
+    conn.current.on("kickUser", onUserKicked);
     conn.current.on("endGame", endGame);
 
     return () => {
+      conn.current.off("roundInfo", roundInfo);
+      conn.current.off("kickUser", onUserKicked);
       conn.current.off("endGame", endGame);
     };
-  }, [conn.current]);
+  }, [conn.current, myUserId, myUserName]);
 
+  // Update cards
   useEffect(() => {
     if (!gameState || myUserId == null) {
       return;
