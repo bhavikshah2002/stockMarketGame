@@ -12,6 +12,7 @@ import {
   Alert,
   Image,
   StyleSheet,
+  ToastAndroid,
   Vibration,
   View,
 } from "react-native";
@@ -257,8 +258,14 @@ export default function GameStateContextProvider({ children }) {
 
     const onUserKicked = (data) => {
       if (data.username == myUserName) {
+        ToastAndroid.show(`Nikal diya tuje`, ToastAndroid.SHORT);
         leave();
       } else {
+        ToastAndroid.show(
+          `${data.username} ko nikal diya, ijjat se khel varna tuje bhi nikal dunga`,
+          ToastAndroid.SHORT
+        );
+
         setGameState(data.gameState);
       }
     };
