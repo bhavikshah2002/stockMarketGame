@@ -9,6 +9,7 @@ import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
 import RulesModal from "./RulesModal";
+import CustomConfigModal from "./CustomConfigModal";
 
 export default function Settings() {
   const { gameId, gameState, myUserId, conn, leave } = useGameState();
@@ -136,7 +137,7 @@ export default function Settings() {
 
             <View style={{ flexDirection: "row", gap: 16, marginTop: 6 }}>
               <RulesModal />
-              <RulesModal />
+              <CustomConfigModal />
             </View>
 
             <View style={styles.BottomBar}>
