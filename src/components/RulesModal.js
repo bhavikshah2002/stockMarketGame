@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
-import { BoldText, SemiBoldText } from "../common/Text";
+import { BoldText, RegularText, SemiBoldText } from "../common/Text";
 
 function RulesModal() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,7 +28,7 @@ function RulesModal() {
           <View style={styles.container}>
             <View style={styles.innerContainer}>
               <View style={styles.header}>
-                <View style={{paddingLeft:20}}></View>
+                <View style={{ paddingLeft: 20 }}></View>
                 <SemiBoldText
                   size={25}
                   style={{
@@ -32,7 +39,7 @@ function RulesModal() {
                 </SemiBoldText>
                 <TouchableOpacity
                   onPress={() => setModalVisible(false)}
-                  style={{paddingBottom:10,marginRight:-5}}
+                  style={{ paddingBottom: 10, marginRight: -5 }}
                 >
                   <AntDesign
                     name="closecircle"
@@ -41,6 +48,47 @@ function RulesModal() {
                   />
                 </TouchableOpacity>
               </View>
+
+              <ScrollView style={styles.mainContent}>
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Introduction</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View>
+                      <Image
+                        style={{ width: 125, height: 100 }}
+                        source={require("../../assets/images/withoutBgLogo1.png")}
+                        contentFit="contain"
+                      />
+                    </View>
+                    <View style={{width:"75%"}}>
+                      <RegularText>
+                        This game is a multiplayer game, you can buy and sell
+                        shares in top 7 companies. At the start of the game 10
+                        share price information cards dealt to each player, the
+                        card indicates up and down prices of the company. The
+                        player can buy and sell shares and raise money by
+                        watching the fluctuating values of his currency and ups
+                        and down movement in share prices. He also has
+                        opportunities like Bonus issue, Dividends. Buyer and
+                        Seller, Circuit filter, Right issue, Loans and Frauds.
+                        Chairman cards what exactly happens in a real sock
+                        market. So, what are you waiting for, throw caution to
+                        the wind and trade in the only stock market that runs
+                        24x7.
+                      </RegularText>
+                    </View>
+                  </View>
+                </View>
+              </ScrollView>
             </View>
           </View>
         </Modal>
@@ -100,12 +148,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   header: {
-    top:5,
+    top: 5,
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 15,
+  },
+  mainContent: {
+    width: "100%",
+    marginTop: 5,
+  },
+  section: {
+    width: "100%",
+  },
+  titles: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.darkGreen,
+  },
+  content: {
+    marginVertical: 5,
   },
 });
 
