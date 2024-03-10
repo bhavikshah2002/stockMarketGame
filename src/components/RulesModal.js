@@ -10,12 +10,18 @@ import {
 import {
   AntDesign,
   FontAwesome5,
+  FontAwesome,
   Octicons,
   MaterialCommunityIcons,
   Fontisto,
 } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
-import { BoldText, RegularText, SemiBoldText } from "../common/Text";
+import {
+  BoldText,
+  CustomText,
+  RegularText,
+  SemiBoldText,
+} from "../common/Text";
 import SmallCard from "./SmallCard";
 import DraggableFlatList from "react-native-draggable-flatlist";
 
@@ -257,10 +263,9 @@ function RulesModal() {
                         <DraggableFlatList
                           data={[
                             {
-                              type: "NORMAL",
-                              companyId: 1,
-                              netChange: 15,
-                              id: 6,
+                              type: "CRYSTAL",
+                              crystalType: "DIVIDEND",
+                              id: 112,
                             },
                           ]}
                           onDragEnd={() => {}}
@@ -280,14 +285,15 @@ function RulesModal() {
                         <DraggableFlatList
                           data={[
                             {
-                              type: "CRYSTAL",
-                              crystalType: "DIVIDEND",
-                              id: 112,
+                              type: "NORMAL",
+                              companyId: 1,
+                              netChange: 15,
+                              id: 6,
                             },
                           ]}
                           onDragEnd={() => {}}
                           horizontal={true}
-                          contentContainerStyle={{ height: 80 }}
+                          contentContainerStyle={{ height: 80, zIndex: 1 }}
                           renderItem={({ item, drag, isActive }) => (
                             <SmallCard
                               key={item.id}
@@ -792,7 +798,11 @@ function RulesModal() {
                     <View style={{ flex: 1, paddingHorizontal: 20 }}>
                       <RegularText
                         size={textSize}
-                        style={{ textAlign: "justify", marginTop: -2 }}
+                        style={{
+                          textAlign: "justify",
+                          marginTop: -2,
+                          textDecorationLine: "underline",
+                        }}
                       >
                         1. MEGA ROUND
                       </RegularText>
@@ -800,16 +810,103 @@ function RulesModal() {
                         size={textSize}
                         style={{ textAlign: "justify", marginTop: -2 }}
                       >
-                        1. UPPER CIRCUIT: It supresses the stock price depending
-                        on the denomination of the circuit card.
+                        Each mega round starts with a new set of 10 cards.
                       </RegularText>
                       <RegularText
                         size={textSize}
                         style={{ textAlign: "justify", marginTop: -2 }}
                       >
-                        2. LOWER CIRCUIT: It prevents the stock price from
-                        falling depending on the denomination of the circuit
-                        card.
+                        After each mega round the new stock prices are
+                        calculated by adding together the company cards of all
+                        the players.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify" }}
+                      >
+                        Changes in stock prices depends on following factors:
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{
+                          textAlign: "justify",
+                          marginTop: -2,
+                          paddingLeft: 25,
+                        }}
+                      >
+                        1. Adding up the denominations of company cards of all
+                        players for all companies.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{
+                          textAlign: "justify",
+                          marginTop: -2,
+                          paddingLeft: 25,
+                        }}
+                      >
+                        2. Circuit card applied by players during circuit round.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{
+                          textAlign: "justify",
+                          marginTop: -2,
+                          paddingLeft: 25,
+                        }}
+                      >
+                        3. Presence of a chairman or director for a particular
+                        company.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{
+                          textAlign: "justify",
+                          marginTop: 5,
+                          textDecorationLine: "underline",
+                        }}
+                      >
+                        2. SUB ROUND
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        Each mega round contains 3 sub rounds where players can
+                        perform transactions like buying,selling of stocks,
+                        applying any crystal card or passing the turn
+                      </RegularText>
+
+                      <RegularText
+                        size={textSize}
+                        style={{
+                          textAlign: "justify",
+                          marginTop: 5,
+                          textDecorationLine: "underline",
+                        }}
+                      >
+                        3. CIRCUIT ROUND
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        Each mega round contains one circuit round after 3
+                        subround ends.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        During the circuit round players will be allowed to
+                        apply only circuit cards.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        If a player does not have a circuit card then they can
+                        pass their turn
                       </RegularText>
                     </View>
                     <View
@@ -821,12 +918,21 @@ function RulesModal() {
                       <View
                         style={{
                           justifyContent: "center",
-                          flexDirection: "row",
                           alignItems: "center",
-                          gap: 0,
+                          gap: 50,
                         }}
                       >
+                        <MaterialCommunityIcons
+                          name="order-numeric-ascending"
+                          size={75}
+                          color={Colors.darkPink}
+                        />
                         <Octicons name="number" size={75} color={Colors.info} />
+                        <Image
+                          style={{ width: 60, height: 75 }}
+                          source={require("../../assets/images/circuit.png")}
+                          contentFit="contain"
+                        />
                       </View>
                     </View>
                   </View>
@@ -1007,6 +1113,193 @@ function RulesModal() {
                     </View>
                   </View>
                 </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>
+                      Price Book and Transaction History
+                    </BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        Price Book contains the price history and available
+                        stock of all the companies!
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        Transaction History shows the trasactions performed by
+                        all players in the game. It only shows recent 40
+                        tracsactions in the game!
+                      </RegularText>
+                    </View>
+                    <View
+                      style={{
+                        width: "20%",
+                        marginRight: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        <FontAwesome
+                          name="book"
+                          size={65}
+                          color={Colors.info}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Kick Player</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "25%",
+                        marginLeft: 5,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          
+                          alignItems: "center",
+                          gap: 10,
+                          marginTop:10
+                        }}
+                      >
+                        <View style={{ width: 110, height: 40 }}>
+                          <View
+                            style={[
+                              styles.innerBox,
+                              { backgroundColor: Colors.teal   },
+                            ]}
+                          >
+                            <View>
+                              <CustomText family="SemiBoldItalic" size={10}>
+                                Player Name
+                              </CustomText>
+                              <BoldText size={12}>₹{8}L</BoldText>
+                            </View>
+                          </View>
+                          <View
+                            style={[
+                              styles.diagonal,
+                              {
+                                top: 0,
+                                transform: [
+                                  { rotateZ: "35deg" },
+                                  { translateX: -35 },
+                                ],
+                              },
+                            ]}
+                          />
+                          <View
+                            style={[
+                              styles.diagonal,
+                              {
+                                bottom: 0,
+                                transform: [
+                                  { rotateZ: "-35deg" },
+                                  { translateX: -35 },
+                                ],
+                              },
+                            ]}
+                          />
+                        </View>
+                        <View style={{ width: 110, height: 40 }}>
+                          
+                            <View style={styles.kickPanel}>
+                              <SemiBoldText size={16} transform="uppercase">
+                                Kick
+                              </SemiBoldText>
+                              <AntDesign
+                                name="close"
+                                size={20}
+                                color={Colors.white}
+                              />
+                            </View>
+                          <View
+                            style={[
+                              styles.diagonal,
+                              {
+                                top: 0,
+                                transform: [
+                                  { rotateZ: "35deg" },
+                                  { translateX: -35 },
+                                ],
+                              },
+                            ]}
+                          />
+                          <View
+                            style={[
+                              styles.diagonal,
+                              {
+                                bottom: 0,
+                                transform: [
+                                  { rotateZ: "-35deg" },
+                                  { translateX: -35 },
+                                ],
+                              },
+                            ]}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        Admin has the power to kick any player in between a
+                        game!
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        By long pressing the User Badge, an option to kick that
+                        player appears. On kicking a player all his stocks would
+                        be made available and all his cash and powers would be
+                        nullifed.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        All players will be notified if any player is kicked from game.
+                      </RegularText>
+                    </View>
+                  </View>
+                </View>
+                <View style={{marginTop:10}}></View>
               </ScrollView>
             </View>
           </View>
@@ -1092,6 +1385,36 @@ const styles = StyleSheet.create({
   },
   content: {
     marginVertical: 5,
+  },
+  diagonal: {
+    position: "absolute",
+    left: 0,
+    width: 50,
+    height: 50,
+    backgroundColor: Colors.black,
+  },
+  innerBox: {
+    paddingHorizontal: 5,
+    paddingLeft: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 2,
+    width: 120,
+    gap: -5,
+    position: "relative",
+
+    // zIndex:9999,
+  },
+  kickPanel: {
+    backgroundColor: Colors.red,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 16,
+    paddingRight: 8,
+    width:120,
+    
   },
 });
 
