@@ -26,13 +26,13 @@ function RulesModal() {
         </Modal>
         <TouchableOpacity style={{}} onPress={() => setModalVisible(true)}>
           <View style={styles.buttonView}>
-            <AntDesign name="infocirlceo" size={24} color={Colors.black} />
+            <AntDesign name="infocirlceo" size={19} color={Colors.black} />
             <SemiBoldText
               color={Colors.black}
               style={{ paddingTop: 2 }}
-              size={20}
+              size={16}
             >
-              Game Rules
+              GAME RULES
             </SemiBoldText>
           </View>
         </TouchableOpacity>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
-    backgroundColor: Colors.dim + "99",
+    backgroundColor: Colors.white + "77",
     borderRadius: 50,
     paddingHorizontal: 10,
   },
