@@ -9,10 +9,10 @@ import { ScaleDecorator } from "react-native-draggable-flatlist";
 import { useGameState } from "../contexts/GameStateContext";
 import GetCrstalIcon from "./GetCrystalIcon";
 
-export default function SmallCard({ card, drag, isActive, isHide = false }) {
+export default function SmallCard({ card, drag, isActive, isHide = false,toSet=true }) {
   const { setSelectedCard } = useGameState();
 
-  const onPress = () => setSelectedCard(card);
+  const onPress = () => toSet && setSelectedCard(card);
 
   if (isHide) {
     return (
