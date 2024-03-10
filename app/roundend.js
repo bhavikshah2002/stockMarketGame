@@ -1,10 +1,4 @@
-import {
-  Alert,
-  BackHandler,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, BackHandler, StyleSheet, View } from "react-native";
 import { Colors } from "../src/common/styles";
 import { FlatList } from "react-native-gesture-handler";
 import { Companies } from "../src/data/cards";
@@ -13,14 +7,11 @@ import RoundEndReveal from "../src/components/RoundEndReveal";
 import CompanyCardForRoundEnd from "../src/components/CompanyCardForRoundEnd";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Entypo } from "@expo/vector-icons";
-import { BoldText } from "../src/common/Text";
 
 export default function RoundEnd() {
-  const { gameState, leave, conn, myUserId } = useGameState();
+  const { leave, conn } = useGameState();
   const [data, setData] = useState(null);
-  const isAdmin = myUserId == gameState.adminId;
-  const isLastRound = gameState.totalMegaRounds == gameState.currentMegaRound;
+
   useEffect(() => {
     const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to leave the game?", [
@@ -91,30 +82,9 @@ export default function RoundEnd() {
           />
         )}
       </View>
-      {/* Comment this for Buddy Version! */}
       <View style={styles.Right}>
         {data && <RoundEndReveal netChangeInCompanyByUser={data.netChange} />}
       </View>
-
-      {/* Buddy Version Code */}
-      {/* <View style={styles.Right}>
-        {isAdmin && (
-          <View style={styles.nextRound}>
-            {
-            isLastRound ? (
-            <TouchableOpacity onPress={onResults} style={styles.nextRoundBtn}>
-              <BoldText>Results</BoldText>
-              <Entypo name="chevron-right" size={24} color={Colors.white} />
-            </TouchableOpacity>
-            ) : (
-            <TouchableOpacity onPress={onNextRound} style={styles.nextRoundBtn}>
-              <BoldText>NEXT ROUND</BoldText>
-              <Entypo name="chevron-right" size={24} color={Colors.white} />
-            </TouchableOpacity>
-            )}
-          </View>
-        )}
-      </View> */}
     </View>
   );
 }

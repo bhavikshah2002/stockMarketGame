@@ -168,8 +168,6 @@ export default function GameStateContextProvider({ children }) {
         }
 
         if (data.transactions.length > 0 && !shouldDistributeCards) {
-          // Buddy Version Commented
-
           setLoadingMsg(
             <TransactionSplash
               transaction={data.transactions[0]}
@@ -182,7 +180,6 @@ export default function GameStateContextProvider({ children }) {
 
         if (data.currentSubRound == 4 && data.currentTurn == 0) {
           _setSelectedCard(null);
-          // Buddy Version Commented
 
           playSound();
           await wait(500);
@@ -201,8 +198,6 @@ export default function GameStateContextProvider({ children }) {
         }
 
         if (shouldDistributeCards) {
-          // Buddy Version Commented
-
           setLoadingMsg(
             <>
               <View style={{ gap: 30, alignItems: "center" }}>
@@ -221,8 +216,6 @@ export default function GameStateContextProvider({ children }) {
         }
 
         if (data.currentSubRound < 5) {
-          // Commented this code for Buddy Version
-
           setLoadingMsg(
             <>
               <ActivityIndicator size="50" color={Colors.white} />
@@ -236,8 +229,6 @@ export default function GameStateContextProvider({ children }) {
 
           redirect(isMyTurn ? "/gameroom/myturn" : "/gameroom");
         } else {
-          // Buddy Version Commented
-
           setLoadingMsg(
             <View style={{ gap: 30, alignItems: "center" }}>
               <Image
@@ -254,7 +245,6 @@ export default function GameStateContextProvider({ children }) {
           router.push("/roundend");
         }
 
-        // Buddy Version Commented
         await wait(1000);
 
         isMyTurn ? Vibration.vibrate(400) : null;
