@@ -91,7 +91,7 @@ export default function Settings() {
                           {
                             gameState.userState[
                               gameState.playerOrder[gameState.currentTurn]
-                            ].username
+                            ]?.username
                           }
                           {"'s "}turn
                         </SemiBoldText>
