@@ -12,7 +12,7 @@ import {
   FontAwesome5,
   Octicons,
   MaterialCommunityIcons,
-  Fontisto
+  Fontisto,
 } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { BoldText, RegularText, SemiBoldText } from "../common/Text";
@@ -909,7 +909,8 @@ function RulesModal() {
                         size={textSize}
                         style={{ textAlign: "justify", marginTop: -2 }}
                       >
-                        A player can be director of a company if he buys 50K stocks or more of that company.
+                        A player can be director of a company if he buys 50K
+                        stocks or more of that company.
                       </RegularText>
                       <RegularText
                         size={textSize}
@@ -921,7 +922,9 @@ function RulesModal() {
                         size={textSize}
                         style={{ textAlign: "justify", marginTop: -2 }}
                       >
-                        The director gets the right to remove the card with the highest negative change of his company from his own cards.
+                        The director gets the right to remove the card with the
+                        highest negative change of his company from his own
+                        cards.
                       </RegularText>
                     </View>
                     <View
@@ -938,8 +941,69 @@ function RulesModal() {
                           gap: 0,
                         }}
                       >
-                        <Fontisto name="person" size={75} color={Colors.logoGreen} />
+                        <Fontisto
+                          name="person"
+                          size={75}
+                          color={Colors.logoGreen}
+                        />
                       </View>
+                    </View>
+                  </View>
+                </View>
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Bankruptcy</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "15%",
+                        marginLeft: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        <MaterialCommunityIcons
+                          name="close-box"
+                          size={60}
+                          color={Colors.red}
+                        />
+                      </View>
+                    </View>
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        A company is said to be bankrupt if the stock price of
+                        that company becomes zero.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        The buying and selling of stocks of that company
+                        freezes.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        No crystal card can be used for bankrupt companies!
+                      </RegularText>
                     </View>
                   </View>
                 </View>
