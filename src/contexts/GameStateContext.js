@@ -265,8 +265,16 @@ export default function GameStateContextProvider({ children }) {
           `${data.username} ko nikal diya, ijjat se khel varna tuje bhi nikal dunga`,
           ToastAndroid.SHORT
         );
-
         setGameState(data.gameState);
+        if (data.gameState.currentSubRound > 4) {
+          router.push("/roundend");
+          return;
+        }
+
+        const isMyTurn =
+          data.gameState.playerOrder[data.gameState.currentTurn] == myUserId;
+
+        redirect(isMyTurn ? "/gameroom/myturn" : "/gameroom");
       }
     };
 
