@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { BoldText, RegularText, SemiBoldText } from "../common/Text";
 
@@ -62,28 +62,119 @@ function RulesModal() {
                       alignItems: "center",
                     }}
                   >
-                    <View>
+                    <View style={{ paddingLeft: 10 }}>
                       <Image
                         style={{ width: 125, height: 100 }}
                         source={require("../../assets/images/withoutBgLogo1.png")}
                         contentFit="contain"
                       />
                     </View>
-                    <View style={{width:"75%"}}>
-                      <RegularText>
-                        This game is a multiplayer game, you can buy and sell
+                    <View style={{ width: "75%", paddingHorizontal: 10 }}>
+                      <RegularText
+                        style={{ textAlign: "justify", paddingHorizontal: 10 }}
+                      >
+                        Stock Bazar is a multiplayer game, you can buy and sell
                         shares in top 7 companies. At the start of the game 10
                         share price information cards dealt to each player, the
                         card indicates up and down prices of the company. The
                         player can buy and sell shares and raise money by
                         watching the fluctuating values of his currency and ups
-                        and down movement in share prices. He also has
-                        opportunities like Bonus issue, Dividends. Buyer and
-                        Seller, Circuit filter, Right issue, Loans and Frauds.
-                        Chairman cards what exactly happens in a real sock
-                        market. So, what are you waiting for, throw caution to
-                        the wind and trade in the only stock market that runs
-                        24x7.
+                        and down movement in share prices.
+                      </RegularText>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>How to Win?</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText style={{ textAlign: "justify" }}>
+                        All the players will try to maximize their net worth by
+                        right investments and making the right decisions at the
+                        right time.
+                      </RegularText>
+                      <RegularText
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        At the end of the game, the top 3 players with the
+                        highest net worth win.
+                      </RegularText>
+                    </View>
+                    <View
+                      style={{
+                        width: "25%",
+                        marginRight: 10,
+                        justifyContent: "center",
+                        flexDirection: "row",
+                        alignItems: "flex-end",
+                        gap: -10,
+                      }}
+                    >
+                      <FontAwesome5 name="trophy" size={40} color="#c0c0c0" />
+                      <FontAwesome5
+                        name="trophy"
+                        style={{ zIndex: 1 }}
+                        size={50}
+                        color="#d67400"
+                      />
+
+                      <FontAwesome5 name="trophy" size={40} color="#964B00" />
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Companies</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{ paddingLeft: 10,gap:1 }}>
+                      <Image
+                        style={{ width: 90, height: 30 }}
+                        source={require("../../assets/images/companies/tata.png")}
+                        contentFit="contain"
+                      />
+                      <Image
+                        style={{ width: 90, height: 30 }}
+                        source={require("../../assets/images/companies/ongc.png")}
+                        contentFit="contain"
+                      />
+                      <View style={{backgroundColor:"white",paddingLeft:10}}>
+
+                      <Image
+                        style={{ width: 80, height: 30 }}
+                        source={require("../../assets/images/companies/nifty.png")}
+                        contentFit="contain"
+                        />
+                        </View>
+                    </View>
+                    <View style={{ width: "70%" }}>
+                      <RegularText
+                        style={{ textAlign: "justify", paddingHorizontal: 10 }}
+                      >
+                        There are a total of 7 companies listed in this game -
+                        Tata, ONGC, Reliance, Infosys, SBI, Adani, Nifty. 
+                        These companies have a fixed quantity of available stocks
+                        which is decided before the game starts.
+                        The transaction is performed in multiples of 1000 stocks.
+
                       </RegularText>
                     </View>
                   </View>
@@ -115,6 +206,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+
   innerContainer: {
     height: "80%",
     width: "60%",
