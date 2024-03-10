@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
-import { SemiBoldText } from "../common/Text";
+import { BoldText, SemiBoldText } from "../common/Text";
 
 function RulesModal() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,7 +20,27 @@ function RulesModal() {
         >
           <View style={styles.container}>
             <View style={styles.innerContainer}>
-              
+              <View style={styles.header}>
+                <View style={{paddingLeft:20}}></View>
+                <SemiBoldText
+                  size={25}
+                  style={{
+                    textDecorationLine: "underline",
+                  }}
+                >
+                  GAME RULES
+                </SemiBoldText>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  style={{paddingBottom:10,marginRight:-5}}
+                >
+                  <AntDesign
+                    name="closecircle"
+                    size={28}
+                    color={Colors.white}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </Modal>
@@ -78,6 +98,14 @@ const styles = StyleSheet.create({
   modalButton: {
     justifyContent: "flex-end",
     alignItems: "center",
+  },
+  header: {
+    top:5,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 15,
   },
 });
 

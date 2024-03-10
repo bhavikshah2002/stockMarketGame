@@ -114,7 +114,9 @@ export default function HomePage() {
               <Ionicons name="enter" size={30} color={Colors.white} />
             </TouchableOpacity>
           )}
-          <RulesModal />
+          <View style={styles.rulesModal}>
+            <RulesModal />
+          </View>
         </View>
       </View>
       <View
@@ -195,7 +197,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 20,
+    gap: 30,
   },
 
   gameInputContainer: {
@@ -222,9 +224,8 @@ const styles = StyleSheet.create({
     width: "25%",
   },
   rulesModal: {
-    alignItems: "flex-end",
-    // borderColor:"white",
-    // borderWidth:1,
-    paddingRight: "5%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: -7,
   },
 });
