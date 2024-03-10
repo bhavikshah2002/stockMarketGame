@@ -256,15 +256,33 @@ export default function GameStateContextProvider({ children }) {
       }
     };
 
+    const endGame = (data) => {
+      setResults(data.results);
+      router.push("/endGame");
+    };
+
+    conn.current.on("roundInfo", roundInfo);
+    conn.current.on("endGame", endGame);
+
+    return () => {
+      conn.current.off("roundInfo", roundInfo);
+      conn.current.off("endGame", endGame);
+    };
+  }, [conn.current, myUserId, myUserName]);
+
+  useEffect(() => {
+    if (!conn.current) return;
+
     const onUserKicked = (data) => {
+      if (data.username == gameState.userState[selectedPlayerId].username) {
+        setSelectedPlayerId(data.gameState.playerOrder[0]);
+      }
+
       if (data.username == myUserName) {
         ToastAndroid.show(`Nikal diya tuje`, ToastAndroid.SHORT);
         leave();
       } else {
-        ToastAndroid.show(
-          `${data.username} ko nikal diya, ijjat se khel varna tuje bhi nikal dunga`,
-          ToastAndroid.SHORT
-        );
+        ToastAndroid.show(`${data.username} ko nikal diya`, ToastAndroid.SHORT);
         setGameState(data.gameState);
         if (data.gameState.currentSubRound > 4) {
           router.push("/roundend");
@@ -278,21 +296,12 @@ export default function GameStateContextProvider({ children }) {
       }
     };
 
-    const endGame = (data) => {
-      setResults(data.results);
-      router.push("/endGame");
-    };
-
-    conn.current.on("roundInfo", roundInfo);
     conn.current.on("kickUser", onUserKicked);
-    conn.current.on("endGame", endGame);
 
     return () => {
-      conn.current.off("roundInfo", roundInfo);
       conn.current.off("kickUser", onUserKicked);
-      conn.current.off("endGame", endGame);
     };
-  }, [conn.current, myUserId, myUserName]);
+  }, [conn.current, myUserId, myUserName, selectedPlayerId]);
 
   // Update cards
   useEffect(() => {

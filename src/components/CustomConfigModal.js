@@ -90,7 +90,7 @@ export default function CustomConfigModal() {
                   <MaterialCommunityIcons
                     name="chair-rolling"
                     size={35}
-                    color={Colors.teal}
+                    color={Colors.info}
                     style={styles.icon}
                   />
 
