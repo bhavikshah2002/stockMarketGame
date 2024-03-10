@@ -10,9 +10,12 @@ import {
 import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { BoldText, RegularText, SemiBoldText } from "../common/Text";
+import SmallCard from "./SmallCard";
+import DraggableFlatList from "react-native-draggable-flatlist";
 
 function RulesModal() {
   const [modalVisible, setModalVisible] = useState(false);
+  let textSize = 12;
   return (
     <>
       <View>
@@ -62,16 +65,17 @@ function RulesModal() {
                       alignItems: "center",
                     }}
                   >
-                    <View style={{ paddingLeft: 10 }}>
+                    <View style={{ paddingLeft: 10, marginTop: -15 }}>
                       <Image
                         style={{ width: 125, height: 100 }}
                         source={require("../../assets/images/withoutBgLogo1.png")}
                         contentFit="contain"
                       />
                     </View>
-                    <View style={{ width: "75%", paddingHorizontal: 10 }}>
+                    <View style={{ width: "75%", paddingHorizontal: 20 }}>
                       <RegularText
-                        style={{ textAlign: "justify", paddingHorizontal: 10 }}
+                        size={textSize}
+                        style={{ textAlign: "justify", marginBottom: -10 }}
                       >
                         Stock Bazar is a multiplayer game, you can buy and sell
                         shares in top 7 companies. At the start of the game 10
@@ -87,7 +91,7 @@ function RulesModal() {
 
                 <View style={styles.section}>
                   <View style={styles.titles}>
-                    <BoldText size={20}>How to Win?</BoldText>
+                    <BoldText size={20}>How To Win</BoldText>
                   </View>
                   <View
                     style={{
@@ -98,12 +102,16 @@ function RulesModal() {
                     }}
                   >
                     <View style={{ flex: 1, paddingHorizontal: 20 }}>
-                      <RegularText style={{ textAlign: "justify" }}>
+                      <RegularText
+                        style={{ textAlign: "justify" }}
+                        size={textSize}
+                      >
                         All the players will try to maximize their net worth by
                         right investments and making the right decisions at the
                         right time.
                       </RegularText>
                       <RegularText
+                        size={textSize}
                         style={{ textAlign: "justify", marginTop: -2 }}
                       >
                         At the end of the game, the top 3 players with the
@@ -145,37 +153,589 @@ function RulesModal() {
                       alignItems: "center",
                     }}
                   >
-                    <View style={{ paddingLeft: 10,gap:1 }}>
+                    <View style={{ paddingLeft: 10, gap: 1 }}>
                       <Image
-                        style={{ width: 90, height: 30 }}
+                        style={{ width: 90, height: 25 }}
                         source={require("../../assets/images/companies/tata.png")}
                         contentFit="contain"
                       />
                       <Image
-                        style={{ width: 90, height: 30 }}
+                        style={{ width: 90, height: 25 }}
                         source={require("../../assets/images/companies/ongc.png")}
                         contentFit="contain"
                       />
-                      <View style={{backgroundColor:"white",paddingLeft:10}}>
-
-                      <Image
-                        style={{ width: 80, height: 30 }}
-                        source={require("../../assets/images/companies/nifty.png")}
-                        contentFit="contain"
+                      <View
+                        style={{ backgroundColor: "white", paddingLeft: 10 }}
+                      >
+                        <Image
+                          style={{ width: 80, height: 25 }}
+                          source={require("../../assets/images/companies/nifty.png")}
+                          contentFit="contain"
                         />
-                        </View>
+                      </View>
                     </View>
                     <View style={{ width: "70%" }}>
                       <RegularText
+                        size={textSize}
                         style={{ textAlign: "justify", paddingHorizontal: 10 }}
                       >
                         There are a total of 7 companies listed in this game -
-                        Tata, ONGC, Reliance, Infosys, SBI, Adani, Nifty. 
-                        These companies have a fixed quantity of available stocks
-                        which is decided before the game starts.
-                        The transaction is performed in multiples of 1000 stocks.
-
+                        Tata, ONGC, Reliance, Infosys, SBI, Adani, Nifty. These
+                        companies have a fixed quantity of available stocks
+                        which is decided before the game starts. The transaction
+                        is performed in multiples of 1000 stocks.
                       </RegularText>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Cards</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        style={{ textAlign: "justify" }}
+                        size={textSize}
+                      >
+                        The card stack contains three types of cards:
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        1. Company cards (110 cards)
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        2. Crystal cards (10 cards)
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        3. Circuit cards (12 cards)
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        These cards are well shuffled before distributing it.
+                        Each player gets 10 cards from this stack in each round.
+                      </RegularText>
+                    </View>
+                    <View
+                      style={{
+                        width: "33%",
+                        marginRight: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: -10,
+                        }}
+                      >
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "NORMAL",
+                              companyId: 1,
+                              netChange: 15,
+                              id: 6,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "CRYSTAL",
+                              crystalType: "DIVIDEND",
+                              id: 112,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "CIRCUIT",
+                              circuitType: "LOW",
+                              denomination: 10,
+                              id: 114,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Company Cards</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "30%",
+                        marginLeft: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "NORMAL",
+                              companyId: 7,
+                              netChange: 30,
+                              id: 45,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "NORMAL",
+                              companyId: 7,
+                              netChange: -30,
+                              id: 45,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                      </View>
+                    </View>
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        The card contains the company name and the change in
+                        stock prices of that company.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        1. POSITIVE: It increases the stock price of the company
+                        by that denomination.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        2. NEGATIVE: It reduces the stock price of the company
+                        by that denomination.
+                      </RegularText>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Circuit Cards</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        The players can apply these cards during the circuit
+                        round on any company they wish.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        1. UPPER CIRCUIT: It supresses the stock price depending
+                        on the denomination of the circuit card.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        2. LOWER CIRCUIT: It prevents the stock price from
+                        falling depending on the denomination of the circuit
+                        card.
+                      </RegularText>
+                    </View>
+                    <View
+                      style={{
+                        width: "25%",
+                        marginRight: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "CIRCUIT",
+                              circuitType: "UP",
+                              denomination: 15,
+                              id: 114,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "CIRCUIT",
+                              circuitType: "LOW",
+                              denomination: 5,
+                              id: 114,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Crystal Cards</BoldText>
+                  </View>
+                  <View style={styles.content}>
+                    <View
+                      style={{
+                        width: "100%",
+                        marginHorizontal: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          marginRight: 20,
+                        }}
+                      >
+                        <DraggableFlatList
+                          data={[
+                            { type: "CRYSTAL", crystalType: "FRAUD", id: 1 },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            { type: "CRYSTAL", crystalType: "DIVIDEND", id: 2 },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "CRYSTAL",
+                              crystalType: "BONUS_SHARE",
+                              id: 3,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "CRYSTAL",
+                              crystalType: "RIGHT_ISSUE",
+                              id: 4,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                        <DraggableFlatList
+                          data={[
+                            {
+                              type: "CRYSTAL",
+                              crystalType: "LOAN_ON_STOCK",
+                              id: 5,
+                            },
+                          ]}
+                          onDragEnd={() => {}}
+                          horizontal={true}
+                          contentContainerStyle={{ height: 80 }}
+                          renderItem={({ item, drag, isActive }) => (
+                            <SmallCard
+                              key={item.id}
+                              card={item}
+                              drag={drag}
+                              isActive={false}
+                            />
+                          )}
+                          keyExtractor={(item) => item.id}
+                        />
+                      </View>
+                    </View>
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        The card stack contains 5 types of crystal cards
+                        mentioned below:
+                      </RegularText>
+                      <View style={{ flexDirection: "row" }}>
+                        <RegularText
+                          size={textSize}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            width: 115,
+                          }}
+                        >
+                          1. LOAN ON STOCK:
+                        </RegularText>
+                        <RegularText
+                          size={textSize}
+                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                        >
+                          Players receive a cash bonus of ₹1,00,000/-
+                        </RegularText>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <RegularText
+                          size={textSize}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            width: 115,
+                          }}
+                        >
+                          2. DIVIDEND:
+                        </RegularText>
+                        <RegularText
+                          size={textSize}
+                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                        >
+                          Players receive a dividend of ₹5/- per
+                        share for any company.
+                        </RegularText>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <RegularText
+                          size={textSize}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            width: 115,
+                          }}
+                        >
+                          3. RIGHT ISSUE:
+                        </RegularText>
+                        <RegularText
+                          size={textSize}
+                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                        >
+                          Players can buy one additional share for
+                        every two shares held in the company at a price of ₹10/-
+                        per share.
+                        </RegularText>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <RegularText
+                          size={textSize}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            width: 115,
+                          }}
+                        >
+                          4. BONUS SHARE:
+                        </RegularText>
+                        <RegularText
+                          size={textSize}
+                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                        >
+                          Players receive one additional share for
+                        every five shares held in the company for free.
+                        </RegularText>
+                      </View>
+                      <View style={{ flexDirection: "row" }}>
+                        <RegularText
+                          size={textSize}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            width: 115,
+                          }}
+                        >
+                          5. FRAUD:
+                        </RegularText>
+                        <RegularText
+                          size={textSize}
+                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                        >
+                        Players can buy stocks of any company at a
+                        price which is 70% of the market price.
+                        </RegularText>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -210,7 +770,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     height: "80%",
     width: "60%",
-    backgroundColor: "#262525",
+    backgroundColor: Colors.black,
     position: "absolute",
     alignItems: "center",
     gap: 8,
