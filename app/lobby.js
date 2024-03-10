@@ -17,10 +17,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useMemo, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
-import GameSettingsModal from "../src/components/GameSettingsModal";
 import LobbyModal from "../src/components/LobbyModal";
 import CustomRulesModal from "../src/components/CustomRulesModal";
 

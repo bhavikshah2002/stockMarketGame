@@ -21,11 +21,9 @@ export default function HomePage() {
   const onJoin = () => {
     if (myUserName == "username" || myUserName == "") {
       alertFunction("Invalid username", "Please enter a valid username");
-    }
-    // else if (gameId.length !=6) {
-    //   alertFunction("Invalid Game id", "Please enter a valid 6 digit game id");
-    // }
-    else {
+    } else if (gameId.length != 6) {
+      alertFunction("Invalid Game id", "Please enter a valid 6 digit game id");
+    } else {
       const success = join();
       if (success) router.push("/lobby");
     }
@@ -116,7 +114,7 @@ export default function HomePage() {
               <Ionicons name="enter" size={30} color={Colors.white} />
             </TouchableOpacity>
           )}
-          <RulesModal/>
+          <RulesModal />
         </View>
       </View>
       <View
@@ -223,10 +221,10 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "25%",
   },
-  rulesModal:{
-    alignItems:"flex-end",
+  rulesModal: {
+    alignItems: "flex-end",
     // borderColor:"white",
     // borderWidth:1,
-    paddingRight:"5%"
-  }
+    paddingRight: "5%",
+  },
 });
