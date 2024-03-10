@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "../common/styles";
+import { SemiBoldText } from "../common/Text";
 
 function RulesModal() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,16 +15,26 @@ function RulesModal() {
           onRequestClose={() => {
             setModalVisible(!modalVisible);
           }}
+          transparent
           statusBarTranslucent={true}
         >
-
+          <View style={styles.container}>
+            <View style={styles.innerContainer}>
+              
+            </View>
+          </View>
         </Modal>
-        <TouchableOpacity
-          style={styles.SettingButton}
-          onPress={() => setModalVisible(true)}
-        >
-          {/* <Ionicons name="settings" size={28} color="#e1e3e2" /> */}
-          <AntDesign name="questioncircle" size={24} color={Colors.dim} />
+        <TouchableOpacity style={{}} onPress={() => setModalVisible(true)}>
+          <View style={styles.buttonView}>
+            <AntDesign name="infocirlceo" size={24} color={Colors.black} />
+            <SemiBoldText
+              color={Colors.black}
+              style={{ paddingTop: 2 }}
+              size={20}
+            >
+              Game Rules
+            </SemiBoldText>
+          </View>
         </TouchableOpacity>
       </View>
     </>
@@ -31,10 +42,43 @@ function RulesModal() {
 }
 
 const styles = StyleSheet.create({
-    modalButton:{
-        justifyContent:"flex-end",
-        alignItems:"center"
-    }
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  innerContainer: {
+    height: "80%",
+    width: "60%",
+    backgroundColor: "#262525",
+    position: "absolute",
+    alignItems: "center",
+    gap: 8,
+    borderWidth: 1,
+    borderColor: Colors.dim,
+    borderRadius: 4,
+    shadowColor: Colors.dim,
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.53,
+    shadowRadius: 13.97,
+
+    elevation: 21,
+  },
+  buttonView: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    backgroundColor: Colors.dim + "99",
+    borderRadius: 50,
+    paddingHorizontal: 10,
+  },
+  modalButton: {
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
 });
 
 export default RulesModal;
