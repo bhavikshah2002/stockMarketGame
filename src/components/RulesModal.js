@@ -185,11 +185,11 @@ function RulesModal() {
         </Modal>
         <TouchableOpacity style={{}} onPress={() => setModalVisible(true)}>
           <View style={styles.buttonView}>
-            <AntDesign name="infocirlceo" size={19} color={Colors.black} />
+            <AntDesign name="infocirlceo" size={14} color={Colors.black} />
             <SemiBoldText
               color={Colors.black}
               style={{ paddingTop: 2 }}
-              size={16}
+              size={12}
             >
               GAME RULES
             </SemiBoldText>
@@ -230,10 +230,11 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    backgroundColor: Colors.white + "77",
+    gap: 6,
+    backgroundColor: Colors.white + "bb",
     borderRadius: 50,
     paddingHorizontal: 10,
+    padding:3
   },
   modalButton: {
     justifyContent: "flex-end",
