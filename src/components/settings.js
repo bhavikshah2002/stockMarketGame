@@ -80,7 +80,7 @@ export default function Settings() {
                     paddingHorizontal: 10,
                   }}
                 >
-                  <View style={{ flexDirection: "row", gap: 8 }}>
+                  <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity
                       style={[
                         styles.tab,
@@ -151,7 +151,11 @@ export default function Settings() {
                     </View>
                   )}
 
-                  {selectedPanel == "config" && <ConfigPanel />}
+                  {selectedPanel == "config" && (
+                    <View style={styles.AdminPanel}>
+                      <ConfigPanel />
+                    </View>
+                  )}
                 </View>
               )}
             </View>
@@ -266,19 +270,16 @@ const styles = StyleSheet.create({
     height: 40,
   },
   AdminPanel: {
+    backgroundColor: "#111",
     alignItems: "center",
-    borderLeftWidth: 2,
-    borderColor: Colors.dim,
+    justifyContent: "center",
+    height: 130,
     gap: 10,
-  },
-  AdminText: {
-    paddingTop: 3,
-    paddingHorizontal: 2,
-    borderBottomWidth: 1,
-    borderColor: "white",
+    marginRight: 25,
+    borderRadius: 4,
+    borderTopStartRadius: 0,
   },
   AdminWork: {
-    marginTop: 20,
     flexDirection: "row",
     gap: 20,
   },
@@ -297,7 +298,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  tab: {},
+  tab: {
+    padding: 4,
+    paddingHorizontal: 8,
+    borderTopStartRadius: 4,
+    borderTopEndRadius: 4,
+  },
 
-  tabSelected: {},
+  tabSelected: {
+    backgroundColor: "#111111",
+  },
 });
