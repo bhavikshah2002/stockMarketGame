@@ -7,7 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
+import {
+  AntDesign,
+  FontAwesome5,
+  Octicons,
+  MaterialCommunityIcons,
+  Fontisto
+} from "@expo/vector-icons";
 import { Colors } from "../common/styles";
 import { BoldText, RegularText, SemiBoldText } from "../common/Text";
 import SmallCard from "./SmallCard";
@@ -266,6 +272,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -287,6 +294,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -309,6 +317,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -362,6 +371,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -384,6 +394,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -484,6 +495,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -506,6 +518,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -547,6 +560,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -564,6 +578,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -585,6 +600,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -606,6 +622,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -627,6 +644,7 @@ function RulesModal() {
                               card={item}
                               drag={drag}
                               isActive={false}
+                              toSet={false}
                             />
                           )}
                           keyExtractor={(item) => item.id}
@@ -654,7 +672,11 @@ function RulesModal() {
                         </RegularText>
                         <RegularText
                           size={textSize}
-                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            flex: 1,
+                          }}
                         >
                           Players receive a cash bonus of ₹1,00,000/-
                         </RegularText>
@@ -672,10 +694,14 @@ function RulesModal() {
                         </RegularText>
                         <RegularText
                           size={textSize}
-                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            flex: 1,
+                          }}
                         >
-                          Players receive a dividend of ₹5/- per
-                        share for any company.
+                          Players receive a dividend of ₹5/- per share for any
+                          company.
                         </RegularText>
                       </View>
                       <View style={{ flexDirection: "row" }}>
@@ -691,11 +717,15 @@ function RulesModal() {
                         </RegularText>
                         <RegularText
                           size={textSize}
-                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            flex: 1,
+                          }}
                         >
-                          Players can buy one additional share for
-                        every two shares held in the company at a price of ₹10/-
-                        per share.
+                          Players can buy one additional share for every two
+                          shares held in the company at a price of ₹10/- per
+                          share.
                         </RegularText>
                       </View>
                       <View style={{ flexDirection: "row" }}>
@@ -711,10 +741,14 @@ function RulesModal() {
                         </RegularText>
                         <RegularText
                           size={textSize}
-                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            flex: 1,
+                          }}
                         >
-                          Players receive one additional share for
-                        every five shares held in the company for free.
+                          Players receive one additional share for every five
+                          shares held in the company for free.
                         </RegularText>
                       </View>
                       <View style={{ flexDirection: "row" }}>
@@ -730,11 +764,181 @@ function RulesModal() {
                         </RegularText>
                         <RegularText
                           size={textSize}
-                          style={{ textAlign: "justify", marginTop: -2,flex:1 }}
+                          style={{
+                            textAlign: "justify",
+                            marginTop: -2,
+                            flex: 1,
+                          }}
                         >
-                        Players can buy stocks of any company at a
-                        price which is 70% of the market price.
+                          Players can buy stocks of any company at a price which
+                          is 70% of the market price.
                         </RegularText>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Rounds</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        1. MEGA ROUND
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        1. UPPER CIRCUIT: It supresses the stock price depending
+                        on the denomination of the circuit card.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        2. LOWER CIRCUIT: It prevents the stock price from
+                        falling depending on the denomination of the circuit
+                        card.
+                      </RegularText>
+                    </View>
+                    <View
+                      style={{
+                        width: "15%",
+                        marginRight: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        <Octicons name="number" size={75} color={Colors.info} />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Chairman</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "25%",
+                        marginLeft: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        <MaterialCommunityIcons
+                          name="chair-rolling"
+                          size={75}
+                          // color="#d67400"
+                          color="orange"
+                        />
+                      </View>
+                    </View>
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        A player can be chairman of a company if he buys 100K
+                        stocks or more of that company.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        There can only be one chairman per company.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        The chairman gets the right to remove the card with the
+                        highest negative change of his company from the gathered
+                        cards of all the players.
+                      </RegularText>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.section}>
+                  <View style={styles.titles}>
+                    <BoldText size={20}>Director</BoldText>
+                  </View>
+                  <View
+                    style={{
+                      ...styles.content,
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <View style={{ flex: 1, paddingHorizontal: 20 }}>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        A player can be director of a company if he buys 50K stocks or more of that company.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        There can be a maximum of two directors per company.
+                      </RegularText>
+                      <RegularText
+                        size={textSize}
+                        style={{ textAlign: "justify", marginTop: -2 }}
+                      >
+                        The director gets the right to remove the card with the highest negative change of his company from his own cards.
+                      </RegularText>
+                    </View>
+                    <View
+                      style={{
+                        width: "25%",
+                        marginRight: 15,
+                      }}
+                    >
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        <Fontisto name="person" size={75} color={Colors.logoGreen} />
                       </View>
                     </View>
                   </View>
@@ -794,7 +998,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white + "bb",
     borderRadius: 50,
     paddingHorizontal: 10,
-    padding:3
+    padding: 3,
   },
   modalButton: {
     justifyContent: "flex-end",
@@ -820,6 +1024,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: Colors.darkGreen,
+    marginVertical: 5,
   },
   content: {
     marginVertical: 5,
