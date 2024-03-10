@@ -17,14 +17,8 @@ const colorsArray = [
 ];
 
 export default function UserBadge({ player }) {
-  const {
-    selectedPlayerId,
-    setSelectedPlayerId,
-    gameState,
-    conn,
-    isAdmin,
-    myUserId,
-  } = useGameState();
+  const { selectedPlayerId, setSelectedPlayerId, gameState, conn, myUserId } =
+    useGameState();
   const [received, setReceived] = useState([]);
   const [isKicking, setIsKicking] = useState(false);
   const backgroundColor = colorsArray[player.id % 6];
@@ -65,7 +59,8 @@ export default function UserBadge({ player }) {
     <TouchableOpacity
       style={isCurrentTurn && styles.shadow}
       onLongPress={() => {
-        if (isAdmin && myUserId != player.id) {
+        
+        if (gameState.adminid == myUserId && myUserId != player.id) {
           setIsKicking(true);
         }
       }}
@@ -86,7 +81,7 @@ export default function UserBadge({ player }) {
             )}
             <View>
               <CustomText family="SemiBoldItalic" size={10}>
-                {player.playerName}
+                {player.playerName} {}
               </CustomText>
               <BoldText size={12}>
                 ₹{(+player.playerInHandCash).toFixed(2)}L
