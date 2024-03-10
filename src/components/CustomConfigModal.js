@@ -85,69 +85,77 @@ export default function CustomConfigModal() {
                 </View>
               </View>
 
-              <View style={styles.section}>
-                <MaterialCommunityIcons
-                  name="chair-rolling"
-                  size={35}
-                  color={Colors.teal}
-                  style={styles.icon}
-                />
+              {config.allowChairman && (
+                <View style={styles.section}>
+                  <MaterialCommunityIcons
+                    name="chair-rolling"
+                    size={35}
+                    color={Colors.teal}
+                    style={styles.icon}
+                  />
 
-                <View>
-                  <SemiBoldText>Allow chairman</SemiBoldText>
-                  <LightText color={Colors.dim} size={11}>
-                    Chairman can remove 1 card from any player's card stack
-                  </LightText>
+                  <View>
+                    <SemiBoldText>Allow chairman</SemiBoldText>
+                    <LightText color={Colors.dim} size={11}>
+                      Chairman can remove 1 card from any player's card stack
+                    </LightText>
+                  </View>
                 </View>
-              </View>
+              )}
 
-              <View style={styles.section}>
-                <Fontisto
-                  style={styles.icon}
-                  name="person"
-                  size={30}
-                  color={Colors.darkGreen}
-                />
+              {config.allowDirector && (
+                <View style={styles.section}>
+                  <Fontisto
+                    style={styles.icon}
+                    name="person"
+                    size={30}
+                    color={Colors.darkGreen}
+                  />
 
-                <View>
-                  <SemiBoldText>Allow Director</SemiBoldText>
-                  <LightText color={Colors.dim} size={11}>
-                    Director can remove 1 card from his card stack
-                  </LightText>
+                  <View>
+                    <SemiBoldText>Allow Director</SemiBoldText>
+                    <LightText color={Colors.dim} size={11}>
+                      Director can remove 1 card from his card stack
+                    </LightText>
+                  </View>
                 </View>
-              </View>
+              )}
 
-              <View style={styles.section}>
-                <MaterialCommunityIcons
-                  style={styles.icon}
-                  name="bank-transfer"
-                  size={40}
-                  color={Colors.red}
-                />
+              {config.limitTransactionValue && (
+                <View style={styles.section}>
+                  <MaterialCommunityIcons
+                    style={styles.icon}
+                    name="bank-transfer"
+                    size={40}
+                    color={Colors.red}
+                  />
 
-                <View>
-                  <SemiBoldText>Limit Transaction</SemiBoldText>
-                  <LightText color={Colors.dim} size={11}>
-                    User can only purchase a maximum 1L stocks in a round
-                  </LightText>
+                  <View>
+                    <SemiBoldText>Limit Transaction</SemiBoldText>
+                    <LightText color={Colors.dim} size={11}>
+                      User can only purchase a maximum 1L stocks in a round
+                    </LightText>
+                  </View>
                 </View>
-              </View>
+              )}
 
-              <View style={styles.section}>
-                <MaterialCommunityIcons
-                  style={styles.icon}
-                  name="diamond-stone"
-                  size={30}
-                  color={Colors.green}
-                />
+              {!config.excludeCrystalCards && (
+                <View style={styles.section}>
+                  <MaterialCommunityIcons
+                    style={styles.icon}
+                    name="diamond-stone"
+                    size={30}
+                    color={Colors.green}
+                  />
 
-                <View>
-                  <SemiBoldText>Include Crsytal Cards</SemiBoldText>
-                  <LightText color={Colors.dim} size={11}>
-                    Special power cards which make game interesting!
-                  </LightText>
+                  <View>
+                    <SemiBoldText>Include Crsytal Cards</SemiBoldText>
+                    <LightText color={Colors.dim} size={11}>
+                      Special power cards which make game interesting!
+                    </LightText>
+                  </View>
                 </View>
-              </View>
+              )}
             </ScrollView>
           </View>
         </View>
