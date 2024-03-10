@@ -243,8 +243,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
     marginRight: 25,
-    borderRadius: 4,
-    borderTopStartRadius: 0,
+    borderLeftColor: Colors.dim,
+    borderLeftWidth: 2,
   },
   AdminWork: {
     marginTop: 10,
