@@ -35,10 +35,8 @@ export default function Settings() {
           statusBarTranslucent={true}
         >
           <View style={styles.Container}>
-            <View style={styles.topBar}>
-              <RulesModal />
+            <View>
               <BoldText size={40}>Settings</BoldText>
-              <RulesModal />
             </View>
 
             <View style={styles.MiddleContainer}>
@@ -47,10 +45,10 @@ export default function Settings() {
                   style={[styles.Btn, { backgroundColor: Colors.green }]}
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <BoldText size={25} transform="uppercase">
+                  <BoldText size={23} transform="uppercase">
                     Resume
                   </BoldText>
-                  <AntDesign name="play" size={35} color="white" />
+                  <AntDesign name="play" size={30} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[styles.Btn, { backgroundColor: Colors.red }]}
@@ -59,10 +57,10 @@ export default function Settings() {
                     leave();
                   }}
                 >
-                  <BoldText size={25} transform="uppercase">
+                  <BoldText size={23} transform="uppercase">
                     Leave
                   </BoldText>
-                  <MaterialIcons name="exit-to-app" size={35} color="white" />
+                  <MaterialIcons name="exit-to-app" size={30} color="white" />
                 </TouchableOpacity>
               </View>
 
@@ -74,9 +72,15 @@ export default function Settings() {
                     paddingHorizontal: 10,
                   }}
                 >
-                  <View style={styles.tab}>
-                    <LightText>Admin Panel</LightText>
-                  </View>
+                  <SemiBoldText
+                    style={{
+                      alignSelf: "center",
+                      textDecorationLine: "underline",
+                    }}
+                    size={18}
+                  >
+                    Admin Panel
+                  </SemiBoldText>
 
                   <View style={styles.AdminPanel}>
                     <View style={styles.AdminWork}>
@@ -128,6 +132,11 @@ export default function Settings() {
                   </View>
                 </View>
               )}
+            </View>
+
+            <View style={{ flexDirection: "row", gap: 16, marginTop: 6 }}>
+              <RulesModal />
+              <RulesModal />
             </View>
 
             <View style={styles.BottomBar}>
@@ -183,7 +192,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#262525",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: 10,
+    paddingTop: 6,
   },
   SettingButton: {
     marginLeft: 20,
@@ -198,17 +207,17 @@ const styles = StyleSheet.create({
   },
 
   Btn: {
+    height: 65,
+    width: 190,
     flexDirection: "row",
-    borderRadius: 5,
-    height: 70,
-    width: 200,
-    borderRadius: 40,
     gap: 20,
     alignItems: "center",
     justifyContent: "center",
+    borderRadius: 5,
+    borderRadius: 40,
   },
   ButtonsContainer: {
-    gap: 25,
+    gap: 20,
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
@@ -230,16 +239,15 @@ const styles = StyleSheet.create({
     height: 40,
   },
   AdminPanel: {
-    backgroundColor: "#111",
     alignItems: "center",
     justifyContent: "center",
-    height: 140,
     gap: 10,
     marginRight: 25,
     borderRadius: 4,
     borderTopStartRadius: 0,
   },
   AdminWork: {
+    marginTop: 10,
     flexDirection: "row",
     gap: 25,
   },
@@ -262,16 +270,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 5,
     justifyContent: "center",
-  },
-
-  tab: {
-    backgroundColor: "#111",
-    alignSelf: "flex-start",
-    padding: 4,
-    paddingHorizontal: 10,
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    borderBottomColor: Colors.dim + "44",
-    borderBottomWidth: 0.5,
   },
 });
