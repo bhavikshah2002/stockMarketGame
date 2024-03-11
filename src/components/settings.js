@@ -8,7 +8,7 @@ import { Colors } from "../common/styles";
 import { Image } from "expo-image";
 import { useGameState } from "../contexts/GameStateContext";
 import { FontAwesome5 } from "@expo/vector-icons";
-import RulesModal from "./RulesModal";
+import RulesModal from "./RulesModal/RulesModal";
 import CustomConfigModal from "./CustomConfigModal";
 
 export default function Settings() {

@@ -9,7 +9,7 @@ import { useRef, useState } from "react";
 import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 import alertFunction from "../src/utils/alertFunction";
-import RulesModal from "../src/components/RulesModal";
+import RulesModal from "../src/components/RulesModal/RulesModal";
 
 export default function HomePage() {
   const inputRef = useRef();
