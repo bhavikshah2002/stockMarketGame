@@ -16,14 +16,14 @@ export default function SimpleSlider({
 }) {
   const { gameState } = useGameState();
   const isDisabled = min >= max;
-  
-  if(gameState?.configs && gameState.configs.limitTransactionValue){
-    if(max>100){
-        max=100
-      }
+
+  if (gameState?.configs && gameState.configs.limitTransactionValue) {
+    if (max > 100) {
+      max = 100;
+    }
   }
   const dimCol = isDisabled ? Colors.dim + "88" : Colors.dim;
-  
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
