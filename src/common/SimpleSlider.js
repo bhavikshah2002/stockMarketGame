@@ -2,6 +2,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Colors } from "./styles";
 import { RegularText } from "./Text";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { useGameState } from "../contexts/GameStateContext";
 import Slider from "@react-native-community/slider";
 
 export default function SimpleSlider({
@@ -13,9 +14,16 @@ export default function SimpleSlider({
   width = 180,
   bubbleText = (p) => p,
 }) {
+  const { gameState } = useGameState();
   const isDisabled = min >= max;
+  
+  if(gameState?.configs && gameState.configs.limitTransactionValue){
+    if(max>100){
+        max=100
+      }
+  }
   const dimCol = isDisabled ? Colors.dim + "88" : Colors.dim;
-
+  
   return (
     <View style={styles.container}>
       <TouchableOpacity
