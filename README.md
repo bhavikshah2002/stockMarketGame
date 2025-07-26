@@ -1,6 +1,6 @@
 # Stock bazar
 
-Stock Bazar is an intellectual game build for fun purpose to play with friends as multiplayer online game. Works using WebSockets
+Stock Bazar is an intellectual game build for fun purpose to play with friends as multiplayer online game. Works using WebSockets. Check full docs [here](https://github.com/bhavikshah2002/stockMarketGame/wiki/Stock-Market-%E2%80%90-Docs)
 
 ## Prerequisite (Development)
 
