@@ -26,5 +26,5 @@ npx expo start
 
 ```sh
 eas login
-eas build --platform android
+eas build --platform android --profile preview
 ```
