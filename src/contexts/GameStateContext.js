@@ -53,9 +53,12 @@ const GameStateContext = createContext({
   setHideCards(p) {},
 });
 
+const DefaultUrl = "wss://stockmarketbackend-production.up.railway.app/ws";
+
 export default function GameStateContextProvider({ children }) {
   const conn = useRef(null);
   const [gameState, setGameState] = useState(null);
+  const [serverUrl, setServerUrl] = useAsyncStorage("serverUrl", "");
   const [myUserId, setMyUserId] = useState(null);
   const [selectedCard, _setSelectedCard] = useState(null);
   const [results, setResults] = useState([]);
@@ -117,8 +120,9 @@ export default function GameStateContextProvider({ children }) {
 
     const id = new Date().getTime().toString().slice(-6);
     setGameId(id);
+    const url = serverUrl || DefaultUrl;
     conn.current = new SocketConn(
-      `ws://13.232.187.121/ws/chat/${id}/?create=True&join=False&username=${myUserName}`
+      `${url}/chat/${id}/?create=True&join=False&username=${myUserName}`
     );
   };
 
@@ -135,9 +139,9 @@ export default function GameStateContextProvider({ children }) {
     }
 
     if (conn.current) conn.current.close();
-
+    const url = serverUrl || DefaultUrl;
     conn.current = new SocketConn(
-      `ws://13.232.187.121/ws/chat/${gameId}/?create=False&join=True&username=${myUserName}`
+      `${url}/chat/${gameId}/?create=False&join=True&username=${myUserName}`
     );
     return true;
   };
@@ -357,6 +361,8 @@ export default function GameStateContextProvider({ children }) {
         setCards,
         hideCards,
         setHideCards,
+        serverUrl,
+        setServerUrl,
       }}
     >
       {children}

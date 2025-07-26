@@ -20,3 +20,11 @@ npx expo start
 ## Backend
 
 [https://github.com/Arpit472002/StockMarketBackend](https://github.com/Arpit472002/StockMarketBackend)
+
+
+## Build on EAS
+
+```sh
+eas login
+eas build --platform android
+```

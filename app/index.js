@@ -10,11 +10,20 @@ import { Colors } from "../src/common/styles";
 import { useGameState } from "../src/contexts/GameStateContext";
 import alertFunction from "../src/utils/alertFunction";
 import RulesModal from "../src/components/RulesModal";
+import MainSettingsModal from "../src/components/MainSettingsModal";
 
 export default function HomePage() {
   const inputRef = useRef();
-  const { myUserName, setMyUserName, create, join, gameId, setGameId } =
-    useGameState();
+  const {
+    myUserName,
+    setMyUserName,
+    create,
+    join,
+    gameId,
+    setGameId,
+    serverUrl,
+    setServerUrl,
+  } = useGameState();
   const handleInputChange = (text) => setMyUserName(text);
   const [isEntering, setIsEntering] = useState(false);
 
@@ -116,6 +125,10 @@ export default function HomePage() {
           )}
           <View style={styles.rulesModal}>
             <RulesModal />
+            <MainSettingsModal
+              serverUrl={serverUrl}
+              setServerUrl={setServerUrl}
+            />
           </View>
         </View>
       </View>
@@ -224,8 +237,10 @@ const styles = StyleSheet.create({
     width: "25%",
   },
   rulesModal: {
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    gap: 5,
     marginTop: -7,
   },
 });
